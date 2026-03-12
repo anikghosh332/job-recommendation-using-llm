@@ -339,6 +339,352 @@
           "Experience working in large stadiums, arenas, or event venues"
         ],
         "salary_range": "£14 - £18 per hour"
+      },
+      {
+        "job_id": "J009",
+        "title": "Senior Full Stack Developer",
+        "company": "DigitalForge Solutions",
+        "location": "London, UK",
+        "employment_type": "Full-time",
+        "experience_required": "4-6 years",
+        "education_required": "Bachelor's in Computer Science or related field",
+        "skills_required": [
+          "JavaScript",
+          "React",
+          "Node.js",
+          "TypeScript",
+          "REST APIs",
+          "PostgreSQL",
+          "Docker",
+          "AWS"
+        ],
+        "job_description": "DigitalForge Solutions is seeking a Senior Full Stack Developer to design and build modern web platforms that power enterprise digital services. In this role, you will work across both frontend and backend layers to develop scalable applications used by thousands of users globally. The role involves building responsive user interfaces using React and TypeScript, developing backend services using Node.js, and designing robust database architectures using PostgreSQL. You will collaborate with product managers, designers, and DevOps engineers to deliver production-grade software using modern development practices. Candidates should be comfortable working in agile teams and experienced in building scalable microservice architectures deployed on cloud infrastructure.",
+        "responsibilities": [
+          "Design and develop scalable full stack web applications using React and Node.js",
+          "Build and maintain RESTful APIs for web and mobile applications",
+          "Collaborate with UI/UX designers to implement responsive and accessible user interfaces",
+          "Develop database schemas and optimize queries using PostgreSQL",
+          "Containerize applications using Docker and deploy services on AWS infrastructure",
+          "Write clean, maintainable, and well-tested code following software engineering best practices",
+          "Participate in code reviews and mentor junior developers",
+          "Monitor and optimize application performance to ensure reliability and scalability"
+        ],
+        "preferred_qualifications": [
+          "Experience with microservices architecture",
+          "Familiarity with GraphQL"
+        ],
+        "salary_range": "£70,000 - £90,000"
+      },
+      {
+        "job_id": "J010",
+        "title": "Full Stack Web Developer",
+        "company": "BrightLayer Technologies",
+        "location": "Amsterdam, Netherlands",
+        "employment_type": "Full-time",
+        "experience_required": "2-4 years",
+        "education_required": "Bachelor's in Computer Science or equivalent experience",
+        "skills_required": [
+          "JavaScript",
+          "React",
+          "Node.js",
+          "MongoDB",
+          "Express",
+          "REST APIs",
+          "HTML",
+          "CSS"
+        ],
+        "job_description": "BrightLayer Technologies is hiring a Full Stack Web Developer to help build innovative web applications for a rapidly growing SaaS platform. You will work closely with product and design teams to deliver high-quality user experiences while building scalable backend services that power our application ecosystem. The role involves building modern frontend applications using React and implementing backend services using Node.js and Express. You will also work with MongoDB databases and ensure efficient API communication between services. The ideal candidate enjoys solving complex engineering problems and is passionate about building reliable and maintainable web systems.",
+        "responsibilities": [
+          "Develop interactive web interfaces using React and modern JavaScript frameworks",
+          "Design and implement backend APIs using Node.js and Express",
+          "Develop and maintain MongoDB database schemas and data access layers",
+          "Collaborate with cross-functional teams to design and implement new product features",
+          "Implement authentication and authorization mechanisms across the platform",
+          "Ensure responsive and cross-browser compatible UI development",
+          "Optimize application performance and ensure scalability",
+          "Maintain clear documentation and participate in agile development processes"
+        ],
+        "preferred_qualifications": [
+          "Experience with Docker",
+          "Knowledge of cloud deployment workflows"
+        ],
+        "salary_range": "€55,000 - €70,000"
+      },
+      {
+        "job_id": "J011",
+        "title": "Lead Full Stack Engineer",
+        "company": "TechNova Systems",
+        "location": "New York, USA",
+        "employment_type": "Full-time",
+        "experience_required": "5-8 years",
+        "education_required": "Bachelor's or Master's in Computer Science",
+        "skills_required": [
+          "React",
+          "Node.js",
+          "TypeScript",
+          "GraphQL",
+          "PostgreSQL",
+          "Docker",
+          "AWS",
+          "CI/CD"
+        ],
+        "job_description": "TechNova Systems is seeking a Lead Full Stack Engineer to guide the development of next-generation web platforms that support enterprise digital transformation initiatives. In this role, you will lead a team of engineers responsible for designing scalable web architectures, developing high-performance APIs, and delivering seamless user experiences across devices. The role involves working extensively with React and TypeScript on the frontend and building scalable backend services using Node.js and GraphQL. You will also collaborate closely with DevOps teams to deploy services on AWS infrastructure using modern CI/CD pipelines.",
+        "responsibilities": [
+          "Lead the design and development of scalable full stack web applications",
+          "Architect backend services using Node.js and GraphQL APIs",
+          "Develop highly responsive frontend applications using React and TypeScript",
+          "Implement CI/CD pipelines to automate testing and deployment workflows",
+          "Mentor junior developers and guide technical decision-making",
+          "Collaborate with product teams to translate requirements into technical solutions",
+          "Ensure application security, scalability, and performance across systems",
+          "Drive adoption of engineering best practices and modern development standards"
+        ],
+        "preferred_qualifications": [
+          "Experience with Kubernetes",
+          "Familiarity with serverless architectures"
+        ],
+        "salary_range": "$120,000 - $150,000"
+      },
+      {
+        "job_id": "J012",
+        "title": "Frontend-Focused Full Stack Developer",
+        "company": "PixelWave Interactive",
+        "location": "Berlin, Germany",
+        "employment_type": "Full-time",
+        "experience_required": "3-5 years",
+        "education_required": "Bachelor's in Computer Science or related field",
+        "skills_required": [
+          "React",
+          "Next.js",
+          "JavaScript",
+          "Node.js",
+          "REST APIs",
+          "CSS",
+          "UI Development",
+          "Git"
+        ],
+        "job_description": "PixelWave Interactive is looking for a frontend-focused Full Stack Developer who is passionate about building visually engaging and high-performance web applications. You will play a key role in developing responsive interfaces while also supporting backend API development when required. The role involves working with React and Next.js to build modern user interfaces and integrating those interfaces with backend services built using Node.js. You will collaborate with designers and product teams to deliver intuitive digital experiences while ensuring performance and scalability.",
+        "responsibilities": [
+          "Develop responsive frontend interfaces using React and Next.js",
+          "Collaborate with designers to translate UI designs into production-ready components",
+          "Develop and maintain backend APIs using Node.js",
+          "Ensure cross-browser compatibility and responsive design",
+          "Integrate frontend applications with backend APIs",
+          "Write modular and reusable UI components",
+          "Optimize page performance and loading times",
+          "Participate in agile development and sprint planning activities"
+        ],
+        "preferred_qualifications": [
+          "Experience with Tailwind CSS",
+          "Knowledge of accessibility standards"
+        ],
+        "salary_range": "€60,000 - €75,000"
+      },
+      {
+        "job_id": "J013",
+        "title": "Full Stack Platform Engineer",
+        "company": "CloudEdge Technologies",
+        "location": "Remote",
+        "employment_type": "Full-time",
+        "experience_required": "3-6 years",
+        "education_required": "Bachelor's in Computer Science",
+        "skills_required": [
+          "Node.js",
+          "React",
+          "Microservices",
+          "Docker",
+          "Kubernetes",
+          "PostgreSQL",
+          "AWS",
+          "CI/CD"
+        ],
+        "job_description": "CloudEdge Technologies is hiring a Full Stack Platform Engineer to develop scalable digital platforms used by enterprise clients. The role involves building microservices-based backend systems and developing intuitive frontend applications that interact with distributed cloud services. You will collaborate with DevOps and cloud teams to deploy services using containerized environments and automate infrastructure workflows. This role requires strong engineering fundamentals and the ability to build reliable, production-ready systems.",
+        "responsibilities": [
+          "Develop backend services using Node.js and microservices architectures",
+          "Build modern frontend applications using React",
+          "Design database schemas and optimize PostgreSQL queries",
+          "Deploy containerized applications using Docker and Kubernetes",
+          "Collaborate with DevOps teams to implement CI/CD pipelines",
+          "Monitor and optimize system performance",
+          "Write maintainable and well-documented code",
+          "Participate in architectural discussions and technical planning"
+        ],
+        "preferred_qualifications": [
+          "Experience with distributed systems",
+          "Knowledge of infrastructure as code tools"
+        ],
+        "salary_range": "$100,000 - $125,000"
+      },
+      {
+        "job_id": "J014",
+        "title": "Cloud Solutions Architect",
+        "company": "Nimbus Cloud Services",
+        "location": "Dublin, Ireland",
+        "employment_type": "Full-time",
+        "experience_required": "5-8 years",
+        "education_required": "Bachelor's in Computer Science or IT",
+        "skills_required": [
+          "AWS",
+          "Cloud Architecture",
+          "Terraform",
+          "Kubernetes",
+          "Networking",
+          "Security",
+          "DevOps"
+        ],
+        "job_description": "Nimbus Cloud Services is seeking a Cloud Solutions Architect to design and implement scalable cloud infrastructure solutions for enterprise clients. In this role, you will work closely with engineering teams and business stakeholders to architect cloud-native systems that support high availability, security, and performance requirements. You will design distributed systems, implement infrastructure as code using Terraform, and guide teams on best practices for cloud adoption.",
+        "responsibilities": [
+          "Design scalable cloud architectures on AWS",
+          "Develop infrastructure as code using Terraform",
+          "Implement networking and security best practices for cloud deployments",
+          "Collaborate with engineering teams to migrate legacy systems to cloud environments",
+          "Monitor system performance and optimize cloud infrastructure costs",
+          "Develop disaster recovery and high availability architectures",
+          "Provide technical leadership for cloud engineering teams",
+          "Document architecture diagrams and deployment procedures"
+        ],
+        "preferred_qualifications": [
+          "AWS Solutions Architect certification",
+          "Experience with multi-cloud environments"
+        ],
+        "salary_range": "€95,000 - €120,000"
+      },
+      {
+        "job_id": "J015",
+        "title": "Senior Cloud Architect",
+        "company": "SkyGrid Infrastructure",
+        "location": "Seattle, USA",
+        "employment_type": "Full-time",
+        "experience_required": "6-10 years",
+        "education_required": "Bachelor's in Computer Science or Engineering",
+        "skills_required": [
+          "AWS",
+          "Azure",
+          "Cloud Architecture",
+          "Kubernetes",
+          "Terraform",
+          "Networking",
+          "Security",
+          "CI/CD"
+        ],
+        "job_description": "SkyGrid Infrastructure is looking for a Senior Cloud Architect to lead the design and implementation of complex cloud systems that support global enterprise platforms. The role involves designing multi-region cloud architectures, implementing infrastructure automation, and ensuring high levels of reliability and security across distributed systems. You will work closely with DevOps teams to implement CI/CD pipelines and manage large-scale Kubernetes environments.",
+        "responsibilities": [
+          "Design enterprise-grade cloud infrastructure across AWS and Azure platforms",
+          "Develop infrastructure automation using Terraform and infrastructure-as-code frameworks",
+          "Architect highly available distributed systems using Kubernetes",
+          "Implement security and compliance best practices across cloud infrastructure",
+          "Collaborate with engineering teams to modernize application deployments",
+          "Develop CI/CD pipelines for automated deployments",
+          "Monitor system performance and optimize cloud infrastructure costs",
+          "Provide technical mentorship and architectural guidance to engineering teams"
+        ],
+        "preferred_qualifications": [
+          "Experience with serverless architectures",
+          "Knowledge of distributed system design"
+        ],
+        "salary_range": "$140,000 - $170,000"
+      },
+      {
+        "job_id": "J016",
+        "title": "Cloud Infrastructure Architect",
+        "company": "OrbitCloud Technologies",
+        "location": "Singapore",
+        "employment_type": "Full-time",
+        "experience_required": "5-7 years",
+        "education_required": "Bachelor's in Computer Science",
+        "skills_required": [
+          "AWS",
+          "GCP",
+          "Terraform",
+          "Kubernetes",
+          "Networking",
+          "Security",
+          "Cloud Architecture"
+        ],
+        "job_description": "OrbitCloud Technologies is seeking a Cloud Infrastructure Architect to design and implement scalable infrastructure platforms that power enterprise applications across global markets. The role involves developing cloud infrastructure strategies, implementing automation frameworks, and ensuring systems meet strict reliability and security requirements. You will collaborate with engineering teams to design scalable architectures capable of supporting millions of users.",
+        "responsibilities": [
+          "Design scalable cloud infrastructure across AWS and GCP environments",
+          "Implement infrastructure automation using Terraform",
+          "Architect containerized environments using Kubernetes",
+          "Ensure cloud systems meet performance, reliability, and security requirements",
+          "Collaborate with DevOps teams to implement deployment automation",
+          "Develop system monitoring and alerting solutions",
+          "Optimize cloud costs and resource utilization",
+          "Document architecture and operational procedures"
+        ],
+        "preferred_qualifications": [
+          "Experience with cloud migration projects",
+          "Familiarity with distributed microservices architectures"
+        ],
+        "salary_range": "$110,000 - $135,000"
+      },
+      {
+        "job_id": "J017",
+        "title": "Generative AI Engineer",
+        "company": "CortexAI Labs",
+        "location": "San Francisco, USA",
+        "employment_type": "Full-time",
+        "experience_required": "2-4 years",
+        "education_required": "Master's in Computer Science or AI",
+        "skills_required": [
+          "Python",
+          "LLMs",
+          "Transformers",
+          "LangChain",
+          "RAG",
+          "Vector Databases",
+          "PyTorch"
+        ],
+        "job_description": "CortexAI Labs is seeking a Generative AI Engineer to build intelligent systems powered by large language models and generative AI technologies. In this role, you will design and implement advanced AI applications including conversational agents, document analysis systems, and automated reasoning tools. You will work with transformer-based architectures and develop RAG pipelines that integrate external knowledge sources into language model workflows.",
+        "responsibilities": [
+          "Develop generative AI applications using large language models",
+          "Design and implement RAG pipelines for knowledge-enhanced AI systems",
+          "Integrate vector databases for semantic search and retrieval",
+          "Optimize model inference performance and latency",
+          "Collaborate with product teams to deploy AI-powered features",
+          "Experiment with prompt engineering and model fine-tuning techniques",
+          "Monitor AI system performance and improve model reliability",
+          "Stay updated on emerging generative AI technologies and frameworks"
+        ],
+        "preferred_qualifications": [
+          "Experience with OpenAI or similar APIs",
+          "Knowledge of distributed ML infrastructure"
+        ],
+        "salary_range": "$115,000 - $145,000"
+      },
+      {
+        "job_id": "J018",
+        "title": "LLM Applications Engineer",
+        "company": "NextGen AI Systems",
+        "location": "Toronto, Canada",
+        "employment_type": "Full-time",
+        "experience_required": "2-5 years",
+        "education_required": "Bachelor's or Master's in Computer Science",
+        "skills_required": [
+          "Python",
+          "LLMs",
+          "LangChain",
+          "RAG",
+          "FastAPI",
+          "Vector Databases",
+          "Prompt Engineering"
+        ],
+        "job_description": "NextGen AI Systems is hiring an LLM Applications Engineer to develop intelligent applications powered by large language models. You will work on building scalable systems that integrate language models with enterprise data sources to enable advanced search, summarization, and conversational capabilities. The role involves developing APIs for AI services, designing prompt engineering strategies, and implementing retrieval pipelines that improve model accuracy and relevance.",
+        "responsibilities": [
+          "Build AI applications powered by large language models",
+          "Develop APIs and microservices for AI-powered features using FastAPI",
+          "Design prompt engineering strategies to improve model outputs",
+          "Implement retrieval pipelines using vector databases",
+          "Collaborate with product teams to integrate AI capabilities into software platforms",
+          "Optimize inference performance and reduce latency",
+          "Monitor system performance and improve reliability",
+          "Research and implement new techniques in generative AI development"
+        ],
+        "preferred_qualifications": [
+          "Experience with fine-tuning LLMs",
+          "Knowledge of distributed inference systems"
+        ],
+        "salary_range": "$105,000 - $130,000"
       }
       
   ]

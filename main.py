@@ -1,5 +1,5 @@
 from functions.parse_resume import ResumeParser, build_resume_text
-from functions.parse_jobs import build_job_text
+from functions.parse_jobs import build_job_text, compute_title_embeddings, find_similar_jobs, get_top_skills
 from functions.model import model
 import json
 from sklearn.metrics.pairwise import cosine_similarity
@@ -13,9 +13,6 @@ parser = ResumeParser(static_folder="static")
 # Extract the data from the resume
 data = parser.parse_resume("Resume Full Time ML V260.pdf")
 
-# print(data["education"])
-# print(data["work_experience"])
-# print(data["projects"])
 
 # Create a string containing info of the resume
 resume_text = build_resume_text(data)
@@ -77,27 +74,46 @@ for i, job in enumerate(final_ranked_jobs):
 
    
     
-    
-# required_vars = ["data", "resume_text", "final_ranked_jobs"]
-# missing = [var for var in required_vars if var not in globals()]
-
-# if missing:
-#     raise ValueError(f"Missing required variables: {missing}. Run ranking pipeline first.")
-# if not final_ranked_jobs:
-#     raise ValueError("final_ranked_jobs is empty.")
-# print("Required data validated successfully.")    
 
 
 index = 3
 
-print('\n\nFinal ranked jobs \n\n')
-print(final_ranked_jobs[index])
+# print('\n\nFinal ranked jobs \n\n')
+# print(final_ranked_jobs[index])
 
-# Get insights for a job
-print('\n\n Summary of your skill gaps \n\n')
-identify_skill_gaps(resume_text,  final_ranked_jobs,index)
+# # Get insights for a job
+# print('\n\n Summary of your skill gaps \n\n')
+# identify_skill_gaps(resume_text,  final_ranked_jobs,index)
 
-# Explain Matching Quality for a jobs
-print('\n\n Summary of your matching skills for the job \n\n')
-explain_matching_quality(resume_text,  final_ranked_jobs,index)    
+# # Explain Matching Quality for a jobs
+# print('\n\n Summary of your matching skills for the job \n\n')
+# explain_matching_quality(resume_text,  final_ranked_jobs,index)    
+
+job_titles, job_title_embeddings = compute_title_embeddings(jobs)
+print("Total job titles embedded:", len(job_titles))
+
+user_query = "AWS Engineer"
      
+
+matched_jobs = find_similar_jobs(
+    user_query,
+    jobs,
+    job_title_embeddings
+)     
+
+print("Matched Jobs:")
+print("--------------------------------")
+
+for job in matched_jobs:
+    print(
+        f"{job['title']} | {job['company']} | similarity={job['title_similarity']:.2f}"
+    )
+
+top_skills = get_top_skills(matched_jobs, top_n=10)
+
+print("\nTop In-Demand Skills")
+print("--------------------------------")
+
+for rank, (skill, count) in enumerate(top_skills, 1):
+
+    print(f"{rank}. {skill} ({count} jobs)")    
