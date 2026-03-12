@@ -1,0 +1,344 @@
+[
+    {
+        "job_id": "J007",
+        "title": "Event Bartender - Stadium Hospitality",
+        "company": "Premier Event Hospitality",
+        "location": "Manchester, UK",
+        "employment_type": "Part-time / Event-based",
+        "experience_required": "1-3 years",
+        "education_required": "High School Diploma or equivalent",
+        "skills_required": [
+          "Bartending",
+          "Drink Preparation",
+          "Customer Service",
+          "POS Systems",
+          "Cash Handling",
+          "Time Management",
+          "Alcohol Compliance"
+        ],
+        "job_description": "Premier Event Hospitality is hiring enthusiastic Event Bartenders to join our stadium hospitality team. This role involves serving beverages to thousands of fans during major sporting events, concerts, and entertainment shows. As an Event Bartender, you will work in a fast-paced environment where speed, accuracy, and customer interaction are critical to delivering a positive fan experience. You will prepare and serve alcoholic and non-alcoholic beverages, operate POS systems to process transactions, and ensure all alcohol service regulations are followed. Successful candidates are energetic, reliable, and comfortable working in high-volume service environments. The role requires strong teamwork, attention to detail, and the ability to remain calm under pressure during peak service times.",
+        "responsibilities": [
+          "Prepare and serve alcoholic and non-alcoholic beverages quickly and accurately",
+          "Operate POS systems to process customer orders and payments",
+          "Verify customer identification to ensure responsible alcohol service",
+          "Maintain a clean and organized bar station throughout the event",
+          "Restock beverages, cups, and supplies as needed during service",
+          "Provide friendly and engaging customer service to stadium guests",
+          "Follow all stadium safety, hygiene, and alcohol service regulations",
+          "Work collaboratively with other bartenders and hospitality staff"
+        ],
+        "preferred_qualifications": [
+          "Responsible Service of Alcohol (RSA) certification",
+          "Experience bartending at events, bars, or restaurants"
+        ],
+        "salary_range": "£12 - £15 per hour"
+      },
+    {
+      "job_id": "J001",
+      "title": "Machine Learning Engineer",
+      "company": "InnovaAI Solutions",
+      "location": "London, UK",
+      "employment_type": "Full-time",
+      "experience_required": "2-4 years",
+      "education_required": "Bachelor's or Master's in Computer Science, Data Science, or related field",
+      "skills_required": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "Transformers",
+        "NLP",
+        "Docker",
+        "AWS",
+        "MLflow"
+      ],
+      "job_description": "We are seeking a Machine Learning Engineer to design, develop, and deploy scalable machine learning systems that power intelligent applications across our platform. In this role, you will work closely with data scientists, data engineers, and product teams to transform research prototypes into robust production-ready models. A significant portion of your work will involve developing transformer-based NLP models, fine-tuning large language models, and optimizing training pipelines for performance and scalability. You will also be responsible for implementing data preprocessing pipelines, managing model lifecycle workflows, and ensuring reproducibility using tools such as MLflow. The ideal candidate has strong experience with Python-based ML frameworks such as PyTorch or TensorFlow and is comfortable deploying containerized applications using Docker on AWS infrastructure. Experience with MLOps best practices, model monitoring, and CI/CD automation is highly desirable.",
+      "responsibilities": [
+        "Design, develop, and deploy machine learning models into production environments with a focus on scalability and reliability",
+        "Fine-tune transformer-based NLP models and experiment with modern architectures to improve model accuracy and efficiency",
+        "Build and maintain end-to-end machine learning pipelines including data ingestion, preprocessing, model training, and evaluation",
+        "Implement model versioning, experiment tracking, and monitoring using tools such as MLflow or similar platforms",
+        "Collaborate with data engineers to design scalable data pipelines and optimize feature engineering workflows",
+        "Containerize ML services using Docker and deploy them on AWS-based infrastructure",
+        "Work closely with product managers and software engineers to integrate machine learning capabilities into real-world applications",
+        "Continuously monitor deployed models and retrain or optimize them as new data becomes available"
+      ],
+      "preferred_qualifications": [
+        "Experience with LLM fine-tuning",
+        "Knowledge of CI/CD pipelines",
+        "Familiarity with Kubernetes"
+      ],
+      "salary_range": "£55,000 - £75,000"
+    },
+    {
+      "job_id": "J002",
+      "title": "Data Scientist",
+      "company": "Quantiva Analytics",
+      "location": "Berlin, Germany",
+      "employment_type": "Full-time",
+      "experience_required": "1-3 years",
+      "education_required": "Master's in Data Science, Statistics, or related field",
+      "skills_required": [
+        "Python",
+        "Pandas",
+        "Scikit-learn",
+        "SQL",
+        "XGBoost",
+        "Data Visualization",
+        "Statistics"
+      ],
+      "job_description": "As a Data Scientist at Quantiva Analytics, you will work with large and complex datasets to uncover insights that inform strategic business decisions. You will collaborate closely with business stakeholders, analysts, and engineering teams to understand business problems and translate them into analytical solutions. The role involves performing exploratory data analysis, designing predictive models, and developing machine learning algorithms that improve operational efficiency and customer insights. You will also be responsible for building dashboards and visualizations that effectively communicate findings to non-technical audiences. The ideal candidate has strong statistical foundations, experience with machine learning algorithms such as Random Forest and Gradient Boosting, and proficiency with Python-based data science tools including Pandas and Scikit-learn.",
+      "responsibilities": [
+        "Perform exploratory data analysis to identify trends, patterns, and anomalies within large datasets",
+        "Develop predictive models using machine learning techniques such as regression, classification, and ensemble methods",
+        "Design experiments and evaluate model performance using appropriate statistical methodologies",
+        "Create dashboards and visualizations to communicate insights clearly to stakeholders and decision makers",
+        "Work with cross-functional teams to translate business questions into analytical problems and actionable solutions",
+        "Clean, transform, and validate data to ensure accuracy and reliability for modeling tasks",
+        "Optimize model performance through feature engineering, hyperparameter tuning, and model evaluation techniques",
+        "Present results and insights in a clear and compelling way to both technical and non-technical audiences"
+      ],
+      "preferred_qualifications": [
+        "Experience with A/B testing",
+        "Familiarity with cloud platforms"
+      ],
+      "salary_range": "€50,000 - €70,000"
+    },
+    {
+      "job_id": "J003",
+      "title": "AI Research Engineer",
+      "company": "DeepVision Labs",
+      "location": "Toronto, Canada",
+      "employment_type": "Full-time",
+      "experience_required": "3-5 years",
+      "education_required": "Master's or PhD in AI, Machine Learning, or related field",
+      "skills_required": [
+        "Deep Learning",
+        "Computer Vision",
+        "PyTorch",
+        "TensorFlow",
+        "Research",
+        "Model Optimization"
+      ],
+      "job_description": "DeepVision Labs is seeking an AI Research Engineer to work on cutting-edge artificial intelligence systems with a focus on computer vision and multimodal learning. In this role, you will explore novel deep learning architectures, design large-scale experiments, and contribute to advancing the state of the art in AI research. You will collaborate with research scientists and engineering teams to prototype new models and translate promising ideas into scalable solutions. The position involves implementing deep learning models using frameworks such as PyTorch and TensorFlow, conducting rigorous experiments, and evaluating performance using benchmark datasets. Candidates should be comfortable working in research-driven environments and have experience training large-scale neural networks and optimizing models for efficiency and accuracy.",
+      "responsibilities": [
+        "Design and implement novel deep learning architectures for computer vision and multimodal AI systems",
+        "Conduct experiments to evaluate new algorithms and model architectures across various datasets",
+        "Train and optimize large-scale neural networks using distributed training techniques",
+        "Collaborate with researchers to publish findings in leading AI conferences and journals",
+        "Analyze experimental results and iterate on model design to improve performance",
+        "Work closely with product teams to translate research breakthroughs into production-ready solutions",
+        "Maintain documentation of research experiments, methodologies, and results",
+        "Stay up to date with the latest advancements in artificial intelligence and deep learning research"
+      ],
+      "preferred_qualifications": [
+        "Experience in multimodal models",
+        "Published research in top AI conferences"
+      ],
+      "salary_range": "$95,000 - $120,000"
+    },
+    {
+      "job_id": "J004",
+      "title": "MLOps Engineer",
+      "company": "CloudScale AI",
+      "location": "Remote",
+      "employment_type": "Full-time",
+      "experience_required": "2-5 years",
+      "education_required": "Bachelor's in Computer Science or related field",
+      "skills_required": [
+        "Docker",
+        "Kubernetes",
+        "CI/CD",
+        "AWS",
+        "Airflow",
+        "Python",
+        "Monitoring"
+      ],
+      "job_description": "CloudScale AI is looking for an experienced MLOps Engineer to help streamline the deployment, monitoring, and lifecycle management of machine learning models. You will work closely with data scientists and software engineers to operationalize machine learning pipelines and ensure reliable model performance in production environments. Your role will involve implementing CI/CD pipelines for ML workflows, managing containerized services using Docker and Kubernetes, and deploying scalable infrastructure on AWS. Additionally, you will build automated workflows for model retraining and monitoring to ensure that models remain accurate and reliable over time. The ideal candidate is passionate about building robust ML infrastructure and has strong experience with cloud platforms and DevOps tooling.",
+      "responsibilities": [
+        "Deploy machine learning models using containerization technologies such as Docker",
+        "Manage Kubernetes clusters and orchestrate scalable ML services",
+        "Design and maintain CI/CD pipelines for machine learning model deployment",
+        "Implement automated workflows for model retraining and continuous integration",
+        "Monitor production ML systems and troubleshoot issues related to performance and reliability",
+        "Collaborate with data scientists to transition experimental models into production systems",
+        "Build monitoring and alerting systems for model performance and infrastructure health",
+        "Optimize infrastructure for cost efficiency and scalability across cloud environments"
+      ],
+      "preferred_qualifications": [
+        "Experience with Prometheus",
+        "Familiarity with DVC"
+      ],
+      "salary_range": "$85,000 - $105,000"
+    },
+    {
+      "job_id": "J005",
+      "title": "NLP Engineer",
+      "company": "TextIQ Systems",
+      "location": "Dublin, Ireland",
+      "employment_type": "Full-time",
+      "experience_required": "2-4 years",
+      "education_required": "Bachelor's or Master's in Computer Science",
+      "skills_required": [
+        "Python",
+        "NLP",
+        "Transformers",
+        "BERT",
+        "LLMs",
+        "LangChain",
+        "FastAPI"
+      ],
+      "job_description": "TextIQ Systems is looking for an NLP Engineer to build advanced natural language processing systems that power intelligent applications across our product suite. In this role, you will design and implement transformer-based models to perform tasks such as text classification, question answering, and conversational AI. You will work extensively with modern language models such as BERT and other large language models to build scalable NLP pipelines. The role also involves developing APIs and microservices that expose NLP capabilities to other systems and integrating them into production workflows. Candidates should be comfortable building RAG pipelines, experimenting with LLM fine-tuning techniques, and working with frameworks such as LangChain to orchestrate language model interactions.",
+      "responsibilities": [
+        "Develop and fine-tune transformer-based NLP models for various language understanding tasks",
+        "Design and implement RAG pipelines to enhance model performance using external knowledge sources",
+        "Build scalable APIs using frameworks such as FastAPI to serve NLP models",
+        "Optimize inference performance and reduce latency in deployed NLP systems",
+        "Work with product teams to integrate NLP capabilities into customer-facing applications",
+        "Develop preprocessing pipelines for large text datasets and maintain data quality standards",
+        "Experiment with different LLM architectures and evaluate their effectiveness for real-world use cases",
+        "Monitor and improve NLP system performance through testing and model evaluation"
+      ],
+      "preferred_qualifications": [
+        "Experience integrating Gmail or external APIs",
+        "Knowledge of vector databases"
+      ],
+      "salary_range": "€60,000 - €80,000"
+    },
+    {
+      "job_id": "J006",
+      "title": "Full Stack Developer",
+      "company": "WebCore Technologies",
+      "location": "Manchester, UK",
+      "employment_type": "Full-time",
+      "experience_required": "2-4 years",
+      "education_required": "Bachelor's in Computer Science or equivalent experience",
+      "skills_required": [
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "React",
+        "REST APIs",
+        "HTML",
+        "CSS",
+        "Git"
+      ],
+      "job_description": "WebCore Technologies is seeking a Full Stack Developer to design, develop, and maintain scalable web applications used by thousands of users. In this role, you will work across both frontend and backend systems to deliver high-quality user experiences and robust application functionality. The position involves developing RESTful APIs using Node.js and Express, building responsive interfaces with React, and managing data using MongoDB. You will collaborate with product managers, designers, and other engineers to implement new features and improve existing systems. The ideal candidate is passionate about building efficient web applications and enjoys working in fast-paced agile development environments.",
+      "responsibilities": [
+        "Develop backend services and REST APIs using Node.js and Express",
+        "Build responsive and interactive frontend interfaces using React and modern JavaScript frameworks",
+        "Design and implement database schemas and perform CRUD operations using MongoDB",
+        "Integrate frontend and backend components to create seamless user experiences",
+        "Implement authentication and authorization mechanisms to secure applications",
+        "Collaborate with designers and product managers to deliver new features and improvements",
+        "Write clean, maintainable, and well-documented code following best development practices",
+        "Debug and optimize application performance to ensure scalability and reliability"
+      ],
+      "preferred_qualifications": [
+        "Experience with deployment on AWS or Heroku",
+        "Understanding of database indexing"
+      ],
+      "salary_range": "£45,000 - £60,000"
+    },
+    {
+      "job_id": "J007",
+      "title": "Embedded Systems Engineer",
+      "company": "ElectroTech Innovations",
+      "location": "Bangalore, India",
+      "employment_type": "Full-time",
+      "experience_required": "2-5 years",
+      "education_required": "Bachelor's in Electronics or Electrical Engineering",
+      "skills_required": [
+        "C",
+        "C++",
+        "Embedded C",
+        "Microcontrollers",
+        "RTOS",
+        "PCB Design",
+        "Signal Processing"
+      ],
+      "job_description": "ElectroTech Innovations is seeking an Embedded Systems Engineer to develop firmware and embedded software for next-generation electronic devices. You will work closely with hardware engineers to design and implement software that runs on microcontroller-based systems. The role involves developing real-time firmware, debugging hardware-software interactions, and optimizing system performance for reliability and efficiency. Candidates should have strong experience with embedded programming in C/C++ and familiarity with RTOS-based systems. Experience with hardware debugging tools, signal processing, and microcontroller architecture is highly desirable.",
+      "responsibilities": [
+        "Develop embedded firmware using C and C++ for microcontroller-based systems",
+        "Design and implement real-time software using RTOS frameworks",
+        "Perform hardware-software integration and troubleshoot system-level issues",
+        "Conduct PCB testing, debugging, and validation of embedded hardware",
+        "Optimize firmware for real-time performance and resource efficiency",
+        "Collaborate with hardware engineers to design reliable and scalable embedded systems",
+        "Develop testing frameworks to validate firmware functionality",
+        "Document firmware architecture, development processes, and testing results"
+      ],
+      "preferred_qualifications": [
+        "Experience with ARM Cortex processors",
+        "Knowledge of communication protocols (SPI, I2C, UART)"
+      ],
+      "salary_range": "₹8,00,000 - ₹14,00,000"
+    },
+    {
+      "job_id": "J008",
+      "title": "Electronics Design Engineer",
+      "company": "NextGen Circuits Ltd",
+      "location": "Munich, Germany",
+      "employment_type": "Full-time",
+      "experience_required": "3-6 years",
+      "education_required": "Bachelor's or Master's in Electronics Engineering",
+      "skills_required": [
+        "Analog Circuit Design",
+        "Digital Electronics",
+        "MATLAB",
+        "PCB Layout",
+        "Power Electronics",
+        "Testing and Validation"
+      ],
+      "job_description": "NextGen Circuits Ltd is looking for an Electronics Design Engineer to design and validate advanced electronic circuits used in industrial and consumer applications. In this role, you will be responsible for schematic design, circuit simulation, PCB layout, and testing of prototypes to ensure high performance and reliability. You will collaborate closely with manufacturing and product teams to ensure designs meet technical specifications and industry standards. The position requires strong knowledge of analog and digital electronics, experience with circuit simulation tools such as MATLAB, and the ability to perform thorough testing and validation of electronic systems.",
+      "responsibilities": [
+        "Design and simulate analog and digital circuits for industrial electronic systems",
+        "Develop schematics and PCB layouts for electronic hardware components",
+        "Perform testing and validation of circuit designs to ensure reliability and compliance",
+        "Use simulation tools such as MATLAB to evaluate circuit performance",
+        "Collaborate with manufacturing teams to transition prototypes into production",
+        "Troubleshoot hardware issues and optimize circuit performance",
+        "Ensure designs comply with relevant industry standards and safety regulations",
+        "Document design specifications, testing procedures, and validation results"
+      ],
+      "preferred_qualifications": [
+        "Experience with Altium Designer",
+        "Knowledge of EMI/EMC standards"
+      ],
+      "salary_range": "€65,000 - €85,000"
+    },
+    {
+        "job_id": "J006",
+        "title": "Stadium Bar Supervisor",
+        "company": "Premier Event Hospitality",
+        "location": "Manchester, UK",
+        "employment_type": "Part-time / Event-based",
+        "experience_required": "2-4 years",
+        "education_required": "High School Diploma or equivalent",
+        "skills_required": [
+          "Team Leadership",
+          "Customer Service",
+          "POS Systems",
+          "Inventory Management",
+          "Cash Handling",
+          "Alcohol Compliance",
+          "Staff Training"
+        ],
+        "job_description": "Premier Event Hospitality is seeking a reliable and experienced Stadium Bar Supervisor to oversee bar operations during live sporting events, concerts, and large-scale entertainment shows at one of the UK’s leading stadium venues. In this role, you will be responsible for managing a team of bartenders and bar assistants, ensuring efficient service in a high-volume environment while maintaining exceptional customer service standards. You will play a key role in ensuring responsible alcohol service, monitoring stock levels, and coordinating with operations teams to ensure bars are fully prepared before each event. The ideal candidate thrives in fast-paced environments, demonstrates strong leadership skills, and has experience supervising hospitality teams during busy service periods. This is a dynamic role requiring flexibility to work evenings, weekends, and major event days.",
+        "responsibilities": [
+          "Supervise bartenders and bar staff during stadium events",
+          "Coordinate staff schedules and assign service stations",
+          "Ensure compliance with alcohol licensing regulations and responsible service policies",
+          "Monitor beverage inventory and coordinate restocking with supply teams",
+          "Handle customer concerns or complaints professionally and efficiently",
+          "Oversee POS transactions and end-of-shift cash reconciliation",
+          "Train new staff on stadium service standards and operational procedures",
+          "Maintain cleanliness, safety, and organization of bar areas during events"
+        ],
+        "preferred_qualifications": [
+          "Responsible Service of Alcohol (RSA) certification",
+          "Experience working in large stadiums, arenas, or event venues"
+        ],
+        "salary_range": "£14 - £18 per hour"
+      }
+      
+  ]

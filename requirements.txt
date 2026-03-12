@@ -1,0 +1,8 @@
+pdfplumber 
+python-docx
+sentence-transformers
+scikit-learn 
+numpy
+langchain
+langchain-groq
+python-dotenv
