@@ -6,3 +6,7 @@ numpy
 langchain
 langchain-groq
 python-dotenv
+jinja2 
+python-multipart
+fastapi 
+uvicorn
