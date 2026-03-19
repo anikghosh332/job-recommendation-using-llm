@@ -7,9 +7,13 @@ import json
 import pdfplumber
 import io
 
+
+
 from functions.parse_resume import ResumeParser, build_resume_text
 from functions.model import search_jobs   # your embedding search
+from main import semantic_recommendation
 
+# resume_text_global = None
 
 app = FastAPI()
 
@@ -17,12 +21,31 @@ templates = Jinja2Templates(directory="templates")
 
 parser = ResumeParser(static_folder="static")
 
-UPLOAD_DIR = "static/resumes"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
+# UPLOAD_DIR = "static/resumes"
+# os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # Load jobs
 with open("data/jobs2.json") as f:
     jobs = json.load(f)
+    
+
+def get_resume_text():
+    if not os.path.exists(RESUME_PATH):
+        return None
+
+    try:
+        parser_path = os.path.join("uploads", "resume.pdf")
+        parsed_data = parser.parse_resume(parser_path)
+
+        if not parsed_data:
+            return None
+
+        return build_resume_text(parsed_data)
+
+    except Exception as e:
+        print("Error reading resume:", e)
+        return None    
+    
 
 # -------------------------------
 # 1️⃣ HOME PAGE
@@ -47,51 +70,6 @@ def search(request: Request, query: str = Form(...)):
     })
 
 
-# # -------------------------------
-# # 3️⃣ RECOMMENDED (LLM)
-# # -------------------------------
-# @app.post("/recommend", response_class=HTMLResponse)
-# def recommend(request: Request, query: str = Form(...)):
-
-#     # Safety check
-#     if not query:
-#         return templates.TemplateResponse("results.html", {
-#             "request": request,
-#             "jobs": [],
-#             "query": "",
-#             "recommended": True,
-#             "error": "Empty query provided"
-#         })
-
-#     try:
-#         # Step 1: Semantic search
-#         results = search_jobs(query, jobs)
-
-#         # Step 2: LLM re-ranking
-#         recommended_jobs = llm_recommend(results)
-
-#     except Exception as e:
-#         print("LLM ERROR:", e)
-
-#         # fallback → show semantic results
-#         recommended_jobs = results
-
-#         return templates.TemplateResponse("results.html", {
-#             "request": request,
-#             "jobs": recommended_jobs,
-#             "query": query,
-#             "recommended": False,
-#             "error": "LLM recommendation failed. Showing semantic results."
-#         })
-
-#     return templates.TemplateResponse("results.html", {
-#         "request": request,
-#         "jobs": recommended_jobs,
-#         "query": query,
-#         "recommended": True
-#     })
-
-
 
 # -------------------------------
 # 3️⃣ PROFILE (Resume Upload + Parse)
@@ -106,30 +84,38 @@ def profile_page(request: Request):
     })
 
 
+UPLOAD_DIR = "static/uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+RESUME_PATH = os.path.join(UPLOAD_DIR, "resume.pdf")
+
+
 @app.post("/profile", response_class=HTMLResponse)
 async def upload_resume(request: Request, file: UploadFile = File(...)):
 
-    # --- Validation ---
-    if not file:
-        return templates.TemplateResponse("profile.html", {
-            "request": request,
-            "error": "No file uploaded",
-            "parsed": None
-        })
-
     try:
-        content = await file.read()
+        filename = file.filename
+
+        # ✅ Full path (for saving)
+        # RESUME_PATH = os.path.join(UPLOAD_DIR, "resume.pdf")
+        # full_path = os.path.join(UPLOAD_DIR, filename)
         
-        if file.filename.endswith(".pdf"):
-            with pdfplumber.open(io.BytesIO(content)) as pdf:
-                pages = [page.extract_text() for page in pdf.pages]
-                resume_text = "\n".join([p for p in pages if p])
+        full_path = RESUME_PATH
 
-        # # Convert bytes → text
-        # resume_text = content.decode("utf-8", errors="ignore")
+        # ✅ Read file (ONLY valid inside async function)
+        content = await file.read()
 
-        # ✅ USE YOUR EXISTING PARSER
-        parsed_data = parser.parse_resume(resume_text)
+        with open(full_path, "wb") as f:
+            f.write(content)
+
+        # ✅ Pass relative path to parser
+        parser_path = os.path.join("uploads", filename)
+
+        parsed_data = parser.parse_resume(parser_path)
+        # print('Parsed Data : ',parsed_data)
+        
+        # global resume_text_global
+        # resume_text_global = build_resume_text(parsed_data)
 
         if not parsed_data:
             raise ValueError("Parsing failed")
@@ -137,100 +123,55 @@ async def upload_resume(request: Request, file: UploadFile = File(...)):
     except Exception as e:
         return templates.TemplateResponse("profile.html", {
             "request": request,
-            "error": f"Error processing file: {str(e)}",
+            "error": str(e),
             "parsed": None
         })
 
+    # print('Parsed Data : ',parsed_data)
+    
     return templates.TemplateResponse("profile.html", {
         "request": request,
         "parsed": parsed_data
     })
+    
+    
+    
+    
 
 
+# -------------------------------
+# 4 RECOMMENDED (SEMANTIC MATCH)
+# -------------------------------
+@app.post("/recommend", response_class=HTMLResponse)
+def recommend(request: Request, query: str = Form(...)):
 
+    # global resume_text_global
+    
+    # print(f'Resume text : {resume_text_global}')
+    
+    resume_text = get_resume_text()
 
+    if not resume_text:
+        return templates.TemplateResponse("results.html", {
+            "request": request,
+            "jobs": [],
+            "query": query,
+            "recommended": True,
+            "error": "Upload resume first"
+        })
 
+    # Step 1: filter jobs (you already have this)
+    filtered_jobs = search_jobs(query, jobs)
 
+    # Step 2: reuse your semantic logic
+    recommended_jobs = semantic_recommendation(
+        resume_text,
+        filtered_jobs
+    )
 
-
-
-
-
-# # # # -------------------------------
-# # # # 4️⃣ PROFILE (UPLOAD RESUME)
-# # # # -------------------------------
-# # # @app.get("/profile", response_class=HTMLResponse)
-# # # def profile_page(request: Request):
-# # #     return templates.TemplateResponse("profile.html", {
-# # #         "request": request,
-# # #         "parsed": None
-# # #     })
-
-
-# # @app.post("/profile/upload", response_class=HTMLResponse)
-# # def upload_resume(request: Request, file: UploadFile = File(...)):
-
-# #     if not file.filename.endswith(".pdf"):
-# #         return templates.TemplateResponse("profile.html", {
-# #             "request": request,
-# #             "error": "Only PDF files allowed"
-# #         })
-
-# #     file_path = os.path.join(UPLOAD_DIR, file.filename)
-
-# #     with open(file_path, "wb") as buffer:
-# #         shutil.copyfileobj(file.file, buffer)
-
-# #     try:
-# #         parsed = parse_resume(file_path)
-# #     except Exception as e:
-# #         return templates.TemplateResponse("profile.html", {
-# #             "request": request,
-# #             "error": "Failed to parse resume"
-# #         })
-
-# #     return templates.TemplateResponse("profile.html", {
-# #         "request": request,
-# #         "parsed": parsed
-# #     })
-
-# @app.post("/profile", response_class=HTMLResponse)
-# async def upload_resume(request: Request, file: UploadFile = File(...)):
-
-#     if not file:
-#         return templates.TemplateResponse("profile.html", {
-#             "request": request,
-#             "error": "No file uploaded",
-#             "parsed": None
-#         })
-
-#     try:
-#         content = await file.read()
-
-#         # ✅ Handle PDF properly
-#         if file.filename.endswith(".pdf"):
-#             with pdfplumber.open(io.BytesIO(content)) as pdf:
-#                 pages = [page.extract_text() for page in pdf.pages]
-#                 resume_text = "\n".join([p for p in pages if p])
-
-#         else:
-#             # fallback for txt files
-#             resume_text = content.decode("utf-8", errors="ignore")
-
-#         # Parse resume
-#         parsed_data = parser.parse_resume(resume_text)
-
-#         if not parsed_data:
-#             raise ValueError("Parsing failed")
-
-#     except Exception as e:
-#         return templates.TemplateResponse("profile.html", {
-#             "request": request,
-#             "error": f"Error processing file: {str(e)}",
-#             "parsed": None
-#         })
-
-#     return templates.TemplateResponse("profile.html", {
-#         "request": request,
-#         "parsed": parsed_data
-#     })
+    return templates.TemplateResponse("results.html", {
+        "request": request,
+        "jobs": recommended_jobs,
+        "query": query,
+        "recommended": True
+    })

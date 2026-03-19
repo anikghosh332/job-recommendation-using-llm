@@ -117,3 +117,30 @@ print("--------------------------------")
 for rank, (skill, count) in enumerate(top_skills, 1):
 
     print(f"{rank}. {skill} ({count} jobs)")    
+    
+    
+def semantic_recommendation(resume_text, jobs):
+    """
+    Reuse existing semantic matching logic
+    """
+
+    job_texts = [build_job_text(job) for job in jobs]
+
+    resume_embedding = model.encode(resume_text)
+    job_embeddings = model.encode(job_texts)
+
+    similarities = cosine_similarity(
+        [resume_embedding],
+        job_embeddings
+    )[0]
+
+    for i, job in enumerate(jobs):
+        job["semantic_score"] = float(similarities[i])
+
+    ranked_jobs = sorted(
+        jobs,
+        key=lambda x: x["semantic_score"],
+        reverse=True
+    )
+
+    return ranked_jobs    
