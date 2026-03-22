@@ -6,12 +6,19 @@ import os
 import json
 import pdfplumber
 import io
-
+import markdown
+from wordcloud import WordCloud
+import matplotlib
+matplotlib.use('Agg') 
+import matplotlib.pyplot as plt
+import io
+import base64
 
 
 from functions.parse_resume import ResumeParser, build_resume_text
 from functions.model import search_jobs   # your embedding search
-from main import semantic_recommendation
+from main import semantic_recommendation, analyze_job_title
+from functions.llm_recommendations import explain_matching_quality
 
 # resume_text_global = None
 
@@ -52,7 +59,7 @@ def get_resume_text():
 # -------------------------------
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse("index_new.html", {"request": request})
 
 
 # -------------------------------
@@ -136,9 +143,6 @@ async def upload_resume(request: Request, file: UploadFile = File(...)):
     
     
     
-    
-
-
 # -------------------------------
 # 4 RECOMMENDED (SEMANTIC MATCH)
 # -------------------------------
@@ -174,4 +178,111 @@ def recommend(request: Request, query: str = Form(...)):
         "jobs": recommended_jobs,
         "query": query,
         "recommended": True
+    })
+    
+    
+    
+    
+@app.post("/fit", response_class=HTMLResponse)
+def find_fit(request: Request, job_id: str = Form(...)):
+
+    # Step 1: Get resume
+    resume_text = get_resume_text()
+
+    if not resume_text:
+        return templates.TemplateResponse("results.html", {
+            "request": request,
+            "jobs": [],
+            "query": "",
+            "recommended": True,
+            "error": "Please upload resume first"
+        })
+
+    # Step 2: Find job using job_id
+    selected_job = None
+    selected_index = None
+
+    for i, job in enumerate(jobs):
+        if str(job.get("job_id")) == str(job_id):
+            selected_job = job
+            selected_index = i
+            break
+
+    if not selected_job:
+        return templates.TemplateResponse("results.html", {
+            "request": request,
+            "jobs": [],
+            "query": "",
+            "recommended": True,
+            "error": "Job not found"
+        })
+    
+    # print('selected job index : ',selected_index)    
+    
+    # Step 3: Call LLM function
+    explanation = explain_matching_quality(
+        resume_text,
+        [selected_job],   
+        1                 
+    )
+    
+    print('Job fit explaination : ',explanation)
+    
+    explanation = markdown.markdown(explanation, extensions=["tables"])
+
+    # Step 4: Show result
+    return templates.TemplateResponse("fit.html", {
+        "request": request,
+        "job": selected_job,
+        "explanation": explanation
+    })
+    
+    
+    
+    
+# @app.post("/title_summary", response_class=HTMLResponse)
+# def title_summary(request: Request, query: str = Form(...)):
+
+#         matched_jobs, top_skills = analyze_job_title(query, jobs)
+
+#         return templates.TemplateResponse("title_summary.html", {
+#             "request": request,
+#             "query": query,
+#             "matched_jobs": matched_jobs,
+#             "top_skills": top_skills
+#         })
+
+
+@app.post("/title_summary", response_class=HTMLResponse)
+def title_summary(request: Request, query: str = Form(...)):
+
+    matched_jobs, top_skills = analyze_job_title(query, jobs)
+
+    # Convert to dict for wordcloud
+    skill_freq = {skill: count for skill, count in top_skills}
+
+    # Generate word cloud
+    wordcloud = WordCloud(
+        width=800,
+        height=400,
+        background_color='white'
+    ).generate_from_frequencies(skill_freq)
+
+    # Convert to image
+    img_buffer = io.BytesIO()
+    plt.figure()
+    plt.imshow(wordcloud)
+    plt.axis('off')
+    plt.savefig(img_buffer, format='png')
+    plt.close()
+
+    img_buffer.seek(0)
+    img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
+
+    return templates.TemplateResponse("title_summary copy.html", {
+        "request": request,
+        "query": query,
+        "matched_jobs": matched_jobs,
+        "top_skills": top_skills,
+        "wordcloud": img_base64
     })

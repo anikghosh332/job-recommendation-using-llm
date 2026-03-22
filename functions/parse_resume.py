@@ -327,19 +327,3 @@ def build_resume_text(resume):
     return resume_text.strip()    
 
 
-def get_resume_text():
-    if not os.path.exists(RESUME_PATH):
-        return None
-
-    try:
-        parser_path = os.path.join("uploads", "resume.pdf")
-        parsed_data = parser.parse_resume(parser_path)
-
-        if not parsed_data:
-            return None
-
-        return build_resume_text(parsed_data)
-
-    except Exception as e:
-        print("Error reading resume:", e)
-        return None

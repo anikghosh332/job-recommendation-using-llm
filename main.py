@@ -85,7 +85,7 @@ index = 3
 # print('\n\n Summary of your skill gaps \n\n')
 # identify_skill_gaps(resume_text,  final_ranked_jobs,index)
 
-# # Explain Matching Quality for a jobs
+# Explain Matching Quality for a jobs
 # print('\n\n Summary of your matching skills for the job \n\n')
 # explain_matching_quality(resume_text,  final_ranked_jobs,index)    
 
@@ -144,3 +144,24 @@ def semantic_recommendation(resume_text, jobs):
     )
 
     return ranked_jobs    
+
+
+
+def analyze_job_title(user_query, jobs):
+    """
+    Given a job title, return:
+    - matched jobs
+    - top in-demand skills
+    """
+
+    job_titles, job_title_embeddings = compute_title_embeddings(jobs)
+
+    matched_jobs = find_similar_jobs(
+        user_query,
+        jobs,
+        job_title_embeddings
+    )
+
+    top_skills = get_top_skills(matched_jobs, top_n=15)
+
+    return matched_jobs, top_skills

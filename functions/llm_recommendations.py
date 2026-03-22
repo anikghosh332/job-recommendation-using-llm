@@ -111,5 +111,4 @@ def explain_matching_quality(resume_text, final_ranked_jobs, job_index):
 
     explanation = llm_call(resume_text, selected_job, system_prompt, user_prompt)
 
-    print("\n Matching Explanation:\n")
-    print(explanation)    
+    return explanation 
