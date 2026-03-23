@@ -17,7 +17,7 @@ import base64
 
 from functions.parse_resume import ResumeParser, build_resume_text
 from functions.model import search_jobs   # your embedding search
-from main import semantic_recommendation, analyze_job_title
+from main import semantic_recommendation, analyze_job_title, compute_skill_trends
 from functions.llm_recommendations import explain_matching_quality
 
 # resume_text_global = None
@@ -32,7 +32,7 @@ parser = ResumeParser(static_folder="static")
 # os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # Load jobs
-with open("data/jobs2.json") as f:
+with open("data/jobs3.json") as f:
     jobs = json.load(f)
     
 
@@ -156,7 +156,7 @@ def recommend(request: Request, query: str = Form(...)):
     resume_text = get_resume_text()
 
     if not resume_text:
-        return templates.TemplateResponse("results.html", {
+        return templates.TemplateResponse("results copy.html", {
             "request": request,
             "jobs": [],
             "query": query,
@@ -239,20 +239,55 @@ def find_fit(request: Request, job_id: str = Form(...)):
     
     
     
-    
+
+
 # @app.post("/title_summary", response_class=HTMLResponse)
 # def title_summary(request: Request, query: str = Form(...)):
 
-#         matched_jobs, top_skills = analyze_job_title(query, jobs)
+#     matched_jobs, top_skills = analyze_job_title(query, jobs)
 
-#         return templates.TemplateResponse("title_summary.html", {
-#             "request": request,
-#             "query": query,
-#             "matched_jobs": matched_jobs,
-#             "top_skills": top_skills
-#         })
+#     # Convert to dict for wordcloud
+#     skill_freq = {skill: count for skill, count in top_skills}
 
+#     # Generate word cloud
+#     wordcloud = WordCloud(
+#         width=800,
+#         height=400,
+#         background_color='white'
+#     ).generate_from_frequencies(skill_freq)
 
+#     # Convert to image
+#     img_buffer = io.BytesIO()
+#     plt.figure()
+#     plt.imshow(wordcloud)
+#     plt.axis('off')
+#     plt.savefig(img_buffer, format='png')
+#     plt.close()
+
+#     img_buffer.seek(0)
+#     img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
+
+#     return templates.TemplateResponse("title_summary.html", {
+#         "request": request,
+#         "query": query,
+#         "matched_jobs": matched_jobs,
+#         "top_skills": top_skills,
+#         "wordcloud": img_base64
+#     })
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 @app.post("/title_summary", response_class=HTMLResponse)
 def title_summary(request: Request, query: str = Form(...)):
 
@@ -278,11 +313,18 @@ def title_summary(request: Request, query: str = Form(...)):
 
     img_buffer.seek(0)
     img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
+    
+    years, trend_skills, trend_data = compute_skill_trends(jobs, query, top_n=5)
 
-    return templates.TemplateResponse("title_summary copy.html", {
-        "request": request,
-        "query": query,
-        "matched_jobs": matched_jobs,
-        "top_skills": top_skills,
-        "wordcloud": img_base64
-    })
+    return templates.TemplateResponse("title_summary.html", {
+    "request": request,
+    "query": query,
+    "matched_jobs": matched_jobs,
+    "top_skills": top_skills,
+    "wordcloud": img_base64,
+    
+    # NEW
+    "trend_years": years,
+    "trend_skills": trend_skills,
+    "trend_data": trend_data
+})

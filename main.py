@@ -165,3 +165,107 @@ def analyze_job_title(user_query, jobs):
     top_skills = get_top_skills(matched_jobs, top_n=15)
 
     return matched_jobs, top_skills
+
+
+
+from collections import defaultdict, Counter
+from datetime import datetime
+
+def get_skill_trends(jobs, job_title, top_n=5):
+    year_skill_map = defaultdict(list)
+
+    # Filter relevant jobs
+    for job in jobs:
+        if job.get("title", "").lower() == job_title.lower():
+            date_str = job.get("posting_date")
+
+            if not date_str:
+                continue
+
+            try:
+                year = datetime.strptime(date_str, "%Y-%m-%d").year
+            except:
+                continue
+
+            skills = job.get("skills_required", [])
+            year_skill_map[year].extend(skills)
+
+    # Count + normalize
+    trend_data = {}
+    all_skills_counter = Counter()
+
+    # First pass: count total occurrences
+    for year, skills in year_skill_map.items():
+        counter = Counter(skills)
+        trend_data[year] = counter
+        all_skills_counter.update(counter)
+
+    # Get global top N skills
+    top_skills = [skill for skill, _ in all_skills_counter.most_common(top_n)]
+
+    # Build final structured output
+    final_trend = {}
+
+    for year in sorted(trend_data.keys()):
+        year_counts = trend_data[year]
+        total_jobs = sum(year_counts.values()) or 1
+
+        final_trend[year] = {
+            skill: round((year_counts.get(skill, 0) / total_jobs) * 100, 2)
+            for skill in top_skills
+        }
+
+    return {
+        "years": sorted(final_trend.keys()),
+        "skills": top_skills,
+        "data": final_trend
+    }
+    
+    
+    
+    
+    
+    
+from collections import defaultdict, Counter
+from datetime import datetime
+
+def compute_skill_trends(jobs, query, top_n=5):
+    year_skill_map = defaultdict(list)
+
+    for job in jobs:
+        if job.get("title", "").lower() == query.lower():
+            date_str = job.get("posting_date")
+            if not date_str:
+                continue
+
+            try:
+                year = datetime.strptime(date_str, "%Y-%m-%d").year
+            except:
+                continue
+
+            year_skill_map[year].extend(job.get("skills_required", []))
+
+    # Count skills
+    yearly_counts = {}
+    global_counter = Counter()
+
+    for year, skills in year_skill_map.items():
+        counter = Counter(skills)
+        yearly_counts[year] = counter
+        global_counter.update(counter)
+
+    # Top N skills overall
+    top_skills = [s for s, _ in global_counter.most_common(top_n)]
+
+    # Build final structure
+    years_sorted = sorted(yearly_counts.keys())
+    trend_data = {}
+
+    for year in years_sorted:
+        total = sum(yearly_counts[year].values()) or 1
+        trend_data[year] = {
+            skill: round((yearly_counts[year].get(skill, 0) / total) * 100, 2)
+            for skill in top_skills
+        }
+
+    return years_sorted, top_skills, trend_data    

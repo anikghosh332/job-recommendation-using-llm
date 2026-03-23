@@ -1,0 +1,909 @@
+[
+    {
+        "job_id": "J007",
+        "title": "Event Bartender - Stadium Hospitality",
+        "company": "Premier Event Hospitality",
+        "location": "Manchester, UK",
+        "employment_type": "Part-time / Event-based",
+        "experience_required": "1-3 years",
+        "education_required": "High School Diploma or equivalent",
+        "skills_required": [
+            "Bartending",
+            "Drink Preparation",
+            "Customer Service",
+            "POS Systems",
+            "Cash Handling",
+            "Time Management",
+            "Alcohol Compliance"
+        ],
+        "job_description": "Premier Event Hospitality is hiring enthusiastic Event Bartenders to join our stadium hospitality team. This role involves serving beverages to thousands of fans during major sporting events, concerts, and entertainment shows. As an Event Bartender, you will work in a fast-paced environment where speed, accuracy, and customer interaction are critical to delivering a positive fan experience. You will prepare and serve alcoholic and non-alcoholic beverages, operate POS systems to process transactions, and ensure all alcohol service regulations are followed. Successful candidates are energetic, reliable, and comfortable working in high-volume service environments. The role requires strong teamwork, attention to detail, and the ability to remain calm under pressure during peak service times.",
+        "responsibilities": [
+            "Prepare and serve alcoholic and non-alcoholic beverages quickly and accurately",
+            "Operate POS systems to process customer orders and payments",
+            "Verify customer identification to ensure responsible alcohol service",
+            "Maintain a clean and organized bar station throughout the event",
+            "Restock beverages, cups, and supplies as needed during service",
+            "Provide friendly and engaging customer service to stadium guests",
+            "Follow all stadium safety, hygiene, and alcohol service regulations",
+            "Work collaboratively with other bartenders and hospitality staff"
+        ],
+        "preferred_qualifications": [
+            "Responsible Service of Alcohol (RSA) certification",
+            "Experience bartending at events, bars, or restaurants"
+        ],
+        "salary_range": "\u00a312 - \u00a315 per hour",
+        "posting_date": "2023-08-17"
+    },
+    {
+        "job_id": "J001",
+        "title": "Machine Learning Engineer",
+        "company": "InnovaAI Solutions",
+        "location": "London, UK",
+        "employment_type": "Full-time",
+        "experience_required": "2-4 years",
+        "education_required": "Bachelor's or Master's in Computer Science, Data Science, or related field",
+        "skills_required": [
+            "Python",
+            "PyTorch",
+            "TensorFlow",
+            "Transformers",
+            "NLP",
+            "Docker",
+            "AWS",
+            "MLflow"
+        ],
+        "job_description": "We are seeking a Machine Learning Engineer to design, develop, and deploy scalable machine learning systems that power intelligent applications across our platform. In this role, you will work closely with data scientists, data engineers, and product teams to transform research prototypes into robust production-ready models. A significant portion of your work will involve developing transformer-based NLP models, fine-tuning large language models, and optimizing training pipelines for performance and scalability. You will also be responsible for implementing data preprocessing pipelines, managing model lifecycle workflows, and ensuring reproducibility using tools such as MLflow. The ideal candidate has strong experience with Python-based ML frameworks such as PyTorch or TensorFlow and is comfortable deploying containerized applications using Docker on AWS infrastructure. Experience with MLOps best practices, model monitoring, and CI/CD automation is highly desirable.",
+        "responsibilities": [
+            "Design, develop, and deploy machine learning models into production environments with a focus on scalability and reliability",
+            "Fine-tune transformer-based NLP models and experiment with modern architectures to improve model accuracy and efficiency",
+            "Build and maintain end-to-end machine learning pipelines including data ingestion, preprocessing, model training, and evaluation",
+            "Implement model versioning, experiment tracking, and monitoring using tools such as MLflow or similar platforms",
+            "Collaborate with data engineers to design scalable data pipelines and optimize feature engineering workflows",
+            "Containerize ML services using Docker and deploy them on AWS-based infrastructure",
+            "Work closely with product managers and software engineers to integrate machine learning capabilities into real-world applications",
+            "Continuously monitor deployed models and retrain or optimize them as new data becomes available"
+        ],
+        "preferred_qualifications": [
+            "Experience with LLM fine-tuning",
+            "Knowledge of CI/CD pipelines",
+            "Familiarity with Kubernetes"
+        ],
+        "salary_range": "\u00a355,000 - \u00a375,000",
+        "posting_date": "2023-02-21"
+    },
+    {
+        "job_id": "J002",
+        "title": "Data Scientist",
+        "company": "Quantiva Analytics",
+        "location": "Berlin, Germany",
+        "employment_type": "Full-time",
+        "experience_required": "1-3 years",
+        "education_required": "Master's in Data Science, Statistics, or related field",
+        "skills_required": [
+            "Python",
+            "Pandas",
+            "Scikit-learn",
+            "SQL",
+            "XGBoost",
+            "Data Visualization",
+            "Statistics"
+        ],
+        "job_description": "As a Data Scientist at Quantiva Analytics, you will work with large and complex datasets to uncover insights that inform strategic business decisions. You will collaborate closely with business stakeholders, analysts, and engineering teams to understand business problems and translate them into analytical solutions. The role involves performing exploratory data analysis, designing predictive models, and developing machine learning algorithms that improve operational efficiency and customer insights. You will also be responsible for building dashboards and visualizations that effectively communicate findings to non-technical audiences. The ideal candidate has strong statistical foundations, experience with machine learning algorithms such as Random Forest and Gradient Boosting, and proficiency with Python-based data science tools including Pandas and Scikit-learn.",
+        "responsibilities": [
+            "Perform exploratory data analysis to identify trends, patterns, and anomalies within large datasets",
+            "Develop predictive models using machine learning techniques such as regression, classification, and ensemble methods",
+            "Design experiments and evaluate model performance using appropriate statistical methodologies",
+            "Create dashboards and visualizations to communicate insights clearly to stakeholders and decision makers",
+            "Work with cross-functional teams to translate business questions into analytical problems and actionable solutions",
+            "Clean, transform, and validate data to ensure accuracy and reliability for modeling tasks",
+            "Optimize model performance through feature engineering, hyperparameter tuning, and model evaluation techniques",
+            "Present results and insights in a clear and compelling way to both technical and non-technical audiences"
+        ],
+        "preferred_qualifications": [
+            "Experience with A/B testing",
+            "Familiarity with cloud platforms"
+        ],
+        "salary_range": "\u20ac50,000 - \u20ac70,000",
+        "posting_date": "2024-07-17"
+    },
+    {
+        "job_id": "J003",
+        "title": "AI Research Engineer",
+        "company": "DeepVision Labs",
+        "location": "Toronto, Canada",
+        "employment_type": "Full-time",
+        "experience_required": "3-5 years",
+        "education_required": "Master's or PhD in AI, Machine Learning, or related field",
+        "skills_required": [
+            "Deep Learning",
+            "Computer Vision",
+            "PyTorch",
+            "TensorFlow",
+            "Research",
+            "Model Optimization"
+        ],
+        "job_description": "DeepVision Labs is seeking an AI Research Engineer to work on cutting-edge artificial intelligence systems with a focus on computer vision and multimodal learning. In this role, you will explore novel deep learning architectures, design large-scale experiments, and contribute to advancing the state of the art in AI research. You will collaborate with research scientists and engineering teams to prototype new models and translate promising ideas into scalable solutions. The position involves implementing deep learning models using frameworks such as PyTorch and TensorFlow, conducting rigorous experiments, and evaluating performance using benchmark datasets. Candidates should be comfortable working in research-driven environments and have experience training large-scale neural networks and optimizing models for efficiency and accuracy.",
+        "responsibilities": [
+            "Design and implement novel deep learning architectures for computer vision and multimodal AI systems",
+            "Conduct experiments to evaluate new algorithms and model architectures across various datasets",
+            "Train and optimize large-scale neural networks using distributed training techniques",
+            "Collaborate with researchers to publish findings in leading AI conferences and journals",
+            "Analyze experimental results and iterate on model design to improve performance",
+            "Work closely with product teams to translate research breakthroughs into production-ready solutions",
+            "Maintain documentation of research experiments, methodologies, and results",
+            "Stay up to date with the latest advancements in artificial intelligence and deep learning research"
+        ],
+        "preferred_qualifications": [
+            "Experience in multimodal models",
+            "Published research in top AI conferences"
+        ],
+        "salary_range": "$95,000 - $120,000",
+        "posting_date": "2024-05-16"
+    },
+    {
+        "job_id": "J004",
+        "title": "MLOps Engineer",
+        "company": "CloudScale AI",
+        "location": "Remote",
+        "employment_type": "Full-time",
+        "experience_required": "2-5 years",
+        "education_required": "Bachelor's in Computer Science or related field",
+        "skills_required": [
+            "Docker",
+            "Kubernetes",
+            "CI/CD",
+            "AWS",
+            "Airflow",
+            "Python",
+            "Monitoring"
+        ],
+        "job_description": "CloudScale AI is looking for an experienced MLOps Engineer to help streamline the deployment, monitoring, and lifecycle management of machine learning models. You will work closely with data scientists and software engineers to operationalize machine learning pipelines and ensure reliable model performance in production environments. Your role will involve implementing CI/CD pipelines for ML workflows, managing containerized services using Docker and Kubernetes, and deploying scalable infrastructure on AWS. Additionally, you will build automated workflows for model retraining and monitoring to ensure that models remain accurate and reliable over time. The ideal candidate is passionate about building robust ML infrastructure and has strong experience with cloud platforms and DevOps tooling.",
+        "responsibilities": [
+            "Deploy machine learning models using containerization technologies such as Docker",
+            "Manage Kubernetes clusters and orchestrate scalable ML services",
+            "Design and maintain CI/CD pipelines for machine learning model deployment",
+            "Implement automated workflows for model retraining and continuous integration",
+            "Monitor production ML systems and troubleshoot issues related to performance and reliability",
+            "Collaborate with data scientists to transition experimental models into production systems",
+            "Build monitoring and alerting systems for model performance and infrastructure health",
+            "Optimize infrastructure for cost efficiency and scalability across cloud environments"
+        ],
+        "preferred_qualifications": [
+            "Experience with Prometheus",
+            "Familiarity with DVC"
+        ],
+        "salary_range": "$85,000 - $105,000",
+        "posting_date": "2024-04-02"
+    },
+    {
+        "job_id": "J005",
+        "title": "NLP Engineer",
+        "company": "TextIQ Systems",
+        "location": "Dublin, Ireland",
+        "employment_type": "Full-time",
+        "experience_required": "2-4 years",
+        "education_required": "Bachelor's or Master's in Computer Science",
+        "skills_required": [
+            "Python",
+            "NLP",
+            "Transformers",
+            "BERT",
+            "LLMs",
+            "LangChain",
+            "FastAPI"
+        ],
+        "job_description": "TextIQ Systems is looking for an NLP Engineer to build advanced natural language processing systems that power intelligent applications across our product suite. In this role, you will design and implement transformer-based models to perform tasks such as text classification, question answering, and conversational AI. You will work extensively with modern language models such as BERT and other large language models to build scalable NLP pipelines. The role also involves developing APIs and microservices that expose NLP capabilities to other systems and integrating them into production workflows. Candidates should be comfortable building RAG pipelines, experimenting with LLM fine-tuning techniques, and working with frameworks such as LangChain to orchestrate language model interactions.",
+        "responsibilities": [
+            "Develop and fine-tune transformer-based NLP models for various language understanding tasks",
+            "Design and implement RAG pipelines to enhance model performance using external knowledge sources",
+            "Build scalable APIs using frameworks such as FastAPI to serve NLP models",
+            "Optimize inference performance and reduce latency in deployed NLP systems",
+            "Work with product teams to integrate NLP capabilities into customer-facing applications",
+            "Develop preprocessing pipelines for large text datasets and maintain data quality standards",
+            "Experiment with different LLM architectures and evaluate their effectiveness for real-world use cases",
+            "Monitor and improve NLP system performance through testing and model evaluation"
+        ],
+        "preferred_qualifications": [
+            "Experience integrating Gmail or external APIs",
+            "Knowledge of vector databases"
+        ],
+        "salary_range": "\u20ac60,000 - \u20ac80,000",
+        "posting_date": "2023-10-13"
+    },
+    {
+        "job_id": "J006",
+        "title": "Full Stack Developer",
+        "company": "WebCore Technologies",
+        "location": "Manchester, UK",
+        "employment_type": "Full-time",
+        "experience_required": "2-4 years",
+        "education_required": "Bachelor's in Computer Science or equivalent experience",
+        "skills_required": [
+            "Node.js",
+            "Express",
+            "MongoDB",
+            "React",
+            "REST APIs",
+            "HTML",
+            "CSS",
+            "Git"
+        ],
+        "job_description": "WebCore Technologies is seeking a Full Stack Developer to design, develop, and maintain scalable web applications used by thousands of users. In this role, you will work across both frontend and backend systems to deliver high-quality user experiences and robust application functionality. The position involves developing RESTful APIs using Node.js and Express, building responsive interfaces with React, and managing data using MongoDB. You will collaborate with product managers, designers, and other engineers to implement new features and improve existing systems. The ideal candidate is passionate about building efficient web applications and enjoys working in fast-paced agile development environments.",
+        "responsibilities": [
+            "Develop backend services and REST APIs using Node.js and Express",
+            "Build responsive and interactive frontend interfaces using React and modern JavaScript frameworks",
+            "Design and implement database schemas and perform CRUD operations using MongoDB",
+            "Integrate frontend and backend components to create seamless user experiences",
+            "Implement authentication and authorization mechanisms to secure applications",
+            "Collaborate with designers and product managers to deliver new features and improvements",
+            "Write clean, maintainable, and well-documented code following best development practices",
+            "Debug and optimize application performance to ensure scalability and reliability"
+        ],
+        "preferred_qualifications": [
+            "Experience with deployment on AWS or Heroku",
+            "Understanding of database indexing"
+        ],
+        "salary_range": "\u00a345,000 - \u00a360,000",
+        "posting_date": "2023-07-29"
+    },
+    {
+        "job_id": "J007",
+        "title": "Embedded Systems Engineer",
+        "company": "ElectroTech Innovations",
+        "location": "Bangalore, India",
+        "employment_type": "Full-time",
+        "experience_required": "2-5 years",
+        "education_required": "Bachelor's in Electronics or Electrical Engineering",
+        "skills_required": [
+            "C",
+            "C++",
+            "Embedded C",
+            "Microcontrollers",
+            "RTOS",
+            "PCB Design",
+            "Signal Processing"
+        ],
+        "job_description": "ElectroTech Innovations is seeking an Embedded Systems Engineer to develop firmware and embedded software for next-generation electronic devices. You will work closely with hardware engineers to design and implement software that runs on microcontroller-based systems. The role involves developing real-time firmware, debugging hardware-software interactions, and optimizing system performance for reliability and efficiency. Candidates should have strong experience with embedded programming in C/C++ and familiarity with RTOS-based systems. Experience with hardware debugging tools, signal processing, and microcontroller architecture is highly desirable.",
+        "responsibilities": [
+            "Develop embedded firmware using C and C++ for microcontroller-based systems",
+            "Design and implement real-time software using RTOS frameworks",
+            "Perform hardware-software integration and troubleshoot system-level issues",
+            "Conduct PCB testing, debugging, and validation of embedded hardware",
+            "Optimize firmware for real-time performance and resource efficiency",
+            "Collaborate with hardware engineers to design reliable and scalable embedded systems",
+            "Develop testing frameworks to validate firmware functionality",
+            "Document firmware architecture, development processes, and testing results"
+        ],
+        "preferred_qualifications": [
+            "Experience with ARM Cortex processors",
+            "Knowledge of communication protocols (SPI, I2C, UART)"
+        ],
+        "salary_range": "\u20b98,00,000 - \u20b914,00,000",
+        "posting_date": "2023-06-28"
+    },
+    {
+        "job_id": "J008",
+        "title": "Electronics Design Engineer",
+        "company": "NextGen Circuits Ltd",
+        "location": "Munich, Germany",
+        "employment_type": "Full-time",
+        "experience_required": "3-6 years",
+        "education_required": "Bachelor's or Master's in Electronics Engineering",
+        "skills_required": [
+            "Analog Circuit Design",
+            "Digital Electronics",
+            "MATLAB",
+            "PCB Layout",
+            "Power Electronics",
+            "Testing and Validation"
+        ],
+        "job_description": "NextGen Circuits Ltd is looking for an Electronics Design Engineer to design and validate advanced electronic circuits used in industrial and consumer applications. In this role, you will be responsible for schematic design, circuit simulation, PCB layout, and testing of prototypes to ensure high performance and reliability. You will collaborate closely with manufacturing and product teams to ensure designs meet technical specifications and industry standards. The position requires strong knowledge of analog and digital electronics, experience with circuit simulation tools such as MATLAB, and the ability to perform thorough testing and validation of electronic systems.",
+        "responsibilities": [
+            "Design and simulate analog and digital circuits for industrial electronic systems",
+            "Develop schematics and PCB layouts for electronic hardware components",
+            "Perform testing and validation of circuit designs to ensure reliability and compliance",
+            "Use simulation tools such as MATLAB to evaluate circuit performance",
+            "Collaborate with manufacturing teams to transition prototypes into production",
+            "Troubleshoot hardware issues and optimize circuit performance",
+            "Ensure designs comply with relevant industry standards and safety regulations",
+            "Document design specifications, testing procedures, and validation results"
+        ],
+        "preferred_qualifications": [
+            "Experience with Altium Designer",
+            "Knowledge of EMI/EMC standards"
+        ],
+        "salary_range": "\u20ac65,000 - \u20ac85,000",
+        "posting_date": "2025-05-14"
+    },
+    {
+        "job_id": "J006",
+        "title": "Stadium Bar Supervisor",
+        "company": "Premier Event Hospitality",
+        "location": "Manchester, UK",
+        "employment_type": "Part-time / Event-based",
+        "experience_required": "2-4 years",
+        "education_required": "High School Diploma or equivalent",
+        "skills_required": [
+            "Team Leadership",
+            "Customer Service",
+            "POS Systems",
+            "Inventory Management",
+            "Cash Handling",
+            "Alcohol Compliance",
+            "Staff Training"
+        ],
+        "job_description": "Premier Event Hospitality is seeking a reliable and experienced Stadium Bar Supervisor to oversee bar operations during live sporting events, concerts, and large-scale entertainment shows at one of the UK\u2019s leading stadium venues. In this role, you will be responsible for managing a team of bartenders and bar assistants, ensuring efficient service in a high-volume environment while maintaining exceptional customer service standards. You will play a key role in ensuring responsible alcohol service, monitoring stock levels, and coordinating with operations teams to ensure bars are fully prepared before each event. The ideal candidate thrives in fast-paced environments, demonstrates strong leadership skills, and has experience supervising hospitality teams during busy service periods. This is a dynamic role requiring flexibility to work evenings, weekends, and major event days.",
+        "responsibilities": [
+            "Supervise bartenders and bar staff during stadium events",
+            "Coordinate staff schedules and assign service stations",
+            "Ensure compliance with alcohol licensing regulations and responsible service policies",
+            "Monitor beverage inventory and coordinate restocking with supply teams",
+            "Handle customer concerns or complaints professionally and efficiently",
+            "Oversee POS transactions and end-of-shift cash reconciliation",
+            "Train new staff on stadium service standards and operational procedures",
+            "Maintain cleanliness, safety, and organization of bar areas during events"
+        ],
+        "preferred_qualifications": [
+            "Responsible Service of Alcohol (RSA) certification",
+            "Experience working in large stadiums, arenas, or event venues"
+        ],
+        "salary_range": "\u00a314 - \u00a318 per hour",
+        "posting_date": "2023-03-07"
+    },
+    {
+        "job_id": "J009",
+        "title": "Senior Full Stack Developer",
+        "company": "DigitalForge Solutions",
+        "location": "London, UK",
+        "employment_type": "Full-time",
+        "experience_required": "4-6 years",
+        "education_required": "Bachelor's in Computer Science or related field",
+        "skills_required": [
+            "JavaScript",
+            "React",
+            "Node.js",
+            "TypeScript",
+            "REST APIs",
+            "PostgreSQL",
+            "Docker",
+            "AWS"
+        ],
+        "job_description": "DigitalForge Solutions is seeking a Senior Full Stack Developer to design and build modern web platforms that power enterprise digital services. In this role, you will work across both frontend and backend layers to develop scalable applications used by thousands of users globally. The role involves building responsive user interfaces using React and TypeScript, developing backend services using Node.js, and designing robust database architectures using PostgreSQL. You will collaborate with product managers, designers, and DevOps engineers to deliver production-grade software using modern development practices. Candidates should be comfortable working in agile teams and experienced in building scalable microservice architectures deployed on cloud infrastructure.",
+        "responsibilities": [
+            "Design and develop scalable full stack web applications using React and Node.js",
+            "Build and maintain RESTful APIs for web and mobile applications",
+            "Collaborate with UI/UX designers to implement responsive and accessible user interfaces",
+            "Develop database schemas and optimize queries using PostgreSQL",
+            "Containerize applications using Docker and deploy services on AWS infrastructure",
+            "Write clean, maintainable, and well-tested code following software engineering best practices",
+            "Participate in code reviews and mentor junior developers",
+            "Monitor and optimize application performance to ensure reliability and scalability"
+        ],
+        "preferred_qualifications": [
+            "Experience with microservices architecture",
+            "Familiarity with GraphQL"
+        ],
+        "salary_range": "\u00a370,000 - \u00a390,000",
+        "posting_date": "2023-03-03"
+    },
+    {
+        "job_id": "J010",
+        "title": "Full Stack Web Developer",
+        "company": "BrightLayer Technologies",
+        "location": "Amsterdam, Netherlands",
+        "employment_type": "Full-time",
+        "experience_required": "2-4 years",
+        "education_required": "Bachelor's in Computer Science or equivalent experience",
+        "skills_required": [
+            "JavaScript",
+            "React",
+            "Node.js",
+            "MongoDB",
+            "Express",
+            "REST APIs",
+            "HTML",
+            "CSS"
+        ],
+        "job_description": "BrightLayer Technologies is hiring a Full Stack Web Developer to help build innovative web applications for a rapidly growing SaaS platform. You will work closely with product and design teams to deliver high-quality user experiences while building scalable backend services that power our application ecosystem. The role involves building modern frontend applications using React and implementing backend services using Node.js and Express. You will also work with MongoDB databases and ensure efficient API communication between services. The ideal candidate enjoys solving complex engineering problems and is passionate about building reliable and maintainable web systems.",
+        "responsibilities": [
+            "Develop interactive web interfaces using React and modern JavaScript frameworks",
+            "Design and implement backend APIs using Node.js and Express",
+            "Develop and maintain MongoDB database schemas and data access layers",
+            "Collaborate with cross-functional teams to design and implement new product features",
+            "Implement authentication and authorization mechanisms across the platform",
+            "Ensure responsive and cross-browser compatible UI development",
+            "Optimize application performance and ensure scalability",
+            "Maintain clear documentation and participate in agile development processes"
+        ],
+        "preferred_qualifications": [
+            "Experience with Docker",
+            "Knowledge of cloud deployment workflows"
+        ],
+        "salary_range": "\u20ac55,000 - \u20ac70,000",
+        "posting_date": "2023-07-11"
+    },
+    {
+        "job_id": "J011",
+        "title": "Lead Full Stack Engineer",
+        "company": "TechNova Systems",
+        "location": "New York, USA",
+        "employment_type": "Full-time",
+        "experience_required": "5-8 years",
+        "education_required": "Bachelor's or Master's in Computer Science",
+        "skills_required": [
+            "React",
+            "Node.js",
+            "TypeScript",
+            "GraphQL",
+            "PostgreSQL",
+            "Docker",
+            "AWS",
+            "CI/CD"
+        ],
+        "job_description": "TechNova Systems is seeking a Lead Full Stack Engineer to guide the development of next-generation web platforms that support enterprise digital transformation initiatives. In this role, you will lead a team of engineers responsible for designing scalable web architectures, developing high-performance APIs, and delivering seamless user experiences across devices. The role involves working extensively with React and TypeScript on the frontend and building scalable backend services using Node.js and GraphQL. You will also collaborate closely with DevOps teams to deploy services on AWS infrastructure using modern CI/CD pipelines.",
+        "responsibilities": [
+            "Lead the design and development of scalable full stack web applications",
+            "Architect backend services using Node.js and GraphQL APIs",
+            "Develop highly responsive frontend applications using React and TypeScript",
+            "Implement CI/CD pipelines to automate testing and deployment workflows",
+            "Mentor junior developers and guide technical decision-making",
+            "Collaborate with product teams to translate requirements into technical solutions",
+            "Ensure application security, scalability, and performance across systems",
+            "Drive adoption of engineering best practices and modern development standards"
+        ],
+        "preferred_qualifications": [
+            "Experience with Kubernetes",
+            "Familiarity with serverless architectures"
+        ],
+        "salary_range": "$120,000 - $150,000",
+        "posting_date": "2024-03-23"
+    },
+    {
+        "job_id": "J012",
+        "title": "Frontend-Focused Full Stack Developer",
+        "company": "PixelWave Interactive",
+        "location": "Berlin, Germany",
+        "employment_type": "Full-time",
+        "experience_required": "3-5 years",
+        "education_required": "Bachelor's in Computer Science or related field",
+        "skills_required": [
+            "React",
+            "Next.js",
+            "JavaScript",
+            "Node.js",
+            "REST APIs",
+            "CSS",
+            "UI Development",
+            "Git"
+        ],
+        "job_description": "PixelWave Interactive is looking for a frontend-focused Full Stack Developer who is passionate about building visually engaging and high-performance web applications. You will play a key role in developing responsive interfaces while also supporting backend API development when required. The role involves working with React and Next.js to build modern user interfaces and integrating those interfaces with backend services built using Node.js. You will collaborate with designers and product teams to deliver intuitive digital experiences while ensuring performance and scalability.",
+        "responsibilities": [
+            "Develop responsive frontend interfaces using React and Next.js",
+            "Collaborate with designers to translate UI designs into production-ready components",
+            "Develop and maintain backend APIs using Node.js",
+            "Ensure cross-browser compatibility and responsive design",
+            "Integrate frontend applications with backend APIs",
+            "Write modular and reusable UI components",
+            "Optimize page performance and loading times",
+            "Participate in agile development and sprint planning activities"
+        ],
+        "preferred_qualifications": [
+            "Experience with Tailwind CSS",
+            "Knowledge of accessibility standards"
+        ],
+        "salary_range": "\u20ac60,000 - \u20ac75,000",
+        "posting_date": "2024-04-21"
+    },
+    {
+        "job_id": "J013",
+        "title": "Full Stack Platform Engineer",
+        "company": "CloudEdge Technologies",
+        "location": "Remote",
+        "employment_type": "Full-time",
+        "experience_required": "3-6 years",
+        "education_required": "Bachelor's in Computer Science",
+        "skills_required": [
+            "Node.js",
+            "React",
+            "Microservices",
+            "Docker",
+            "Kubernetes",
+            "PostgreSQL",
+            "AWS",
+            "CI/CD"
+        ],
+        "job_description": "CloudEdge Technologies is hiring a Full Stack Platform Engineer to develop scalable digital platforms used by enterprise clients. The role involves building microservices-based backend systems and developing intuitive frontend applications that interact with distributed cloud services. You will collaborate with DevOps and cloud teams to deploy services using containerized environments and automate infrastructure workflows. This role requires strong engineering fundamentals and the ability to build reliable, production-ready systems.",
+        "responsibilities": [
+            "Develop backend services using Node.js and microservices architectures",
+            "Build modern frontend applications using React",
+            "Design database schemas and optimize PostgreSQL queries",
+            "Deploy containerized applications using Docker and Kubernetes",
+            "Collaborate with DevOps teams to implement CI/CD pipelines",
+            "Monitor and optimize system performance",
+            "Write maintainable and well-documented code",
+            "Participate in architectural discussions and technical planning"
+        ],
+        "preferred_qualifications": [
+            "Experience with distributed systems",
+            "Knowledge of infrastructure as code tools"
+        ],
+        "salary_range": "$100,000 - $125,000",
+        "posting_date": "2025-10-31"
+    },
+    {
+        "job_id": "J014",
+        "title": "Cloud Solutions Architect",
+        "company": "Nimbus Cloud Services",
+        "location": "Dublin, Ireland",
+        "employment_type": "Full-time",
+        "experience_required": "5-8 years",
+        "education_required": "Bachelor's in Computer Science or IT",
+        "skills_required": [
+            "AWS",
+            "Cloud Architecture",
+            "Terraform",
+            "Kubernetes",
+            "Networking",
+            "Security",
+            "DevOps"
+        ],
+        "job_description": "Nimbus Cloud Services is seeking a Cloud Solutions Architect to design and implement scalable cloud infrastructure solutions for enterprise clients. In this role, you will work closely with engineering teams and business stakeholders to architect cloud-native systems that support high availability, security, and performance requirements. You will design distributed systems, implement infrastructure as code using Terraform, and guide teams on best practices for cloud adoption.",
+        "responsibilities": [
+            "Design scalable cloud architectures on AWS",
+            "Develop infrastructure as code using Terraform",
+            "Implement networking and security best practices for cloud deployments",
+            "Collaborate with engineering teams to migrate legacy systems to cloud environments",
+            "Monitor system performance and optimize cloud infrastructure costs",
+            "Develop disaster recovery and high availability architectures",
+            "Provide technical leadership for cloud engineering teams",
+            "Document architecture diagrams and deployment procedures"
+        ],
+        "preferred_qualifications": [
+            "AWS Solutions Architect certification",
+            "Experience with multi-cloud environments"
+        ],
+        "salary_range": "\u20ac95,000 - \u20ac120,000",
+        "posting_date": "2023-02-24"
+    },
+    {
+        "job_id": "J015",
+        "title": "Senior Cloud Architect",
+        "company": "SkyGrid Infrastructure",
+        "location": "Seattle, USA",
+        "employment_type": "Full-time",
+        "experience_required": "6-10 years",
+        "education_required": "Bachelor's in Computer Science or Engineering",
+        "skills_required": [
+            "AWS",
+            "Azure",
+            "Cloud Architecture",
+            "Kubernetes",
+            "Terraform",
+            "Networking",
+            "Security",
+            "CI/CD"
+        ],
+        "job_description": "SkyGrid Infrastructure is looking for a Senior Cloud Architect to lead the design and implementation of complex cloud systems that support global enterprise platforms. The role involves designing multi-region cloud architectures, implementing infrastructure automation, and ensuring high levels of reliability and security across distributed systems. You will work closely with DevOps teams to implement CI/CD pipelines and manage large-scale Kubernetes environments.",
+        "responsibilities": [
+            "Design enterprise-grade cloud infrastructure across AWS and Azure platforms",
+            "Develop infrastructure automation using Terraform and infrastructure-as-code frameworks",
+            "Architect highly available distributed systems using Kubernetes",
+            "Implement security and compliance best practices across cloud infrastructure",
+            "Collaborate with engineering teams to modernize application deployments",
+            "Develop CI/CD pipelines for automated deployments",
+            "Monitor system performance and optimize cloud infrastructure costs",
+            "Provide technical mentorship and architectural guidance to engineering teams"
+        ],
+        "preferred_qualifications": [
+            "Experience with serverless architectures",
+            "Knowledge of distributed system design"
+        ],
+        "salary_range": "$140,000 - $170,000",
+        "posting_date": "2024-02-12"
+    },
+    {
+        "job_id": "J016",
+        "title": "Cloud Infrastructure Architect",
+        "company": "OrbitCloud Technologies",
+        "location": "Singapore",
+        "employment_type": "Full-time",
+        "experience_required": "5-7 years",
+        "education_required": "Bachelor's in Computer Science",
+        "skills_required": [
+            "AWS",
+            "GCP",
+            "Terraform",
+            "Kubernetes",
+            "Networking",
+            "Security",
+            "Cloud Architecture"
+        ],
+        "job_description": "OrbitCloud Technologies is seeking a Cloud Infrastructure Architect to design and implement scalable infrastructure platforms that power enterprise applications across global markets. The role involves developing cloud infrastructure strategies, implementing automation frameworks, and ensuring systems meet strict reliability and security requirements. You will collaborate with engineering teams to design scalable architectures capable of supporting millions of users.",
+        "responsibilities": [
+            "Design scalable cloud infrastructure across AWS and GCP environments",
+            "Implement infrastructure automation using Terraform",
+            "Architect containerized environments using Kubernetes",
+            "Ensure cloud systems meet performance, reliability, and security requirements",
+            "Collaborate with DevOps teams to implement deployment automation",
+            "Develop system monitoring and alerting solutions",
+            "Optimize cloud costs and resource utilization",
+            "Document architecture and operational procedures"
+        ],
+        "preferred_qualifications": [
+            "Experience with cloud migration projects",
+            "Familiarity with distributed microservices architectures"
+        ],
+        "salary_range": "$110,000 - $135,000",
+        "posting_date": "2025-05-09"
+    },
+    {
+        "job_id": "J017",
+        "title": "Generative AI Engineer",
+        "company": "CortexAI Labs",
+        "location": "San Francisco, USA",
+        "employment_type": "Full-time",
+        "experience_required": "2-4 years",
+        "education_required": "Master's in Computer Science or AI",
+        "skills_required": [
+            "Python",
+            "LLMs",
+            "Transformers",
+            "LangChain",
+            "RAG",
+            "Vector Databases",
+            "PyTorch"
+        ],
+        "job_description": "CortexAI Labs is seeking a Generative AI Engineer to build intelligent systems powered by large language models and generative AI technologies. In this role, you will design and implement advanced AI applications including conversational agents, document analysis systems, and automated reasoning tools. You will work with transformer-based architectures and develop RAG pipelines that integrate external knowledge sources into language model workflows.",
+        "responsibilities": [
+            "Develop generative AI applications using large language models",
+            "Design and implement RAG pipelines for knowledge-enhanced AI systems",
+            "Integrate vector databases for semantic search and retrieval",
+            "Optimize model inference performance and latency",
+            "Collaborate with product teams to deploy AI-powered features",
+            "Experiment with prompt engineering and model fine-tuning techniques",
+            "Monitor AI system performance and improve model reliability",
+            "Stay updated on emerging generative AI technologies and frameworks"
+        ],
+        "preferred_qualifications": [
+            "Experience with OpenAI or similar APIs",
+            "Knowledge of distributed ML infrastructure"
+        ],
+        "salary_range": "$115,000 - $145,000",
+        "posting_date": "2024-03-27"
+    },
+    {
+        "job_id": "J018",
+        "title": "LLM Applications Engineer",
+        "company": "NextGen AI Systems",
+        "location": "Toronto, Canada",
+        "employment_type": "Full-time",
+        "experience_required": "2-5 years",
+        "education_required": "Bachelor's or Master's in Computer Science",
+        "skills_required": [
+            "Python",
+            "LLMs",
+            "LangChain",
+            "RAG",
+            "FastAPI",
+            "Vector Databases",
+            "Prompt Engineering"
+        ],
+        "job_description": "NextGen AI Systems is hiring an LLM Applications Engineer to develop intelligent applications powered by large language models. You will work on building scalable systems that integrate language models with enterprise data sources to enable advanced search, summarization, and conversational capabilities. The role involves developing APIs for AI services, designing prompt engineering strategies, and implementing retrieval pipelines that improve model accuracy and relevance.",
+        "responsibilities": [
+            "Build AI applications powered by large language models",
+            "Develop APIs and microservices for AI-powered features using FastAPI",
+            "Design prompt engineering strategies to improve model outputs",
+            "Implement retrieval pipelines using vector databases",
+            "Collaborate with product teams to integrate AI capabilities into software platforms",
+            "Optimize inference performance and reduce latency",
+            "Monitor system performance and improve reliability",
+            "Research and implement new techniques in generative AI development"
+        ],
+        "preferred_qualifications": [
+            "Experience with fine-tuning LLMs",
+            "Knowledge of distributed inference systems"
+        ],
+        "salary_range": "$105,000 - $130,000",
+        "posting_date": "2025-07-08"
+    },
+    {
+        "job_id": "J101",
+        "title": "AWS Cloud Engineer",
+        "company": "SkyNet Cloud Services",
+        "location": "Dublin, Ireland",
+        "employment_type": "Full-time",
+        "experience_required": "3-5 years",
+        "education_required": "Bachelor's in Computer Science",
+        "skills_required": [
+            "AWS",
+            "EC2",
+            "S3",
+            "Lambda",
+            "CloudFormation",
+            "Python",
+            "DevOps"
+        ],
+        "job_description": "SkyNet Cloud Services is looking for an AWS Cloud Engineer to design, implement, and maintain highly available and scalable cloud infrastructure. You will play a key role in migrating legacy systems to AWS, building cloud-native applications, and ensuring the platform meets performance, security, and cost-efficiency standards. The ideal candidate has strong hands-on experience with AWS services and a deep understanding of cloud architecture principles.",
+        "responsibilities": [
+            "Design, deploy, and manage scalable AWS infrastructure using services such as EC2, S3, RDS, and Lambda",
+            "Develop and maintain infrastructure-as-code templates using CloudFormation or Terraform",
+            "Implement monitoring, logging, and alerting solutions using CloudWatch and third-party tools",
+            "Collaborate with development teams to optimize application performance and reliability in the cloud",
+            "Ensure adherence to security best practices, including IAM policies and network configurations",
+            "Troubleshoot infrastructure issues and perform root cause analysis",
+            "Continuously optimize cloud resource usage to reduce costs",
+            "Support CI/CD pipelines and automate deployment workflows"
+        ],
+        "preferred_qualifications": [
+            "AWS Certified Solutions Architect or Developer",
+            "Experience with containerization (Docker/Kubernetes)"
+        ],
+        "salary_range": "$95,000 - $120,000",
+        "posting_date": "2024-07-23"
+    },
+    {
+        "job_id": "J104",
+        "title": "Generative AI Engineer",
+        "company": "NeuroForge AI",
+        "location": "San Jose, USA",
+        "employment_type": "Full-time",
+        "experience_required": "2-4 years",
+        "education_required": "Master's in AI",
+        "skills_required": [
+            "Python",
+            "Transformers",
+            "LLMs",
+            "PyTorch",
+            "RAG",
+            "LangChain"
+        ],
+        "job_description": "NeuroForge AI is seeking a Generative AI Engineer to build production-grade AI systems powered by large language models. You will design and implement applications such as conversational agents, document intelligence systems, and knowledge retrieval platforms. The role involves working with transformer-based architectures, integrating external data sources using RAG pipelines, and optimizing model performance for real-world deployment.",
+        "responsibilities": [
+            "Develop and deploy applications powered by large language models and transformer architectures",
+            "Design and implement retrieval-augmented generation (RAG) pipelines using vector databases",
+            "Integrate LLMs into APIs and microservices for production environments",
+            "Experiment with prompt engineering and fine-tuning techniques to improve model outputs",
+            "Optimize model inference latency and throughput for scalable applications",
+            "Work closely with product and engineering teams to deliver AI-driven features",
+            "Monitor system performance and ensure robustness and reliability",
+            "Stay updated with the latest advancements in generative AI and apply them to ongoing projects"
+        ],
+        "preferred_qualifications": [
+            "Experience with OpenAI, Anthropic, or similar APIs",
+            "Familiarity with distributed ML systems"
+        ],
+        "salary_range": "$120,000 - $150,000",
+        "posting_date": "2023-01-14"
+    },
+    {
+        "job_id": "J106",
+        "title": "Embedded Systems Engineer",
+        "company": "MicroTech Solutions",
+        "location": "Munich, Germany",
+        "employment_type": "Full-time",
+        "experience_required": "2-5 years",
+        "education_required": "Bachelor's in Electronics",
+        "skills_required": [
+            "C",
+            "C++",
+            "Embedded Systems",
+            "RTOS",
+            "Microcontrollers"
+        ],
+        "job_description": "MicroTech Solutions is hiring an Embedded Systems Engineer to design and develop firmware for next-generation embedded devices used in industrial automation. You will work closely with hardware engineers to build reliable, low-latency systems that interact directly with sensors and actuators in real-time environments.",
+        "responsibilities": [
+            "Design and develop embedded software in C/C++ for microcontroller-based systems",
+            "Work with RTOS environments to build real-time, deterministic applications",
+            "Interface with hardware components such as sensors, actuators, and communication modules",
+            "Debug and resolve low-level hardware/software integration issues",
+            "Perform system testing, validation, and performance optimization",
+            "Collaborate with cross-functional teams including hardware, QA, and product engineering",
+            "Maintain documentation for firmware design and architecture",
+            "Ensure code quality through code reviews and adherence to best practices"
+        ],
+        "preferred_qualifications": [
+            "Experience with ARM Cortex processors",
+            "Knowledge of communication protocols like SPI, I2C, UART"
+        ],
+        "salary_range": "$85,000 - $110,000",
+        "posting_date": "2023-11-23"
+    },
+    {
+        "job_id": "J108",
+        "title": "Event Bartender",
+        "company": "Elite Events Co.",
+        "location": "Amsterdam, Netherlands",
+        "employment_type": "Part-time",
+        "experience_required": "1-3 years",
+        "education_required": "High School Diploma",
+        "skills_required": [
+            "Mixology",
+            "Customer Service",
+            "Cocktail Preparation",
+            "Communication"
+        ],
+        "job_description": "Elite Events Co. is looking for an experienced Event Bartender to deliver exceptional beverage service at private and corporate events. You will be responsible for preparing a wide range of cocktails, managing high-volume service efficiently, and creating a welcoming and engaging experience for guests.",
+        "responsibilities": [
+            "Prepare and serve alcoholic and non-alcoholic beverages according to event specifications",
+            "Set up and dismantle bar stations before and after events",
+            "Engage with guests in a friendly and professional manner to enhance their experience",
+            "Maintain cleanliness and organization of the bar area throughout the event",
+            "Monitor inventory levels and coordinate restocking as needed",
+            "Adhere to local alcohol laws and responsible service guidelines",
+            "Handle payments and operate POS systems when required",
+            "Work efficiently in fast-paced, high-pressure environments"
+        ],
+        "preferred_qualifications": [
+            "Previous experience in large-scale events or hospitality venues",
+            "Knowledge of international cocktail recipes and trends"
+        ],
+        "salary_range": "$20 - $30 per hour",
+        "posting_date": "2025-05-15"
+    },
+    {
+        "job_id": "J111",
+        "title": "Senior Cocktail Bartender",
+        "company": "Velvet Room Lounge",
+        "location": "Barcelona, Spain",
+        "employment_type": "Full-time",
+        "experience_required": "3-6 years",
+        "education_required": "High School Diploma or Hospitality Certification",
+        "skills_required": [
+            "Advanced Mixology",
+            "Craft Cocktails",
+            "Customer Engagement",
+            "Inventory Management",
+            "Bar Operations"
+        ],
+        "job_description": "Velvet Room Lounge is seeking a Senior Cocktail Bartender to lead bar operations in a premium nightlife setting. You will be responsible for crafting high-quality cocktails, mentoring junior bartenders, and maintaining an elevated guest experience. The role requires creativity, speed, and deep knowledge of spirits, flavor profiles, and modern mixology techniques.",
+        "responsibilities": [
+            "Prepare and serve a wide range of classic and signature cocktails with consistency and precision",
+            "Design seasonal cocktail menus and contribute to beverage innovation",
+            "Supervise and train junior bartenders to maintain service standards",
+            "Manage bar inventory, including ordering supplies and minimizing waste",
+            "Ensure compliance with health, safety, and alcohol service regulations",
+            "Provide personalized recommendations to guests based on preferences",
+            "Handle high-volume service while maintaining quality and presentation standards",
+            "Collaborate with management to improve bar performance and customer satisfaction"
+        ],
+        "preferred_qualifications": [
+            "Certification in mixology or bartending",
+            "Experience in upscale or high-end cocktail bars"
+        ],
+        "salary_range": "$30,000 - $45,000",
+        "posting_date": "2024-11-27"
+    },
+    {
+        "job_id": "J112",
+        "title": "Hotel Bar Bartender",
+        "company": "Grand Horizon Hotel",
+        "location": "Dubai, UAE",
+        "employment_type": "Full-time",
+        "experience_required": "2-5 years",
+        "education_required": "Diploma in Hospitality (preferred)",
+        "skills_required": [
+            "Cocktail Preparation",
+            "Customer Service",
+            "POS Systems",
+            "Upselling",
+            "Communication"
+        ],
+        "job_description": "Grand Horizon Hotel is hiring a Hotel Bar Bartender to deliver premium beverage service in a luxury hospitality environment. You will be responsible for serving hotel guests, business travelers, and event attendees while maintaining high standards of professionalism and service quality expected in a five-star setting.",
+        "responsibilities": [
+            "Prepare and serve beverages, including cocktails, wines, and non-alcoholic drinks, in accordance with hotel standards",
+            "Provide attentive and personalized service to guests, ensuring a high level of satisfaction",
+            "Maintain cleanliness and organization of the bar area at all times",
+            "Process orders and payments accurately using POS systems",
+            "Upsell premium drinks and promote special menu items",
+            "Monitor guest alcohol consumption and ensure responsible service",
+            "Coordinate with kitchen and service staff during peak hours",
+            "Assist in bar inventory tracking and restocking activities"
+        ],
+        "preferred_qualifications": [
+            "Experience in luxury hotels or resorts",
+            "Strong communication and interpersonal skills"
+        ],
+        "salary_range": "$28,000 - $40,000",
+        "posting_date": "2024-07-23"
+    }
+]

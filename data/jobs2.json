@@ -685,6 +685,202 @@
           "Knowledge of distributed inference systems"
         ],
         "salary_range": "$105,000 - $130,000"
-      }
+      },
       
+        {
+          "job_id": "J101",
+          "title": "AWS Cloud Engineer",
+          "company": "SkyNet Cloud Services",
+          "location": "Dublin, Ireland",
+          "employment_type": "Full-time",
+          "experience_required": "3-5 years",
+          "education_required": "Bachelor's in Computer Science",
+          "skills_required": [
+            "AWS",
+            "EC2",
+            "S3",
+            "Lambda",
+            "CloudFormation",
+            "Python",
+            "DevOps"
+          ],
+          "job_description": "SkyNet Cloud Services is looking for an AWS Cloud Engineer to design, implement, and maintain highly available and scalable cloud infrastructure. You will play a key role in migrating legacy systems to AWS, building cloud-native applications, and ensuring the platform meets performance, security, and cost-efficiency standards. The ideal candidate has strong hands-on experience with AWS services and a deep understanding of cloud architecture principles.",
+          "responsibilities": [
+            "Design, deploy, and manage scalable AWS infrastructure using services such as EC2, S3, RDS, and Lambda",
+            "Develop and maintain infrastructure-as-code templates using CloudFormation or Terraform",
+            "Implement monitoring, logging, and alerting solutions using CloudWatch and third-party tools",
+            "Collaborate with development teams to optimize application performance and reliability in the cloud",
+            "Ensure adherence to security best practices, including IAM policies and network configurations",
+            "Troubleshoot infrastructure issues and perform root cause analysis",
+            "Continuously optimize cloud resource usage to reduce costs",
+            "Support CI/CD pipelines and automate deployment workflows"
+          ],
+          "preferred_qualifications": [
+            "AWS Certified Solutions Architect or Developer",
+            "Experience with containerization (Docker/Kubernetes)"
+          ],
+          "salary_range": "$95,000 - $120,000"
+        },
+        {
+          "job_id": "J104",
+          "title": "Generative AI Engineer",
+          "company": "NeuroForge AI",
+          "location": "San Jose, USA",
+          "employment_type": "Full-time",
+          "experience_required": "2-4 years",
+          "education_required": "Master's in AI",
+          "skills_required": [
+            "Python",
+            "Transformers",
+            "LLMs",
+            "PyTorch",
+            "RAG",
+            "LangChain"
+          ],
+          "job_description": "NeuroForge AI is seeking a Generative AI Engineer to build production-grade AI systems powered by large language models. You will design and implement applications such as conversational agents, document intelligence systems, and knowledge retrieval platforms. The role involves working with transformer-based architectures, integrating external data sources using RAG pipelines, and optimizing model performance for real-world deployment.",
+          "responsibilities": [
+            "Develop and deploy applications powered by large language models and transformer architectures",
+            "Design and implement retrieval-augmented generation (RAG) pipelines using vector databases",
+            "Integrate LLMs into APIs and microservices for production environments",
+            "Experiment with prompt engineering and fine-tuning techniques to improve model outputs",
+            "Optimize model inference latency and throughput for scalable applications",
+            "Work closely with product and engineering teams to deliver AI-driven features",
+            "Monitor system performance and ensure robustness and reliability",
+            "Stay updated with the latest advancements in generative AI and apply them to ongoing projects"
+          ],
+          "preferred_qualifications": [
+            "Experience with OpenAI, Anthropic, or similar APIs",
+            "Familiarity with distributed ML systems"
+          ],
+          "salary_range": "$120,000 - $150,000"
+        },
+        {
+          "job_id": "J106",
+          "title": "Embedded Systems Engineer",
+          "company": "MicroTech Solutions",
+          "location": "Munich, Germany",
+          "employment_type": "Full-time",
+          "experience_required": "2-5 years",
+          "education_required": "Bachelor's in Electronics",
+          "skills_required": [
+            "C",
+            "C++",
+            "Embedded Systems",
+            "RTOS",
+            "Microcontrollers"
+          ],
+          "job_description": "MicroTech Solutions is hiring an Embedded Systems Engineer to design and develop firmware for next-generation embedded devices used in industrial automation. You will work closely with hardware engineers to build reliable, low-latency systems that interact directly with sensors and actuators in real-time environments.",
+          "responsibilities": [
+            "Design and develop embedded software in C/C++ for microcontroller-based systems",
+            "Work with RTOS environments to build real-time, deterministic applications",
+            "Interface with hardware components such as sensors, actuators, and communication modules",
+            "Debug and resolve low-level hardware/software integration issues",
+            "Perform system testing, validation, and performance optimization",
+            "Collaborate with cross-functional teams including hardware, QA, and product engineering",
+            "Maintain documentation for firmware design and architecture",
+            "Ensure code quality through code reviews and adherence to best practices"
+          ],
+          "preferred_qualifications": [
+            "Experience with ARM Cortex processors",
+            "Knowledge of communication protocols like SPI, I2C, UART"
+          ],
+          "salary_range": "$85,000 - $110,000"
+        },
+        {
+          "job_id": "J108",
+          "title": "Event Bartender",
+          "company": "Elite Events Co.",
+          "location": "Amsterdam, Netherlands",
+          "employment_type": "Part-time",
+          "experience_required": "1-3 years",
+          "education_required": "High School Diploma",
+          "skills_required": [
+            "Mixology",
+            "Customer Service",
+            "Cocktail Preparation",
+            "Communication"
+          ],
+          "job_description": "Elite Events Co. is looking for an experienced Event Bartender to deliver exceptional beverage service at private and corporate events. You will be responsible for preparing a wide range of cocktails, managing high-volume service efficiently, and creating a welcoming and engaging experience for guests.",
+          "responsibilities": [
+            "Prepare and serve alcoholic and non-alcoholic beverages according to event specifications",
+            "Set up and dismantle bar stations before and after events",
+            "Engage with guests in a friendly and professional manner to enhance their experience",
+            "Maintain cleanliness and organization of the bar area throughout the event",
+            "Monitor inventory levels and coordinate restocking as needed",
+            "Adhere to local alcohol laws and responsible service guidelines",
+            "Handle payments and operate POS systems when required",
+            "Work efficiently in fast-paced, high-pressure environments"
+          ],
+          "preferred_qualifications": [
+            "Previous experience in large-scale events or hospitality venues",
+            "Knowledge of international cocktail recipes and trends"
+          ],
+          "salary_range": "$20 - $30 per hour"
+        }
+      ,
+      
+        {
+          "job_id": "J111",
+          "title": "Senior Cocktail Bartender",
+          "company": "Velvet Room Lounge",
+          "location": "Barcelona, Spain",
+          "employment_type": "Full-time",
+          "experience_required": "3-6 years",
+          "education_required": "High School Diploma or Hospitality Certification",
+          "skills_required": [
+            "Advanced Mixology",
+            "Craft Cocktails",
+            "Customer Engagement",
+            "Inventory Management",
+            "Bar Operations"
+          ],
+          "job_description": "Velvet Room Lounge is seeking a Senior Cocktail Bartender to lead bar operations in a premium nightlife setting. You will be responsible for crafting high-quality cocktails, mentoring junior bartenders, and maintaining an elevated guest experience. The role requires creativity, speed, and deep knowledge of spirits, flavor profiles, and modern mixology techniques.",
+          "responsibilities": [
+            "Prepare and serve a wide range of classic and signature cocktails with consistency and precision",
+            "Design seasonal cocktail menus and contribute to beverage innovation",
+            "Supervise and train junior bartenders to maintain service standards",
+            "Manage bar inventory, including ordering supplies and minimizing waste",
+            "Ensure compliance with health, safety, and alcohol service regulations",
+            "Provide personalized recommendations to guests based on preferences",
+            "Handle high-volume service while maintaining quality and presentation standards",
+            "Collaborate with management to improve bar performance and customer satisfaction"
+          ],
+          "preferred_qualifications": [
+            "Certification in mixology or bartending",
+            "Experience in upscale or high-end cocktail bars"
+          ],
+          "salary_range": "$30,000 - $45,000"
+        },
+        {
+          "job_id": "J112",
+          "title": "Hotel Bar Bartender",
+          "company": "Grand Horizon Hotel",
+          "location": "Dubai, UAE",
+          "employment_type": "Full-time",
+          "experience_required": "2-5 years",
+          "education_required": "Diploma in Hospitality (preferred)",
+          "skills_required": [
+            "Cocktail Preparation",
+            "Customer Service",
+            "POS Systems",
+            "Upselling",
+            "Communication"
+          ],
+          "job_description": "Grand Horizon Hotel is hiring a Hotel Bar Bartender to deliver premium beverage service in a luxury hospitality environment. You will be responsible for serving hotel guests, business travelers, and event attendees while maintaining high standards of professionalism and service quality expected in a five-star setting.",
+          "responsibilities": [
+            "Prepare and serve beverages, including cocktails, wines, and non-alcoholic drinks, in accordance with hotel standards",
+            "Provide attentive and personalized service to guests, ensuring a high level of satisfaction",
+            "Maintain cleanliness and organization of the bar area at all times",
+            "Process orders and payments accurately using POS systems",
+            "Upsell premium drinks and promote special menu items",
+            "Monitor guest alcohol consumption and ensure responsible service",
+            "Coordinate with kitchen and service staff during peak hours",
+            "Assist in bar inventory tracking and restocking activities"
+          ],
+          "preferred_qualifications": [
+            "Experience in luxury hotels or resorts",
+            "Strong communication and interpersonal skills"
+          ],
+          "salary_range": "$28,000 - $40,000"
+        }   
   ]

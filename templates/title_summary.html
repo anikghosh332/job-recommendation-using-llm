@@ -167,6 +167,15 @@
             {% endfor %}
         </div>
 
+        <div class="section-title">
+            <i class="bi bi-graph-up text-info"></i>
+            Skill Trends Over Time
+        </div>
+        
+        <div class="mt-3">
+            <canvas id="trendChart"></canvas>
+        </div>
+
         <!-- Jobs -->
         <div class="section-title">
             <i class="bi bi-briefcase-fill text-success"></i>
@@ -199,6 +208,49 @@
     </div>
 
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const years = {{ trend_years | tojson }};
+    const skills = {{ trend_skills | tojson }};
+    const trendData = {{ trend_data | tojson }};
+    
+    // Build datasets
+    const datasets = skills.map((skill, idx) => {
+        return {
+            label: skill,
+            data: years.map(year => trendData[year][skill] || 0),
+            borderWidth: 2,
+            tension: 0.3
+        };
+    });
+    
+    const ctx = document.getElementById("trendChart").getContext("2d");
+    
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: years,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Top Skills Evolution (%)"
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Demand (%)"
+                    }
+                }
+            }
+        }
+    });
+    </script>
 </body>
 </html>
