@@ -905,5 +905,189 @@
         ],
         "salary_range": "$28,000 - $40,000",
         "posting_date": "2024-07-23"
-    }
+    },
+    
+        {
+            "job_id": "J201",
+            "title": "Data Scientist",
+            "company": "Analytix Corp",
+            "location": "New York, USA",
+            "employment_type": "Full-time",
+            "experience_required": "2-4 years",
+            "education_required": "Master's in Data Science, Statistics, or related field",
+            "skills_required": [
+                "Python",
+                "R",
+                "SQL",
+                "Scikit-learn",
+                "Pandas",
+                "Statistics",
+                "Data Visualization",
+                "Excel"
+            ],
+            "job_description": "Analytix Corp is seeking a Data Scientist to analyze complex datasets and build predictive models that support strategic business decisions. You will work with business analysts and engineering teams to develop statistical models and communicate insights to stakeholders.",
+            "responsibilities": [
+                "Perform exploratory data analysis on large structured datasets",
+                "Build and evaluate predictive models using classical machine learning techniques",
+                "Develop dashboards and reports to communicate insights to non-technical stakeholders",
+                "Write SQL queries to extract and transform data from relational databases",
+                "Collaborate with business teams to define analytical requirements",
+                "Maintain and document statistical models and data pipelines",
+                "Conduct A/B tests and interpret experimental results",
+                "Present findings and recommendations to leadership teams"
+            ],
+            "preferred_qualifications": [
+                "Experience with Tableau or Power BI",
+                "Familiarity with statistical hypothesis testing"
+            ],
+            "salary_range": "$80,000 - $100,000",
+            "posting_date": "2022-03-15"
+        },
+        {
+            "job_id": "J202",
+            "title": "Data Scientist",
+            "company": "Insight Data Labs",
+            "location": "London, UK",
+            "employment_type": "Full-time",
+            "experience_required": "2-4 years",
+            "education_required": "Master's in Data Science, Statistics, or related field",
+            "skills_required": [
+                "Python",
+                "SQL",
+                "Scikit-learn",
+                "XGBoost",
+                "Pandas",
+                "Statistics",
+                "Data Visualization",
+                "Spark"
+            ],
+            "job_description": "Insight Data Labs is hiring a Data Scientist to develop machine learning models and analytical pipelines that drive product and business intelligence. You will work closely with data engineers and product managers to build scalable data solutions and deliver actionable insights.",
+            "responsibilities": [
+                "Design and develop machine learning models for classification and regression tasks",
+                "Build and maintain data pipelines for large-scale data processing using Spark",
+                "Perform feature engineering and hyperparameter tuning to optimize model performance",
+                "Collaborate with data engineers to integrate models into production systems",
+                "Create visualizations and dashboards to track key business metrics",
+                "Conduct statistical analysis to validate model performance and business impact",
+                "Work with product teams to define success metrics for experiments",
+                "Document model architectures and maintain version control for experiments"
+            ],
+            "preferred_qualifications": [
+                "Experience with cloud platforms such as AWS or GCP",
+                "Familiarity with MLflow or similar experiment tracking tools"
+            ],
+            "salary_range": "£55,000 - £72,000",
+            "posting_date": "2023-06-10"
+        },
+        {
+            "job_id": "J203",
+            "title": "Data Scientist",
+            "company": "Quantova Intelligence",
+            "location": "Berlin, Germany",
+            "employment_type": "Full-time",
+            "experience_required": "3-5 years",
+            "education_required": "Master's in Data Science, Machine Learning, or related field",
+            "skills_required": [
+                "Python",
+                "SQL",
+                "PyTorch",
+                "Scikit-learn",
+                "XGBoost",
+                "MLflow",
+                "AWS",
+                "Docker"
+            ],
+            "job_description": "Quantova Intelligence is seeking a Data Scientist to build and deploy machine learning models that power intelligent product features. You will collaborate with ML engineers and product teams to take models from experimentation to production, with a focus on scalability and reproducibility.",
+            "responsibilities": [
+                "Develop and deploy machine learning models into production environments using Docker and AWS",
+                "Track experiments and manage model lifecycle using MLflow",
+                "Build deep learning models using PyTorch for complex classification and prediction tasks",
+                "Collaborate with ML engineers to implement scalable data pipelines",
+                "Design and evaluate A/B tests to measure model impact on business metrics",
+                "Monitor model performance in production and retrain models as needed",
+                "Work with product managers to translate business goals into ML solutions",
+                "Contribute to improving internal ML tooling and best practices"
+            ],
+            "preferred_qualifications": [
+                "Experience with Kubernetes for model deployment",
+                "Familiarity with feature stores such as Feast"
+            ],
+            "salary_range": "€65,000 - €85,000",
+            "posting_date": "2024-02-18"
+        },
+        {
+            "job_id": "J204",
+            "title": "Data Scientist",
+            "company": "NeuralEdge Systems",
+            "location": "Toronto, Canada",
+            "employment_type": "Full-time",
+            "experience_required": "3-5 years",
+            "education_required": "Master's in Data Science, AI, or related field",
+            "skills_required": [
+                "Python",
+                "SQL",
+                "PyTorch",
+                "LLMs",
+                "LangChain",
+                "MLflow",
+                "AWS",
+                "Vector Databases"
+            ],
+            "job_description": "NeuralEdge Systems is looking for a Data Scientist to develop next-generation AI solutions that blend classical machine learning with large language model capabilities. You will work on building intelligent data products that leverage LLMs and retrieval-augmented generation to deliver meaningful insights at scale.",
+            "responsibilities": [
+                "Develop machine learning and LLM-powered solutions for business intelligence applications",
+                "Design and implement RAG pipelines integrating vector databases with language models",
+                "Fine-tune and evaluate large language models for domain-specific tasks",
+                "Collaborate with engineering teams to deploy AI models into production pipelines",
+                "Experiment with prompt engineering strategies to improve LLM output quality",
+                "Monitor and evaluate deployed model performance and implement improvements",
+                "Work with product teams to identify opportunities for AI-driven feature development",
+                "Stay current with advancements in generative AI and apply learnings to ongoing projects"
+            ],
+            "preferred_qualifications": [
+                "Experience with OpenAI or Anthropic APIs",
+                "Familiarity with Pinecone or Weaviate vector databases"
+            ],
+            "salary_range": "$105,000 - $130,000",
+            "posting_date": "2024-08-05"
+        },
+        {
+            "job_id": "J205",
+            "title": "Data Scientist",
+            "company": "FutureMetrics AI",
+            "location": "San Francisco, USA",
+            "employment_type": "Full-time",
+            "experience_required": "4-6 years",
+            "education_required": "Master's or PhD in Data Science, AI, or related field",
+            "skills_required": [
+                "Python",
+                "SQL",
+                "PyTorch",
+                "LLMs",
+                "Agentic AI",
+                "RAG",
+                "MLOps",
+                "Kubernetes"
+            ],
+            "job_description": "FutureMetrics AI is seeking a senior Data Scientist to lead the development of autonomous AI systems and advanced analytical platforms. You will design agentic AI workflows, build production-grade ML systems, and drive the adoption of cutting-edge techniques including multimodal models and self-improving AI pipelines.",
+            "responsibilities": [
+                "Design and implement agentic AI workflows that autonomously plan and execute multi-step reasoning tasks",
+                "Build and optimize RAG systems integrated with enterprise knowledge bases",
+                "Develop and maintain production ML systems using MLOps best practices",
+                "Lead experimentation with multimodal models for vision and language tasks",
+                "Collaborate with platform teams to deploy scalable AI systems on Kubernetes",
+                "Define evaluation frameworks for complex AI systems and LLM-powered agents",
+                "Mentor junior data scientists and drive technical standards across the team",
+                "Engage with leadership to align AI roadmap with business strategy"
+            ],
+            "preferred_qualifications": [
+                "Experience building multi-agent systems using frameworks such as AutoGen or CrewAI",
+                "Published research or contributions to open-source AI projects"
+            ],
+            "salary_range": "$140,000 - $175,000",
+            "posting_date": "2025-04-22"
+        }
+    
+
+
 ]

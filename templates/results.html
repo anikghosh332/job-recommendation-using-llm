@@ -4,288 +4,707 @@
     <meta charset="UTF-8">
     <title>Job Results</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --p900: #2e1065;
+            --p800: #4c1d95;
+            --p700: #6d28d9;
+            --p600: #7c3aed;
+            --p500: #8b5cf6;
+            --p400: #a78bfa;
+            --p200: #ddd6fe;
+            --p100: #ede9fe;
+            --p50:  #f5f3ff;
+            --ink:  #1e1b4b;
+            --sub:  #6b7280;
+            --border: #e5e7eb;
+            --white: #ffffff;
+            --bg: #f7f5ff;
+        }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            background: linear-gradient(135deg, #eaf3ff 0%, #f6faff 100%);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(circle at 1px 1px, rgba(139,92,246,0.10) 1px, transparent 0);
+            background-size: 30px 30px;
+            color: var(--ink);
+            min-height: 100vh;
+            padding-bottom: 80px;
         }
 
-        .container-box {
-            max-width: 1050px;
-            margin: 50px auto;
+        /* Ambient blobs */
+        .ambient {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .amb-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.18;
+        }
+        .amb-1 { width:640px;height:640px;background:#8b5cf6;top:-200px;right:-160px; }
+        .amb-2 { width:480px;height:480px;background:#a78bfa;bottom:-150px;left:-120px; }
+
+        /* ── Topbar ── */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(247,245,255,0.82);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(167,139,250,0.18);
+            padding: 16px 0;
+        }
+        .topbar-inner {
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: 0 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .brand-icon {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--p700), var(--p500));
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            color: var(--ink);
         }
 
-        /* Header */
-        .page-header {
-            margin-bottom: 30px;
-        }
-
-        .page-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1f2d3d;
-        }
-
-        .page-subtitle {
-            color: #6c7a89;
-            font-size: 0.95rem;
-        }
-
-        /* Card */
-        .job-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(220, 230, 255, 0.6);
-            transition: all 0.3s ease;
-        }
-
-        .job-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 15px 40px rgba(0, 102, 255, 0.12);
-        }
-
-        /* Header inside card */
-        .job-title {
-            font-size: 1.2rem;
+        .btn-ai {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--p700) 0%, var(--p500) 100%);
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.875rem;
             font-weight: 600;
-            color: #1f2d3d;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 14px rgba(109,40,217,0.28);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .btn-ai:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 22px rgba(109,40,217,0.36);
+            color: white;
+        }
+        .btn-ai:active { transform: translateY(0); }
+
+        /* ── Page content ── */
+        .content-wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: 0 28px;
         }
 
-        .company {
-            color: #5f6f81;
-            font-size: 0.9rem;
+        /* ── Hero strip ── */
+        .hero-strip {
+            padding: 44px 0 32px;
+            animation: fadeUp 0.5s ease both;
+        }
+        .query-eyebrow {
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--p500);
+            margin-bottom: 8px;
+        }
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            color: var(--ink);
+            line-height: 1.18;
+            margin-bottom: 10px;
+        }
+        .hero-title em {
+            font-style: italic;
+            color: var(--p700);
+        }
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--p100);
+            color: var(--p700);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 100px;
+            border: 1px solid var(--p200);
+        }
+        .ai-badge .dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--p500);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%,100% { opacity:1; transform:scale(1); }
+            50% { opacity:0.4; transform:scale(0.7); }
         }
 
-        .meta {
-            font-size: 0.8rem;
-            color: #8a97a6;
-            margin-top: 4px;
+        /* ── Error ── */
+        .err-box {
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            color: #be123c;
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            font-size: 0.875rem;
+        }
+
+        /* ── Job Cards ── */
+        .jobs-list { display: flex; flex-direction: column; gap: 16px; }
+
+        .job-card {
+            background: var(--white);
+            border: 1px solid rgba(167,139,250,0.20);
+            border-radius: 18px;
+            padding: 24px 26px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+            animation: fadeUp 0.5s ease both;
+        }
+        /* stagger */
+        .job-card:nth-child(1)  { animation-delay: 0.05s; }
+        .job-card:nth-child(2)  { animation-delay: 0.10s; }
+        .job-card:nth-child(3)  { animation-delay: 0.15s; }
+        .job-card:nth-child(4)  { animation-delay: 0.20s; }
+        .job-card:nth-child(5)  { animation-delay: 0.25s; }
+        .job-card:nth-child(6)  { animation-delay: 0.28s; }
+        .job-card:nth-child(7)  { animation-delay: 0.30s; }
+        .job-card:nth-child(8)  { animation-delay: 0.32s; }
+
+        /* left accent bar */
+        .job-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 16px; bottom: 16px;
+            width: 3px;
+            background: linear-gradient(180deg, var(--p600), var(--p400));
+            border-radius: 0 2px 2px 0;
+            opacity: 0;
+            transform: scaleY(0.4);
+            transition: opacity 0.22s, transform 0.22s;
+        }
+        .job-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 36px rgba(109,40,217,0.10);
+            border-color: rgba(167,139,250,0.45);
+        }
+        .job-card:hover::before {
+            opacity: 1;
+            transform: scaleY(1);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        /* Company logo placeholder */
+        .co-avatar {
+            width: 46px; height: 46px;
+            border-radius: 12px;
+            background: var(--p100);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--p700);
+            flex-shrink: 0;
+            border: 1px solid var(--p200);
+        }
+
+        .card-info { flex: 1; min-width: 0; }
+
+        .job-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .job-company {
+            font-size: 0.875rem;
+            color: var(--sub);
+            margin-bottom: 8px;
+        }
+        .job-company strong { color: #374151; font-weight: 600; }
+
+        .meta-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.73rem;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 100px;
+            background: var(--p50);
+            color: var(--p700);
+            border: 1px solid var(--p100);
+        }
+        .chip.neutral {
+            background: #f3f4f6;
+            color: #4b5563;
+            border-color: #e5e7eb;
         }
 
         /* Score badge */
         .score-badge {
-            background: #eef4ff;
-            color: #2563eb;
-            padding: 6px 10px;
-            border-radius: 10px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: var(--p50);
+            border: 1px solid var(--p200);
+            border-radius: 12px;
+            padding: 8px 14px;
+            min-width: 64px;
+        }
+        .score-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            color: var(--p700);
+            line-height: 1;
+        }
+        .score-lbl {
+            font-size: 0.63rem;
+            color: var(--p400);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-top: 2px;
+        }
+
+        /* Card actions */
+        .card-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .btn-details {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--p700);
+            background: var(--p50);
+            border: 1px solid var(--p200);
+            border-radius: 9px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, transform 0.12s;
+        }
+        .btn-details:hover {
+            background: var(--p100);
+            border-color: var(--p400);
+            transform: translateY(-1px);
+        }
+        .btn-details .chevron {
+            transition: transform 0.25s ease;
+            display: inline-block;
+        }
+        .btn-details.open .chevron { transform: rotate(180deg); }
+
+        .btn-fit {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, var(--p700), var(--p500));
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(109,40,217,0.22);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .btn-fit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 18px rgba(109,40,217,0.32);
+            color: white;
+        }
+        .btn-fit:active { transform: translateY(0); }
+
+        /* ── Expand panel ── */
+        .expand-panel {
+            display: none;
+            margin-top: 18px;
+            background: var(--p50);
+            border: 1px solid var(--p100);
+            border-radius: 14px;
+            padding: 22px 24px;
+            animation: expandIn 0.25s ease both;
+        }
+        .expand-panel.open { display: block; }
+
+        @keyframes expandIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .sec-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--p600);
+            margin-bottom: 8px;
+            margin-top: 18px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .sec-label:first-child { margin-top: 0; }
+        .sec-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--p200);
+        }
+
+        .desc-text {
+            font-size: 0.875rem;
+            color: #4b5563;
+            line-height: 1.7;
+        }
+
+        .skill-pill {
+            display: inline-flex;
+            align-items: center;
+            background: var(--white);
+            color: var(--p700);
+            border: 1px solid var(--p200);
+            padding: 4px 13px;
+            border-radius: 999px;
+            margin: 3px;
             font-size: 0.75rem;
+            font-weight: 500;
+            transition: background 0.15s, transform 0.12s;
+        }
+        .skill-pill:hover {
+            background: var(--p100);
+            transform: translateY(-1px);
+        }
+
+        .resp-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .resp-list li {
+            font-size: 0.85rem;
+            color: #4b5563;
+            padding-left: 18px;
+            position: relative;
+            line-height: 1.55;
+        }
+        .resp-list li::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 8px;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--p400);
+        }
+
+        .edu-sal-row {
+            display: flex;
+            gap: 16px;
+            margin-top: 4px;
+        }
+        .edu-sal-box {
+            flex: 1;
+            background: white;
+            border: 1px solid var(--p100);
+            border-radius: 10px;
+            padding: 12px 16px;
+        }
+        .edu-sal-box .lbl {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: var(--p400);
+            margin-bottom: 4px;
+        }
+        .edu-sal-box .val {
+            font-size: 0.85rem;
+            color: var(--ink);
             font-weight: 500;
         }
 
-        /* Buttons */
-        .btn-soft {
-            background: #f0f5ff;
-            border: none;
-            color: #2563eb;
-        }
-
-        .btn-soft:hover {
-            background: #e0ebff;
-        }
-
-        .btn-primary {
-            background: #3b82f6;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background: #2563eb;
-        }
-
-        /* Expand section */
-        .expanded-box {
-            background: #f7faff;
-            border-radius: 14px;
-            padding: 20px;
-            margin-top: 15px;
-            border: 1px solid #e6edff;
-        }
-
-        .section-title {
-            font-size: 0.9rem;
+        /* ── Back btn ── */
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 20px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.875rem;
             font-weight: 600;
-            color: #334155;
-            margin-top: 12px;
-            margin-bottom: 6px;
+            color: var(--p700);
+            background: white;
+            border: 1.5px solid var(--p200);
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background 0.15s, border-color 0.15s, transform 0.12s;
+            margin-top: 28px;
+        }
+        .btn-back:hover {
+            background: var(--p50);
+            border-color: var(--p400);
+            transform: translateY(-1px);
+            color: var(--p700);
         }
 
-        /* Skill pills */
-        .skill-pill {
-            display: inline-block;
-            background: #dbeafe;
-            color: #1e40af;
-            padding: 6px 12px;
-            border-radius: 999px;
-            margin: 4px;
-            font-size: 0.75rem;
-            transition: 0.2s ease;
+        /* ── Animations ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        .skill-pill:hover {
-            transform: translateY(-2px);
-            background: #bfdbfe;
-        }
-
-        ul {
-            padding-left: 18px;
-        }
-
-        li {
-            margin-bottom: 5px;
-        }
-
-        .collapse {
-            transition: all 0.3s ease;
+        /* responsive */
+        @media (max-width: 600px) {
+            .topbar-inner { padding: 0 16px; }
+            .content-wrap { padding: 0 16px; }
+            .card-top { flex-direction: column; }
+            .score-badge { flex-direction: row; gap: 8px; min-width: unset; align-self: flex-start; }
+            .edu-sal-row { flex-direction: column; }
         }
     </style>
 </head>
 
 <body>
 
-<div class="container-box">
+<!-- Ambient background -->
+<div class="ambient">
+    <div class="amb-blob amb-1"></div>
+    <div class="amb-blob amb-2"></div>
+</div>
 
-    <!-- Header -->
-    <div class="header d-flex justify-content-between align-items-center">
-        <div>
-            <h3>Results for "<span style="color:#6366f1">{{ query }}</span>"</h3>
+<!-- Sticky topbar -->
+<nav class="topbar">
+    <div class="topbar-inner">
+        <a href="/" class="brand">
+            <div class="brand-icon"><i class="bi bi-briefcase-fill"></i></div>
+            <span class="brand-name">Job AI</span>
+        </a>
+
+        <form action="/recommend" method="post">
+            <input type="hidden" name="query" value="{{ query }}">
+            <button id="ai-btn" class="btn-ai" type="submit">
+                <i class="bi bi-cpu-fill"></i>
+                AI Recommendations
+            </button>
+        </form>
+    </div>
+</nav>
+
+<!-- Main content -->
+<div class="content-wrap">
+
+    <!-- Hero -->
+    <div class="hero-strip">
+        <div class="query-eyebrow">Search Results</div>
+        <h1 class="hero-title">Results for <em>"{{ query }}"</em></h1>
+        <div class="hero-meta">
             {% if recommended %}
-                <span class="badge-soft">AI Recommended Ranking</span>
+            <span class="ai-badge">
+                <span class="dot"></span>
+                AI Recommended Ranking
+            </span>
             {% endif %}
-        </div>
-    
-        <div class="d-flex gap-2">
-            
-            <form action="/recommend" method="post">
-                <input type="hidden" name="query" value="{{ query }}">
-                <button id="ai-btn" class="btn btn-dark">
-                    <i class="bi bi-cpu"></i> Show AI Recommendations
-                </button>
-            </form>
-    
-            
         </div>
     </div>
 
     <!-- Error -->
     {% if error %}
-        <div class="alert alert-danger">
-            {{ error }}
-        </div>
+    <div class="err-box">
+        <i class="bi bi-exclamation-circle me-2"></i>{{ error }}
+    </div>
     {% endif %}
 
-    
+    <!-- Job cards -->
+    <div class="jobs-list">
+        {% for job in jobs %}
+        <div class="job-card">
 
-    <!-- Jobs -->
-    {% for job in jobs %}
+            <div class="card-top">
 
-    <div class="job-card">
-
-        <!-- Top -->
-        <div class="d-flex justify-content-between">
-
-            <div>
-                <div class="job-title">{{ job.title }}</div>
-                <div class="company">{{ job.company }} • {{ job.location }}</div>
-                <div class="meta">
-                    {{ job.employment_type }} • {{ job.experience_required }}
+                <!-- Avatar -->
+                <div class="co-avatar">
+                    {{ job.company[0] | upper }}
                 </div>
+
+                <!-- Info -->
+                <div class="card-info">
+                    <div class="job-title">{{ job.title }}</div>
+                    <div class="job-company">
+                        <strong>{{ job.company }}</strong> &nbsp;·&nbsp; {{ job.location }}
+                    </div>
+                    <div class="meta-chips">
+                        <span class="chip"><i class="bi bi-clock"></i> {{ job.employment_type }}</span>
+                        <span class="chip neutral"><i class="bi bi-bar-chart"></i> {{ job.experience_required }}</span>
+                    </div>
+                </div>
+
+                <!-- Score -->
+                {% if job.similarity %}
+                <div class="score-badge">
+                    <div class="score-num">{{ "%.2f"|format(job.similarity) }}</div>
+                    <div class="score-lbl">Match</div>
+                </div>
+                {% endif %}
+
             </div>
 
-            {% if job.similarity %}
-            <div class="score-badge">
-                {{ "%.2f"|format(job.similarity) }}
-            </div>
-            {% endif %}
-
-        </div>
-
-        <!-- Buttons -->
-        <div class="mt-3 d-flex gap-2">
-
-            <button 
-                class="btn btn-soft btn-sm"
-                data-bs-toggle="collapse" 
-                data-bs-target="#jobDetails{{ loop.index }}"
-            >
-                View Details
-            </button>
-
-            <form action="/fit" method="post">
-                <input type="hidden" name="job_id" value="{{ job.job_id }}">
-                <button class="btn btn-primary btn-sm">
-                    Find My Fit
+            <!-- Actions -->
+            <div class="card-actions">
+                <button
+                    class="btn-details"
+                    onclick="toggleDetails(this, 'details{{ loop.index }}')"
+                >
+                    <i class="bi bi-eye"></i>
+                    View Details
+                    <i class="bi bi-chevron-down chevron"></i>
                 </button>
-            </form>
 
-        </div>
+                <form action="/fit" method="post" style="margin:0">
+                    <input type="hidden" name="job_id" value="{{ job.job_id }}">
+                    <button class="btn-fit" type="submit">
+                        <i class="bi bi-stars"></i>
+                        Find My Fit
+                    </button>
+                </form>
+            </div>
 
-        <!-- Expanded -->
-        <div class="collapse" id="jobDetails{{ loop.index }}">
+            <!-- Expand panel -->
+            <div class="expand-panel" id="details{{ loop.index }}">
 
-            <div class="expanded-box">
+                <div class="sec-label">Description</div>
+                <p class="desc-text">{{ job.job_description }}</p>
 
-                <div class="section-title">Description</div>
-                <p class="text-muted small">{{ job.job_description }}</p>
-
-                <div class="section-title">Skills</div>
+                <div class="sec-label">Skills Required</div>
                 <div>
                     {% for skill in job.skills_required %}
                         <span class="skill-pill">{{ skill }}</span>
                     {% endfor %}
                 </div>
 
-                <div class="section-title">Responsibilities</div>
-                <ul class="small text-muted">
+                <div class="sec-label">Responsibilities</div>
+                <ul class="resp-list">
                     {% for r in job.responsibilities %}
                         <li>{{ r }}</li>
                     {% endfor %}
                 </ul>
 
-                <div class="section-title">Preferred Qualifications</div>
-                <ul class="small text-muted">
+                <div class="sec-label">Preferred Qualifications</div>
+                <ul class="resp-list">
                     {% for q in job.preferred_qualifications %}
                         <li>{{ q }}</li>
                     {% endfor %}
                 </ul>
 
-                <div class="row mt-3 small text-muted">
-                    <div class="col-md-6">
-                        <strong>Education:</strong><br>
-                        {{ job.education_required }}
+                <div class="sec-label">Details</div>
+                <div class="edu-sal-row">
+                    <div class="edu-sal-box">
+                        <div class="lbl"><i class="bi bi-mortarboard me-1"></i>Education</div>
+                        <div class="val">{{ job.education_required }}</div>
                     </div>
-                    <div class="col-md-6">
-                        <strong>Salary:</strong><br>
-                        {{ job.salary_range }}
+                    <div class="edu-sal-box">
+                        <div class="lbl"><i class="bi bi-currency-dollar me-1"></i>Salary</div>
+                        <div class="val">{{ job.salary_range }}</div>
                     </div>
                 </div>
 
             </div>
 
         </div>
-
+        {% endfor %}
     </div>
-
-    {% endfor %}
 
     <!-- Back -->
-    <div class="mt-4">
-        <a href="/" class="btn btn-soft">
-            Back
-        </a>
-    </div>
+    <a href="/" class="btn-back">
+        <i class="bi bi-arrow-left"></i> Back to Search
+    </a>
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function toggleDetails(btn, panelId) {
+    const panel = document.getElementById(panelId);
+    const isOpen = panel.classList.contains('open');
+    panel.classList.toggle('open', !isOpen);
+    btn.classList.toggle('open', !isOpen);
+    btn.querySelector('i:first-child').className = isOpen
+        ? 'bi bi-eye'
+        : 'bi bi-eye-slash';
+}
+</script>
 
 </body>
 </html>

@@ -4,253 +4,515 @@
     <meta charset="UTF-8">
     <title>Job Title Analysis</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --b700: #1d4ed8;
+            --b600: #2563eb;
+            --b500: #3b82f6;
+            --b400: #60a5fa;
+            --b300: #93c5fd;
+            --b200: #bfdbfe;
+            --b100: #dbeafe;
+            --b50:  #eff6ff;
+            --ink:  #0f172a;
+            --sub:  #64748b;
+            --border: #e2e8f0;
+            --white: #ffffff;
+            --bg: #f0f7ff;
+        }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            background: linear-gradient(135deg, #eaf3ff, #f4f8ff);
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(circle at 1px 1px, rgba(59,130,246,0.11) 1px, transparent 0);
+            background-size: 30px 30px;
+            color: var(--ink);
+            min-height: 100vh;
+            padding-bottom: 80px;
         }
 
-        .container-box {
-            max-width: 1000px;
-            margin: 50px auto;
+        /* Ambient blobs */
+        .ambient {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
         }
-
-        /* Glass Card */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 102, 255, 0.1);
-            animation: fadeInUp 0.6s ease;
+        .amb-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(110px);
+            opacity: 0.16;
         }
+        .amb-1 { width:640px;height:640px;background:#3b82f6;top:-200px;right:-160px; }
+        .amb-2 { width:480px;height:480px;background:#60a5fa;bottom:-150px;left:-120px; }
 
-        .header-title {
-            font-size: 1.7rem;
-            font-weight: 700;
-            color: #2c3e50;
+        /* ── Topbar ── */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(240,247,255,0.82);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(96,165,250,0.18);
+            padding: 16px 0;
         }
-
-        .section-title {
-            margin-top: 30px;
+        .topbar-inner {
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: 0 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .brand-icon {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--b700), var(--b500));
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            color: var(--ink);
+        }
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 18px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.85rem;
             font-weight: 600;
-            font-size: 1.2rem;
-            color: #3b4a6b;
+            color: var(--b700);
+            background: white;
+            border: 1.5px solid var(--b200);
+            border-radius: 10px;
+            text-decoration: none;
+            transition: background 0.15s, border-color 0.15s, transform 0.12s;
+        }
+        .btn-back:hover {
+            background: var(--b50);
+            border-color: var(--b400);
+            transform: translateY(-1px);
+            color: var(--b700);
         }
 
-        /* Wordcloud container */
-        .wordcloud-box {
-            background: #ffffff;
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.03);
+        /* ── Content ── */
+        .content-wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: 44px 28px 0;
         }
 
-        img {
+        /* ── Hero ── */
+        .hero-strip {
+            margin-bottom: 32px;
+            animation: fadeUp 0.5s ease both;
+        }
+        .hero-eyebrow {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            color: var(--b500);
+            margin-bottom: 8px;
+        }
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.7rem, 3.5vw, 2.5rem);
+            color: var(--ink);
+            line-height: 1.18;
+            margin-bottom: 10px;
+        }
+        .hero-title em {
+            font-style: italic;
+            color: var(--b600);
+        }
+
+        /* ── Section card ── */
+        .section-card {
+            background: var(--white);
+            border: 1px solid rgba(96,165,250,0.20);
+            border-radius: 20px;
+            padding: 28px 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 24px rgba(29,78,216,0.06);
+            animation: fadeUp 0.5s ease both;
+        }
+        .section-card:nth-child(1) { animation-delay: 0.05s; }
+        .section-card:nth-child(2) { animation-delay: 0.10s; }
+        .section-card:nth-child(3) { animation-delay: 0.15s; }
+        .section-card:nth-child(4) { animation-delay: 0.20s; }
+
+        .sec-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--b100);
+        }
+        .sec-icon {
+            width: 36px; height: 36px;
+            border-radius: 9px;
+            background: var(--b50);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--b600);
+            font-size: 1rem;
+            border: 1px solid var(--b100);
+        }
+        .sec-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--ink);
+        }
+
+        /* ── Wordcloud ── */
+        .wordcloud-wrap {
+            background: var(--b50);
+            border: 1px solid var(--b100);
+            border-radius: 14px;
+            padding: 18px;
+            text-align: center;
+        }
+        .wordcloud-wrap img {
+            max-height: 400px;
+            width: 100%;
+            object-fit: contain;
+            border-radius: 10px;
             transition: transform 0.3s ease;
         }
+        .wordcloud-wrap img:hover { transform: scale(1.02); }
 
-        img:hover {
-            transform: scale(1.03);
+        /* ── Skill pills ── */
+        .skills-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
         }
-
-        /* Skills */
         .skill-pill {
-            display: inline-block;
-            background: #dbe9ff;
-            color: #1e3a8a;
-            padding: 8px 14px;
-            border-radius: 20px;
-            margin: 5px;
-            font-size: 0.85rem;
-            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--b50);
+            color: var(--b700);
+            border: 1px solid var(--b200);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: background 0.15s, transform 0.12s;
         }
-
         .skill-pill:hover {
-            background: #c7ddff;
+            background: var(--b100);
             transform: translateY(-2px);
         }
+        .skill-pill .count {
+            background: var(--b200);
+            color: var(--b700);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 1px 7px;
+            border-radius: 999px;
+        }
 
-        /* Jobs */
+        /* ── Chart ── */
+        .chart-wrap {
+            position: relative;
+            width: 100%;
+            background: var(--b50);
+            border: 1px solid var(--b100);
+            border-radius: 14px;
+            padding: 20px 16px 12px;
+        }
+
+        /* ── Job cards ── */
         .job-card {
-            background: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--b50);
+            border: 1px solid var(--b100);
             border-radius: 12px;
-            padding: 15px;
+            padding: 14px 18px;
             margin-bottom: 10px;
-            transition: all 0.25s ease;
-            border: 1px solid #eef2f7;
+            transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+            position: relative;
+            overflow: hidden;
         }
-
+        .job-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 12px; bottom: 12px;
+            width: 3px;
+            background: linear-gradient(180deg, var(--b600), var(--b400));
+            border-radius: 0 2px 2px 0;
+            opacity: 0;
+            transform: scaleY(0.4);
+            transition: opacity 0.2s, transform 0.2s;
+        }
         .job-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(29,78,216,0.09);
+            border-color: var(--b300);
         }
-
-        .job-title {
+        .job-card:hover::before {
+            opacity: 1;
+            transform: scaleY(1);
+        }
+        .job-avatar {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            background: var(--b100);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--b700);
+            flex-shrink: 0;
+            border: 1px solid var(--b200);
+        }
+        .job-info { flex: 1; min-width: 0; }
+        .job-name {
+            font-size: 0.92rem;
             font-weight: 600;
-            color: #2c3e50;
+            color: var(--ink);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-
-        .similarity {
+        .job-company {
             font-size: 0.8rem;
-            color: #6c757d;
+            color: var(--sub);
+            margin-top: 2px;
+        }
+        .score-pill {
+            flex-shrink: 0;
+            background: white;
+            border: 1px solid var(--b200);
+            border-radius: 999px;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--b600);
         }
 
-        /* Back button */
-        .back-btn {
-            margin-top: 30px;
+        /* ── Animations ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(25px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        hr {
-            border-top: 1px solid #e6ecf5;
+        @media (max-width: 600px) {
+            .topbar-inner, .content-wrap { padding-left: 16px; padding-right: 16px; }
+            .section-card { padding: 20px 18px; }
         }
     </style>
 </head>
 
 <body>
 
-<div class="container-box">
+<!-- Ambient -->
+<div class="ambient">
+    <div class="amb-blob amb-1"></div>
+    <div class="amb-blob amb-2"></div>
+</div>
 
-    <div class="glass-card">
+<!-- Topbar -->
+<nav class="topbar">
+    <div class="topbar-inner">
+        <a href="/" class="brand">
+            <div class="brand-icon"><i class="bi bi-briefcase-fill"></i></div>
+            <span class="brand-name">Job AI</span>
+        </a>
+        <a href="/" class="btn-back">
+            <i class="bi bi-arrow-left"></i> Back to Search
+        </a>
+    </div>
+</nav>
 
-        <!-- Header -->
-        <div class="header-title">
-            <i class="bi bi-bar-chart-line-fill text-primary"></i>
-            Analysis for: <span style="color:#0d6efd">{{ query }}</span>
+<!-- Content -->
+<div class="content-wrap">
+
+    <!-- Hero -->
+    <div class="hero-strip">
+        <div class="hero-eyebrow">Title Analysis</div>
+        <h1 class="hero-title">Analysis for <em>"{{ query }}"</em></h1>
+    </div>
+
+    <!-- Word Cloud -->
+    <div class="section-card">
+        <div class="sec-header">
+            <div class="sec-icon"><i class="bi bi-cloud-fill"></i></div>
+            <div class="sec-title">Skill Demand Overview</div>
         </div>
-
-        <hr>
-
-        <!-- Word Cloud -->
-        <div class="section-title">
-            <i class="bi bi-cloud-fill text-primary"></i>
-            Skill Demand Overview
-        </div>
-
-        <div class="wordcloud-box text-center mt-3">
-            <img 
-                src="data:image/png;base64,{{ wordcloud }}" 
+        <div class="wordcloud-wrap">
+            <img
+                src="data:image/png;base64,{{ wordcloud }}"
                 class="img-fluid"
-                style="max-height: 420px;"
+                alt="Skill Word Cloud"
             >
         </div>
+    </div>
 
-        <!-- Skills -->
-        <div class="section-title">
-            <i class="bi bi-stars text-warning"></i>
-            Key Skills in Demand
+    <!-- Top Skills -->
+    <div class="section-card">
+        <div class="sec-header">
+            <div class="sec-icon"><i class="bi bi-stars"></i></div>
+            <div class="sec-title">Key Skills in Demand</div>
         </div>
-
-        <div class="mt-2">
+        <div class="skills-wrap">
             {% for skill, count in top_skills %}
                 <span class="skill-pill">
-                    {{ skill }} • {{ count }}
+                    {{ skill }}
+                    <span class="count">{{ count }}</span>
                 </span>
             {% endfor %}
         </div>
-
-        <div class="section-title">
-            <i class="bi bi-graph-up text-info"></i>
-            Skill Trends Over Time
-        </div>
-        
-        <div class="mt-3">
-            <canvas id="trendChart"></canvas>
-        </div>
-
-        <!-- Jobs -->
-        <div class="section-title">
-            <i class="bi bi-briefcase-fill text-success"></i>
-            Related Opportunities
-        </div>
-
-        <div class="mt-3">
-            {% for job in matched_jobs %}
-                <div class="job-card">
-                    <div class="job-title">
-                        {{ job.title }}
-                    </div>
-                    <div>
-                        {{ job.company }}
-                    </div>
-                    <div class="similarity">
-                        Match Score: {{ "%.2f"|format(job.title_similarity) }}
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-
-        <!-- Back -->
-        <div class="back-btn">
-            <a href="/" class="btn btn-outline-primary">
-                <i class="bi bi-arrow-left"></i> Back
-            </a>
-        </div>
-
     </div>
 
+    <!-- Trend Chart -->
+    <div class="section-card">
+        <div class="sec-header">
+            <div class="sec-icon"><i class="bi bi-graph-up"></i></div>
+            <div class="sec-title">Skill Trends Over Time</div>
+        </div>
+        <div class="chart-wrap">
+            <canvas id="trendChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Related Jobs -->
+    <div class="section-card">
+        <div class="sec-header">
+            <div class="sec-icon"><i class="bi bi-briefcase-fill"></i></div>
+            <div class="sec-title">Related Opportunities</div>
+        </div>
+        {% for job in matched_jobs %}
+            <div class="job-card">
+                <div class="job-avatar">{{ job.company[0] | upper }}</div>
+                <div class="job-info">
+                    <div class="job-name">{{ job.title }}</div>
+                    <div class="job-company">{{ job.company }}</div>
+                </div>
+                <div class="score-pill">{{ "%.2f"|format(job.title_similarity) }}</div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Back -->
+    <a href="/" class="btn-back" style="margin-top: 8px; display: inline-flex;">
+        <i class="bi bi-arrow-left"></i> Back to Search
+    </a>
+
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const years = {{ trend_years | tojson }};
-    const skills = {{ trend_skills | tojson }};
-    const trendData = {{ trend_data | tojson }};
-    
-    // Build datasets
-    const datasets = skills.map((skill, idx) => {
-        return {
-            label: skill,
-            data: years.map(year => trendData[year][skill] || 0),
-            borderWidth: 2,
-            tension: 0.3
-        };
-    });
-    
-    const ctx = document.getElementById("trendChart").getContext("2d");
-    
+    const years     = {{ trend_years  | tojson }};
+    const skills    = {{ trend_skills | tojson }};
+    const trendData = {{ trend_data   | tojson }};
+
+    const palette = [
+        '#2563eb','#3b82f6','#60a5fa','#1d4ed8',
+        '#93c5fd','#0ea5e9','#0284c7','#38bdf8',
+        '#0369a1','#7dd3fc'
+    ];
+
+    const datasets = skills.map((skill, idx) => ({
+        label: skill,
+        data: years.map(year => trendData[year][skill] || 0),
+        borderColor: palette[idx % palette.length],
+        backgroundColor: palette[idx % palette.length] + '18',
+        borderWidth: 2.5,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        pointBackgroundColor: palette[idx % palette.length],
+        tension: 0.35,
+        fill: false
+    }));
+
+    const ctx = document.getElementById('trendChart').getContext('2d');
+
     new Chart(ctx, {
-        type: "line",
-        data: {
-            labels: years,
-            datasets: datasets
-        },
+        type: 'line',
+        data: { labels: years, datasets },
         options: {
             responsive: true,
+            interaction: { mode: 'index', intersect: false },
             plugins: {
-                title: {
-                    display: true,
-                    text: "Top Skills Evolution (%)"
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: { family: 'Plus Jakarta Sans', size: 11 },
+                        color: '#374151',
+                        padding: 16,
+                        usePointStyle: true,
+                        pointStyleWidth: 8
+                    }
+                },
+                tooltip: {
+                    backgroundColor: '#ffffff',
+                    titleColor: '#0f172a',
+                    bodyColor: '#374151',
+                    borderColor: '#bfdbfe',
+                    borderWidth: 1,
+                    padding: 12,
+                    titleFont: { family: 'Plus Jakarta Sans', weight: '600', size: 12 },
+                    bodyFont: { family: 'Plus Jakarta Sans', size: 11 },
+                    callbacks: {
+                        label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}%`
+                    }
                 }
             },
             scales: {
+                x: {
+                    grid: { color: 'rgba(191,219,254,0.4)' },
+                    ticks: {
+                        font: { family: 'Plus Jakarta Sans', size: 11 },
+                        color: '#64748b'
+                    }
+                },
                 y: {
                     beginAtZero: true,
+                    grid: { color: 'rgba(191,219,254,0.4)' },
+                    ticks: {
+                        font: { family: 'Plus Jakarta Sans', size: 11 },
+                        color: '#64748b',
+                        callback: v => v + '%'
+                    },
                     title: {
                         display: true,
-                        text: "Demand (%)"
+                        text: 'Demand (%)',
+                        font: { family: 'Plus Jakarta Sans', size: 11 },
+                        color: '#94a3b8'
                     }
                 }
             }
         }
     });
-    </script>
+</script>
+
 </body>
 </html>
