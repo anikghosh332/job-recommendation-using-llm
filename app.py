@@ -241,49 +241,6 @@ def find_fit(request: Request, job_id: str = Form(...)):
     
 
 
-# @app.post("/title_summary", response_class=HTMLResponse)
-# def title_summary(request: Request, query: str = Form(...)):
-
-#     matched_jobs, top_skills = analyze_job_title(query, jobs)
-
-#     # Convert to dict for wordcloud
-#     skill_freq = {skill: count for skill, count in top_skills}
-
-#     # Generate word cloud
-#     wordcloud = WordCloud(
-#         width=800,
-#         height=400,
-#         background_color='white'
-#     ).generate_from_frequencies(skill_freq)
-
-#     # Convert to image
-#     img_buffer = io.BytesIO()
-#     plt.figure()
-#     plt.imshow(wordcloud)
-#     plt.axis('off')
-#     plt.savefig(img_buffer, format='png')
-#     plt.close()
-
-#     img_buffer.seek(0)
-#     img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
-
-#     return templates.TemplateResponse("title_summary.html", {
-#         "request": request,
-#         "query": query,
-#         "matched_jobs": matched_jobs,
-#         "top_skills": top_skills,
-#         "wordcloud": img_base64
-#     })
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
