@@ -1,224 +1,606 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Profile</title>
+    <meta charset="UTF-8">
+    <title>Profile — Resume Manager</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --bg: #f0f5ff;
+            --surface: #ffffff;
+            --surface2: #eef2ff;
+            --border: #c7d7f7;
+            --accent: #2563eb;
+            --accent2: #60a5fa;
+            --text: #1e293b;
+            --muted: #64748b;
+            --active-glow: 0 0 0 2px #2563eb, 0 0 20px rgba(37,99,235,0.15);
+            --radius: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            background: linear-gradient(135deg, #f7f4ff, #f1efff);
-            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
         }
 
-        .container {
-            max-width: 1000px;
+        /* ── Header ── */
+        .page-header {
+            border-bottom: 1px solid var(--border);
+            padding: 28px 0 20px;
+            margin-bottom: 40px;
         }
 
-        .card {
-            border: none;
-            border-radius: 18px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.06);
-            transition: all 0.25s ease;
+        .page-header h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #1e40af 30%, var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
+        .page-header p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        /* ── Section labels ── */
+        .section-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        /* ── Upload card ── */
+        .upload-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            margin-bottom: 36px;
+            box-shadow: 0 1px 4px rgba(37,99,235,0.06);
+        }
+
+        .drop-zone {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 36px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+            background: var(--bg);
+            position: relative;
+        }
+
+        .drop-zone:hover,
+        .drop-zone.drag-over {
+            border-color: var(--accent);
+            background: rgba(37,99,235,0.04);
+        }
+
+        .drop-zone input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .drop-icon {
+            font-size: 2.2rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .drop-zone p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .drop-zone .file-label {
+            color: var(--text);
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
         }
 
         .btn-upload {
-            background: linear-gradient(135deg, #a78bfa, #8b5cf6);
-            color: white;
-            border-radius: 12px;
-            font-weight: 500;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            padding: 11px 28px;
+            font-size: 0.9rem;
+            transition: opacity 0.2s, transform 0.15s;
+            margin-top: 18px;
+            width: 100%;
+            font-family: 'DM Sans', sans-serif;
         }
 
         .btn-upload:hover {
-            opacity: 0.9;
+            opacity: 0.88;
+            transform: translateY(-1px);
+            color: #fff;
         }
 
-        .section-card {
+        /* ── Resume cards ── */
+        .resume-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .resume-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
             padding: 20px;
-            margin-bottom: 20px;
-            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(37,99,235,0.05);
         }
 
-        .section-title {
+        .resume-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--border);
+            transition: background 0.2s;
+        }
+
+        .resume-card.active {
+            border-color: var(--accent);
+            box-shadow: var(--active-glow);
+        }
+
+        .resume-card.active::before {
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+        }
+
+        .resume-card:hover {
+            border-color: rgba(37,99,235,0.4);
+        }
+
+        .resume-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: rgba(37,99,235,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .resume-card-header {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .resume-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .resume-name {
             font-weight: 600;
-            color: #6d28d9;
-            margin-bottom: 15px;
+            font-size: 0.95rem;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .summary-box {
-            background: #f3f0ff;
-            padding: 15px;
-            border-radius: 12px;
-            line-height: 1.6;
+        .resume-date {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .active-badge {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 3px 9px;
+            border-radius: 99px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            align-self: flex-start;
+            margin-top: 2px;
+        }
+
+        .resume-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .btn-select {
+            flex: 1;
+            background: rgba(37,99,235,0.07);
+            color: var(--accent);
+            border: 1px solid rgba(37,99,235,0.25);
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 7px 12px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .btn-select:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        .btn-delete {
+            background: transparent;
+            color: #ef4444;
+            border: 1px solid rgba(239,68,68,0.25);
+            border-radius: 8px;
+            font-size: 0.82rem;
+            padding: 7px 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .btn-delete:hover {
+            background: rgba(239,68,68,0.08);
+        }
+
+        /* ── Empty state ── */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--muted);
+            border: 1px dashed var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            margin-bottom: 36px;
+        }
+
+        .empty-state i {
+            font-size: 2.5rem;
+            color: #bfdbfe;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        /* ── Error ── */
+        .alert-dark-danger {
+            background: rgba(239,68,68,0.07);
+            border: 1px solid rgba(239,68,68,0.25);
+            color: #dc2626;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 0.88rem;
+            margin-bottom: 24px;
+        }
+
+        /* ── Parsed resume preview ── */
+        .preview-section {
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .preview-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 18px;
+        }
+
+        .preview-card-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent2);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .summary-text {
+            background: var(--surface2);
+            border-radius: 10px;
+            padding: 14px 16px;
+            line-height: 1.7;
+            font-size: 0.9rem;
+            color: #374151;
         }
 
         /* Timeline */
         .timeline {
-            border-left: 3px solid #ddd6fe;
-            padding-left: 20px;
+            border-left: 2px solid var(--border);
+            padding-left: 22px;
         }
 
         .timeline-item {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
         }
 
         .timeline-item::before {
             content: "";
             position: absolute;
-            left: -28px;
-            top: 5px;
-            width: 12px;
-            height: 12px;
-            background: #8b5cf6;
+            left: -29px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
             border-radius: 50%;
+            box-shadow: 0 0 8px rgba(37,99,235,0.3);
         }
 
         .timeline-item h6 {
-            margin: 0;
             font-weight: 600;
+            color: var(--text);
+            font-size: 0.95rem;
         }
 
         .timeline-item small {
-            color: gray;
+            color: var(--muted);
+            font-size: 0.8rem;
         }
 
-        /* Project Cards */
-        .project-card {
-            background: #f9f8ff;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            transition: 0.2s;
+        .timeline-item p {
+            color: #475569;
+            font-size: 0.87rem;
+            line-height: 1.6;
+            margin-top: 6px;
         }
 
-        .project-card:hover {
-            background: #f1efff;
+        /* Project cards */
+        .project-chip {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px);}
-            to { opacity: 1; transform: translateY(0);}
+        .project-chip strong {
+            color: var(--text);
+            font-size: 0.92rem;
         }
 
-        .fade-in {
-            animation: fadeIn 0.5s ease;
+        .project-chip p {
+            color: #475569;
+            font-size: 0.86rem;
+            margin-top: 6px;
+            line-height: 1.6;
+        }
+
+        /* File name display */
+        #file-chosen {
+            font-size: 0.82rem;
+            color: var(--accent2);
+            margin-top: 8px;
+            min-height: 18px;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
+<div class="container py-4" style="max-width: 900px;">
 
-    <!-- Title -->
-    <h2 class="mb-4 text-center fw-semibold">
-        <i class="bi bi-person-circle"></i> Your Profile
-    </h2>
-
-    <!-- Upload Section -->
-    <div class="card p-4 mb-4">
-        <form action="/profile" method="post" enctype="multipart/form-data">
-
-            <label class="form-label fw-semibold">Upload Resume</label>
-
-            <input 
-                type="file" 
-                name="file" 
-                class="form-control mb-3"
-                accept=".pdf,.txt,.doc,.docx"
-                required
-            >
-
-            <button type="submit" class="btn btn-upload w-100">
-                <i class="bi bi-upload"></i> Upload & Parse Resume
-            </button>
-
-        </form>
+    <!-- Header -->
+    <div class="page-header">
+        <h1><i class="bi bi-person-vcard" style="font-size:1.6rem;"></i> Resume Manager</h1>
+        <p>Upload multiple resumes and set one as active for job recommendations.</p>
     </div>
 
     <!-- Error -->
     {% if error %}
-    <div class="alert alert-danger">
-        {{ error }}
+    <div class="alert-dark-danger">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
     </div>
     {% endif %}
 
-    <!-- Parsed Data -->
-    {% if parsed %}
-    <div class="fade-in">
+    <!-- ── UPLOAD ── -->
+    <p class="section-label">Add Resume</p>
+    <div class="upload-card">
+        <form action="/profile" method="post" enctype="multipart/form-data" id="upload-form">
+            <div class="drop-zone" id="drop-zone">
+                <input type="file" name="file" id="file-input" accept=".pdf,.txt,.doc,.docx" required>
+                <div class="drop-icon"><i class="bi bi-file-earmark-arrow-up"></i></div>
+                <p class="file-label">Drop your resume here</p>
+                <p>PDF, DOC, DOCX, TXT supported</p>
+                <p id="file-chosen"></p>
+            </div>
+            <button type="submit" class="btn btn-upload">
+                <i class="bi bi-upload me-2"></i>Upload & Parse
+            </button>
+        </form>
+    </div>
 
-        <!-- PROFILE SUMMARY -->
-        <div class="card section-card">
-            <h5 class="section-title">
+    <!-- ── RESUMES LIST ── -->
+    <p class="section-label">Your Resumes</p>
+
+    {% if resumes %}
+    <div class="resume-grid">
+        {% for resume in resumes %}
+        <div class="resume-card {% if resume.filename == active %}active{% endif %}">
+            <div class="resume-card-header">
+                <div class="resume-icon"><i class="bi bi-file-earmark-person"></i></div>
+                <div class="resume-info">
+                    <div class="resume-name" title="{{ resume.display_name }}">{{ resume.display_name }}</div>
+                    <div class="resume-date"><i class="bi bi-clock me-1"></i>{{ resume.uploaded_at }}</div>
+                </div>
+                {% if resume.filename == active %}
+                <span class="active-badge">● Active</span>
+                {% endif %}
+            </div>
+
+            <div class="resume-actions">
+                {% if resume.filename != active %}
+                <form action="/profile/select" method="post" style="flex:1;">
+                    <input type="hidden" name="filename" value="{{ resume.filename }}">
+                    <button type="submit" class="btn-select w-100">
+                        <i class="bi bi-check-circle me-1"></i>Use This
+                    </button>
+                </form>
+                {% else %}
+                <button class="btn-select" style="flex:1; opacity:0.45; cursor:default;" disabled>
+                    <i class="bi bi-check-circle-fill me-1"></i>Active
+                </button>
+                {% endif %}
+
+                <form action="/profile/delete" method="post">
+                    <input type="hidden" name="filename" value="{{ resume.filename }}">
+                    <button type="submit" class="btn-delete" title="Delete resume"
+                        onclick="return confirm('Delete this resume?')">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <div class="empty-state">
+        <i class="bi bi-inbox"></i>
+        No resumes uploaded yet. Upload one above to get started.
+    </div>
+    {% endif %}
+
+    <!-- ── PARSED PREVIEW (after upload) ── -->
+    {% if parsed %}
+    <div class="preview-section">
+        <p class="section-label mt-2">Parsed Preview
+            {% if active %}
+            — <span style="color: var(--accent2); text-transform: none; letter-spacing: 0;">
+                {% for resume in resumes %}{% if resume.filename == active %}{{ resume.display_name }}{% endif %}{% endfor %}
+              </span>
+            {% endif %}
+        </p>
+
+        <!-- Summary -->
+        <div class="preview-card">
+            <div class="preview-card-title">
                 <i class="bi bi-person-lines-fill"></i> Profile Summary
-            </h5>
-            <div class="summary-box">
-                {{ parsed["profile_header"]["summary"] if parsed.get("profile_header") else "Not Found" }}
+            </div>
+            <div class="summary-text">
+                {{ parsed["profile_header"]["summary"] if parsed.get("profile_header") else "Not found." }}
             </div>
         </div>
 
-        <!-- EDUCATION -->
-        <div class="card section-card">
-            <h5 class="section-title">
+        <!-- Education -->
+        <div class="preview-card">
+            <div class="preview-card-title">
                 <i class="bi bi-mortarboard"></i> Education
-            </h5>
-
+            </div>
             <div class="timeline">
                 {% for edu in parsed.get("education", []) %}
                 <div class="timeline-item">
                     <h6>{{ edu.university }}</h6>
-                    <div>{{ edu.degree }} - {{ edu.major }}</div>
+                    <div style="font-size:0.88rem; color:#475569;">{{ edu.degree }} — {{ edu.major }}</div>
                     <small>{{ edu.start_date }} → {{ edu.end_date }}</small>
                 </div>
                 {% endfor %}
             </div>
         </div>
 
-        <!-- WORK EXPERIENCE -->
-        <div class="card section-card">
-            <h5 class="section-title">
+        <!-- Work Experience -->
+        <div class="preview-card">
+            <div class="preview-card-title">
                 <i class="bi bi-briefcase"></i> Work Experience
-            </h5>
-
+            </div>
             <div class="timeline">
                 {% for work in parsed.get("work_experience", []) %}
                 <div class="timeline-item">
                     <h6>{{ work.position }} @ {{ work.company }}</h6>
                     <small>{{ work.start_date }} → {{ work.end_date }}</small>
-                    <p style="white-space: pre-line; margin-top:8px;">
-                        {{ work.description }}
-                    </p>
+                    <p style="white-space: pre-line;">{{ work.description }}</p>
                 </div>
                 {% endfor %}
             </div>
         </div>
 
-        <!-- PROJECTS -->
-        <div class="card section-card">
-            <h5 class="section-title">
+        <!-- Projects -->
+        {% if parsed.get("projects") %}
+        <div class="preview-card">
+            <div class="preview-card-title">
                 <i class="bi bi-kanban"></i> Projects
-            </h5>
-
+            </div>
             {% for proj in parsed.get("projects", []) %}
-            <div class="project-card">
+            <div class="project-chip">
                 <strong>{{ proj.project_title }}</strong>
-                <p style="white-space: pre-line; margin-top:5px;">
-                    {{ proj.project_description }}
-                </p>
+                <p style="white-space: pre-line;">{{ proj.project_description }}</p>
             </div>
             {% endfor %}
         </div>
+        {% endif %}
 
     </div>
     {% endif %}
 
 </div>
+
+<script>
+    // File name display
+    const input = document.getElementById('file-input');
+    const label = document.getElementById('file-chosen');
+    const dropZone = document.getElementById('drop-zone');
+
+    input.addEventListener('change', () => {
+        label.textContent = input.files[0] ? `📄 ${input.files[0].name}` : '';
+    });
+
+    // Drag-over effect
+    dropZone.addEventListener('dragover', e => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+    });
+
+    dropZone.addEventListener('drop', () => {
+        dropZone.classList.remove('drag-over');
+    });
+</script>
 
 </body>
 </html>
