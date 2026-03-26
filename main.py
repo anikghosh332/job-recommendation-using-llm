@@ -92,7 +92,7 @@ index = 3
 job_titles, job_title_embeddings = compute_title_embeddings(jobs)
 print("Total job titles embedded:", len(job_titles))
 
-user_query = "AWS Engineer"
+user_query = "Cloud Engineer"
      
 
 matched_jobs = find_similar_jobs(
@@ -171,24 +171,80 @@ def analyze_job_title(user_query, jobs):
 from collections import defaultdict, Counter
 from datetime import datetime
 
+# def get_skill_trends(jobs, job_title, top_n=5):
+#     year_skill_map = defaultdict(list)
+
+#     # Filter relevant jobs
+#     for job in jobs:
+#         if job.get("title", "").lower() == job_title.lower():
+#             date_str = job.get("posting_date")
+
+#             if not date_str:
+#                 continue
+
+#             try:
+#                 year = datetime.strptime(date_str, "%Y-%m-%d").year
+#             except:
+#                 continue
+
+#             skills = job.get("skills_required", [])
+#             year_skill_map[year].extend(skills)
+
+#     # Count + normalize
+#     trend_data = {}
+#     all_skills_counter = Counter()
+
+    # # First pass: count total occurrences
+    # for year, skills in year_skill_map.items():
+    #     counter = Counter(skills)
+    #     trend_data[year] = counter
+    #     all_skills_counter.update(counter)
+
+    # # Get global top N skills
+    # top_skills = [skill for skill, _ in all_skills_counter.most_common(top_n)]
+
+    # # Build final structured output
+    # final_trend = {}
+
+    # for year in sorted(trend_data.keys()):
+    #     year_counts = trend_data[year]
+    #     total_jobs = sum(year_counts.values()) or 1
+
+    #     final_trend[year] = {
+    #         skill: round((year_counts.get(skill, 0) / total_jobs) * 100, 2)
+    #         for skill in top_skills
+    #     }
+
+    # return {
+    #     "years": sorted(final_trend.keys()),
+    #     "skills": top_skills,
+    #     "data": final_trend
+    # }
+    
+    
 def get_skill_trends(jobs, job_title, top_n=5):
     year_skill_map = defaultdict(list)
+    
+    matched_jobs = find_similar_jobs(
+        job_title,
+        jobs,
+        job_title_embeddings
+    )   
 
     # Filter relevant jobs
-    for job in jobs:
-        if job.get("title", "").lower() == job_title.lower():
-            date_str = job.get("posting_date")
+    for job in matched_jobs:
+        date_str = job.get("posting_date")
 
-            if not date_str:
-                continue
+        if not date_str:
+            continue
 
-            try:
-                year = datetime.strptime(date_str, "%Y-%m-%d").year
-            except:
-                continue
+        try:
+            year = datetime.strptime(date_str, "%Y-%m-%d").year
+        except:
+            continue
 
-            skills = job.get("skills_required", [])
-            year_skill_map[year].extend(skills)
+        skills = job.get("skills_required", [])
+        year_skill_map[year].extend(skills)
 
     # Count + normalize
     trend_data = {}
@@ -219,10 +275,7 @@ def get_skill_trends(jobs, job_title, top_n=5):
         "years": sorted(final_trend.keys()),
         "skills": top_skills,
         "data": final_trend
-    }
-    
-    
-    
+    }    
     
     
     
@@ -268,4 +321,77 @@ def compute_skill_trends(jobs, query, top_n=5):
             for skill in top_skills
         }
 
-    return years_sorted, top_skills, trend_data    
+    return years_sorted, top_skills, trend_data  
+
+
+
+
+
+# ─────────────────────────────────────────────
+# SALARY HELPERS
+# ─────────────────────────────────────────────
+
+import re as _re
+
+def parse_salary(salary_str) -> float | None:
+    """
+    Parse a salary_range string like "$140,000 - $175,000" into a midpoint float.
+    Returns None if the string is missing or unparseable.
+    """
+    if not salary_str or not isinstance(salary_str, str):
+        return None
+
+    cleaned = _re.sub(r"[$£€,\s]", "", salary_str)
+    numbers = _re.findall(r"\d+(?:\.\d+)?", cleaned)
+
+    if not numbers:
+        return None
+
+    values = [float(n) for n in numbers]
+    values = [v for v in values if v >= 1000]   # drop implausible values
+
+    if not values:
+        return None
+
+    return sum(values) / len(values) 
+
+
+
+def compute_salary_trends(matched_jobs) -> tuple:
+    """
+    Given already-matched jobs (from analyze_job_title / find_similar_jobs),
+    compute average salary midpoint per year.
+
+    Returns:
+        salary_years   - sorted list of years (int)
+        salary_by_year - dict { year: rounded avg midpoint }
+        current_salary - avg salary for the most recent year, or None
+    """
+    year_salaries = defaultdict(list)
+
+    for job in matched_jobs:
+        date_str = job.get("posting_date")
+        if not date_str:
+            continue
+        try:
+            year = datetime.strptime(date_str, "%Y-%m-%d").year
+        except Exception:
+            continue
+
+        midpoint = parse_salary(job.get("salary_range"))
+        if midpoint is None:
+            continue
+
+        year_salaries[year].append(midpoint)
+
+    if not year_salaries:
+        return [], {}, None
+
+    salary_years = sorted(year_salaries.keys())
+    salary_by_year = {
+        year: int(round(sum(vals) / len(vals)))
+        for year, vals in year_salaries.items()
+    }
+    current_salary = salary_by_year[salary_years[-1]]
+
+    return salary_years, salary_by_year, current_salary 

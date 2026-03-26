@@ -30,6 +30,7 @@
             background-size: 28px 28px;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 24px;
@@ -44,6 +45,66 @@
             pointer-events: none;
             z-index: 0;
         }
+
+        /* ── Navbar ── */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            height: 56px;
+            background: rgba(255,255,255,0.82);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(226,232,240,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            box-shadow: 0 1px 8px rgba(15,23,42,0.05);
+        }
+
+        .navbar-brand {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .navbar-brand i {
+            color: var(--blue);
+            font-size: 1.1rem;
+        }
+        .navbar-brand:hover { color: var(--text); }
+
+        .btn-profile {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            height: 36px;
+            padding: 0 16px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--blue);
+            background: var(--blue-pale);
+            border: 1.5px solid #bfdbfe;
+            border-radius: 9px;
+            text-decoration: none;
+            transition: background 0.18s, border-color 0.18s, transform 0.15s;
+            white-space: nowrap;
+        }
+        .btn-profile:hover {
+            background: #dbeafe;
+            border-color: #93c5fd;
+            transform: translateY(-1px);
+            color: var(--blue);
+        }
+        .btn-profile:active { transform: translateY(0); }
+        .btn-profile i { font-size: 1rem; }
 
         /* ── Card ── */
         .card-wrap {
@@ -203,12 +264,28 @@
             .card-wrap { padding: 36px 24px 32px; }
             .btn-row { flex-direction: column; }
             .btn-analyse { justify-content: center; }
+            .navbar { padding: 0 16px; }
+            .navbar-brand span { display: none; }
         }
     </style>
 </head>
 
 <body>
 
+<!-- ── Navbar ── -->
+<nav class="navbar">
+    <a href="/" class="navbar-brand">
+        <i class="bi bi-briefcase-fill"></i>
+        <span>Job AI Platform</span>
+    </a>
+
+    <a href="/profile" class="btn-profile">
+        <i class="bi bi-person-circle"></i>
+        Profile
+    </a>
+</nav>
+
+<!-- ── Main card ── -->
 <div class="card-wrap">
 
     <!-- Icon -->

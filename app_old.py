@@ -18,7 +18,7 @@ from datetime import datetime
 
 from functions.parse_resume import ResumeParser, build_resume_text
 from functions.model import search_jobs
-from main import semantic_recommendation, analyze_job_title, compute_skill_trends, compute_salary_trends
+from main import semantic_recommendation, analyze_job_title, compute_skill_trends
 from functions.llm_recommendations import explain_matching_quality
 
 app = FastAPI()
@@ -322,9 +322,6 @@ def title_summary(request: Request, query: str = Form(...)):
 
     years, trend_skills, trend_data = compute_skill_trends(jobs, query, top_n=6)
 
-    # Salary trends — uses the already-matched jobs so scope is consistent
-    salary_years, salary_by_year, current_salary = compute_salary_trends(matched_jobs)
-
     return templates.TemplateResponse("title_summary.html", {
         "request": request,
         "query": query,
@@ -334,8 +331,4 @@ def title_summary(request: Request, query: str = Form(...)):
         "trend_years": years,
         "trend_skills": trend_skills,
         "trend_data": trend_data,
-        # salary
-        "salary_years": salary_years,
-        "salary_by_year": salary_by_year,
-        "current_salary": current_salary,
     })

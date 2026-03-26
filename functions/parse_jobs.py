@@ -54,7 +54,7 @@ def compute_title_embeddings(jobs):
 
 
 
-def find_similar_jobs(user_query, jobs, title_embeddings, threshold=0.7):
+def find_similar_jobs(user_query, jobs, title_embeddings, threshold=0.75):
 
     query_embedding = embedding_model.encode(user_query)
 

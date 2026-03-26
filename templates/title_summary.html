@@ -403,6 +403,53 @@
         </div>
     </div>
 
+    <!-- Salary Trends -->
+    {% if salary_years %}
+    <div class="section-card">
+        <div class="sec-header">
+            <div class="sec-icon"><i class="bi bi-currency-dollar"></i></div>
+            <div class="sec-title">Salary Trends Over Time</div>
+        </div>
+
+        <!-- Current salary stat -->
+        {% if current_salary %}
+        <div style="
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--b50);
+            border: 1px solid var(--b200);
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+        ">
+            <div style="
+                width: 36px; height: 36px;
+                background: linear-gradient(135deg, var(--b700), var(--b500));
+                border-radius: 9px;
+                display: flex; align-items: center; justify-content: center;
+                color: white; font-size: 1rem; flex-shrink: 0;
+            ">
+                <i class="bi bi-graph-up-arrow"></i>
+            </div>
+            <div>
+                <div style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--b500); margin-bottom: 2px;">
+                    Current Average Salary
+                </div>
+                <div style="font-family: 'Playfair Display', serif; font-size: 1.45rem; color: var(--ink); line-height: 1;">
+                    ${{ "{:,}".format(current_salary) }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Salary line chart -->
+        <div class="chart-wrap">
+            <canvas id="salaryChart"></canvas>
+        </div>
+    </div>
+    {% endif %}
+
     <!-- Related Jobs -->
     <div class="section-card">
         <div class="sec-header">
@@ -512,6 +559,88 @@
             }
         }
     });
+</script>
+
+<script>
+    // ── Salary trend chart ──────────────────────────────────────────
+    const salaryYears  = {{ salary_years  | tojson }};
+    const salaryByYear = {{ salary_by_year | tojson }};
+
+    if (salaryYears.length > 0) {
+        const salaryCtx = document.getElementById('salaryChart').getContext('2d');
+
+        new Chart(salaryCtx, {
+            type: 'line',
+            data: {
+                labels: salaryYears,
+                datasets: [{
+                    label: 'Avg Salary (USD)',
+                    data: salaryYears.map(y => salaryByYear[y] || 0),
+                    borderColor: '#1d4ed8',
+                    backgroundColor: 'rgba(29,78,216,0.07)',
+                    borderWidth: 2.5,
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    pointBackgroundColor: '#1d4ed8',
+                    tension: 0.35,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { family: 'Plus Jakarta Sans', size: 11 },
+                            color: '#374151',
+                            padding: 16,
+                            usePointStyle: true,
+                            pointStyleWidth: 8
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#ffffff',
+                        titleColor: '#0f172a',
+                        bodyColor: '#374151',
+                        borderColor: '#bfdbfe',
+                        borderWidth: 1,
+                        padding: 12,
+                        titleFont: { family: 'Plus Jakarta Sans', weight: '600', size: 12 },
+                        bodyFont: { family: 'Plus Jakarta Sans', size: 11 },
+                        callbacks: {
+                            label: ctx => ` Avg Salary: $${ctx.parsed.y.toLocaleString()}`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(191,219,254,0.4)' },
+                        ticks: {
+                            font: { family: 'Plus Jakarta Sans', size: 11 },
+                            color: '#64748b'
+                        }
+                    },
+                    y: {
+                        beginAtZero: false,
+                        grid: { color: 'rgba(191,219,254,0.4)' },
+                        ticks: {
+                            font: { family: 'Plus Jakarta Sans', size: 11 },
+                            color: '#64748b',
+                            callback: v => '$' + v.toLocaleString()
+                        },
+                        title: {
+                            display: true,
+                            text: 'Average Salary (USD)',
+                            font: { family: 'Plus Jakarta Sans', size: 11 },
+                            color: '#94a3b8'
+                        }
+                    }
+                }
+            }
+        });
+    }
 </script>
 
 </body>
