@@ -18,7 +18,7 @@ from datetime import datetime
 
 from functions.parse_resume import ResumeParser, build_resume_text
 from functions.model import search_jobs
-from main import semantic_recommendation, analyze_job_title, compute_skill_trends, compute_salary_trends
+from main import semantic_recommendation, analyze_job_title, compute_skill_trends, compute_salary_trends, get_career_recommendations
 from functions.llm_recommendations import explain_matching_quality
 
 app = FastAPI()
@@ -339,3 +339,58 @@ def title_summary(request: Request, query: str = Form(...)):
         "salary_by_year": salary_by_year,
         "current_salary": current_salary,
     })
+    
+    
+    
+    
+ 
+@app.get("/career", response_class=HTMLResponse)
+def career_page(request: Request):
+    """
+    GET /career
+ 
+    Requires an active resume. Runs the full career trajectory pipeline and
+    renders career.html with structured recommendations + LLM narrative.
+ 
+    No form input needed — everything is derived from the active resume.
+    """
+    meta = load_meta()
+ 
+    # Guard: no resume selected
+    if not meta.get("active"):
+        return templates.TemplateResponse("career.html", {
+            "request":         request,
+            "error":           "Please upload and select a resume on your Profile page first.",
+            "candidate":       None,
+            "recommendations": [],
+            "narrative":       None,
+        })
+ 
+    try:
+        relative_path = os.path.join("uploads", meta["active"])
+        parsed_resume = parser.parse_resume(relative_path)
+        resume_text   = build_resume_text(parsed_resume)
+    except Exception as e:
+        return templates.TemplateResponse("career.html", {
+            "request":         request,
+            "error":           f"Could not read active resume: {e}",
+            "candidate":       None,
+            "recommendations": [],
+            "narrative":       None,
+        })
+ 
+    result = get_career_recommendations(
+        resume_text   = resume_text,
+        parsed_resume = parsed_resume,
+        jobs          = jobs,
+        top_n         = 4,
+    )
+ 
+    return templates.TemplateResponse("career.html", {
+        "request":         request,
+        "error":           None,
+        "candidate":       result["candidate"],
+        "recommendations": result["recommendations"],
+        "narrative":       result["narrative"],
+    })
+     

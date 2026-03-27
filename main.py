@@ -1,10 +1,22 @@
 from functions.parse_resume import ResumeParser, build_resume_text
-from functions.parse_jobs import build_job_text, compute_title_embeddings, find_similar_jobs, get_top_skills
+from functions.parse_jobs import build_job_text, compute_title_embeddings, find_similar_jobs, get_top_skills, parse_salary
 from functions.model import model
 import json
 from sklearn.metrics.pairwise import cosine_similarity
 from functions.llm import llm_call
 from functions.llm_recommendations import identify_skill_gaps, explain_matching_quality
+from functions.career import (
+    build_skill_vocabulary,
+    build_title_skill_profiles,
+    extract_candidate_skills,
+    extract_years_of_experience,
+    get_current_title,
+    infer_seniority,
+    score_reachable_titles,
+    deduplicate_titles,
+    enrich_with_market_data,
+)
+
 
 
 parser = ResumeParser(static_folder="static")
@@ -327,35 +339,6 @@ def compute_skill_trends(jobs, query, top_n=5):
 
 
 
-# ─────────────────────────────────────────────
-# SALARY HELPERS
-# ─────────────────────────────────────────────
-
-import re as _re
-
-def parse_salary(salary_str) -> float | None:
-    """
-    Parse a salary_range string like "$140,000 - $175,000" into a midpoint float.
-    Returns None if the string is missing or unparseable.
-    """
-    if not salary_str or not isinstance(salary_str, str):
-        return None
-
-    cleaned = _re.sub(r"[$£€,\s]", "", salary_str)
-    numbers = _re.findall(r"\d+(?:\.\d+)?", cleaned)
-
-    if not numbers:
-        return None
-
-    values = [float(n) for n in numbers]
-    values = [v for v in values if v >= 1000]   # drop implausible values
-
-    if not values:
-        return None
-
-    return sum(values) / len(values) 
-
-
 
 def compute_salary_trends(matched_jobs) -> tuple:
     """
@@ -395,3 +378,83 @@ def compute_salary_trends(matched_jobs) -> tuple:
     current_salary = salary_by_year[salary_years[-1]]
 
     return salary_years, salary_by_year, current_salary 
+
+
+
+
+def get_career_recommendations(
+    resume_text:   str,
+    parsed_resume: dict,
+    jobs:          list[dict],
+    top_n:         int = 4,
+) -> dict:
+    """
+    Full career trajectory pipeline.
+ 
+    Args:
+        resume_text:   Plain text resume (from build_resume_text).
+        parsed_resume: Structured resume dict (from ResumeParser.parse_resume).
+        jobs:          Full job dataset list.
+        top_n:         Number of role recommendations to return.
+ 
+    Returns a dict with keys:
+        candidate       – profile summary (title, seniority, years_exp, skills)
+        recommendations – list of enriched, deduplicated role dicts
+        narrative       – LLM-generated growth summary string
+    """
+    from functions.llm_recommendations import generate_career_narrative
+ 
+    work_exp = parsed_resume.get("work_experience", [])
+ 
+    # ── Step 1: Candidate profile ────────────────────────────────────────────
+    current_title  = get_current_title(work_exp)
+    years_exp      = extract_years_of_experience(work_exp)
+    seniority      = infer_seniority(current_title)
+    skill_vocab    = build_skill_vocabulary(jobs)
+    candidate_skills = extract_candidate_skills(resume_text, skill_vocab)
+ 
+    candidate = {
+        "current_title":   current_title,
+        "years_exp":       years_exp,
+        "seniority":       seniority,
+        "skills":          sorted(candidate_skills),
+    }
+ 
+    # ── Step 2: Score reachable titles ───────────────────────────────────────
+    title_profiles = build_title_skill_profiles(jobs, min_frequency=0.25)
+ 
+    scored = score_reachable_titles(
+        candidate_skills    = candidate_skills,
+        title_skill_profiles = title_profiles,
+        current_title       = current_title,
+        candidate_seniority = seniority,
+        min_gap             = 1,
+        max_gap             = 5,
+    )
+ 
+    if not scored:
+        return {
+            "candidate":       candidate,
+            "recommendations": [],
+            "narrative":       "Not enough data to generate career recommendations.",
+        }
+ 
+    # ── Step 3: Deduplicate and take top N ───────────────────────────────────
+    recommendations = deduplicate_titles(scored, model=model, top_n=top_n)
+ 
+    # ── Step 4: Enrich with live market data ─────────────────────────────────
+    recommendations = enrich_with_market_data(recommendations, jobs)
+ 
+    # ── Step 5: LLM narrative ────────────────────────────────────────────────
+    narrative = generate_career_narrative(candidate, recommendations)
+ 
+    # Convert sets to sorted lists for JSON serialisation / template rendering
+    for rec in recommendations:
+        rec["required_skills"] = sorted(rec["required_skills"])
+        rec["owned_skills"]    = sorted(rec["owned_skills"])
+ 
+    return {
+        "candidate":       candidate,
+        "recommendations": recommendations,
+        "narrative":       narrative,
+    }

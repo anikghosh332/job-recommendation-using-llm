@@ -2,6 +2,7 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 from collections import Counter
 import numpy as np
+import re as _re
 
 embedding_model = SentenceTransformer("BAAI/bge-small-en-v1.5")
 
@@ -95,3 +96,29 @@ def get_top_skills(matched_jobs, top_n=10):
         skill_counter.update(skills)
 
     return skill_counter.most_common(top_n)
+
+
+
+
+
+def parse_salary(salary_str) -> float | None:
+    """
+    Parse a salary_range string like "$140,000 - $175,000" into a midpoint float.
+    Returns None if the string is missing or unparseable.
+    """
+    if not salary_str or not isinstance(salary_str, str):
+        return None
+
+    cleaned = _re.sub(r"[$£€,\s]", "", salary_str)
+    numbers = _re.findall(r"\d+(?:\.\d+)?", cleaned)
+
+    if not numbers:
+        return None
+
+    values = [float(n) for n in numbers]
+    values = [v for v in values if v >= 1000]   # drop implausible values
+
+    if not values:
+        return None
+
+    return sum(values) / len(values) 

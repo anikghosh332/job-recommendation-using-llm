@@ -11,7 +11,9 @@ client = Groq()
 
 print("Groq client initialized.")
 
-def llm_call(resume_text, job, system_prompt, user_prompt, expect_json=False):
+# def llm_call(resume_text, job, system_prompt, user_prompt, expect_json=False):
+
+def llm_call(system_prompt, user_prompt, expect_json=False):
     """
     Uses Groq openai/gpt-oss-120b model
     to score and analyze a job match.
