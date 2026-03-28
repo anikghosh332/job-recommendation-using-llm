@@ -80,99 +80,6 @@
         }
         .navbar-brand:hover { color: var(--text); }
 
-        /* ── Avatar / Auth dropdown ── */
-        .nav-auth { position: relative; }
-
-        .avatar-btn {
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--blue), var(--blue-light));
-            color: #fff;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.78rem;
-            font-weight: 700;
-            letter-spacing: 0.02em;
-            border: none;
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 2px 8px rgba(29,78,216,0.28);
-            transition: transform 0.15s, box-shadow 0.18s;
-            flex-shrink: 0;
-        }
-        .avatar-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 14px rgba(29,78,216,0.35);
-        }
-        .avatar-btn:active { transform: translateY(0); }
-
-        .signin-btn {
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            background: var(--blue-pale);
-            border: 1.5px solid #bfdbfe;
-            color: var(--blue);
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: background 0.18s, border-color 0.18s, transform 0.15s;
-            flex-shrink: 0;
-        }
-        .signin-btn:hover {
-            background: #dbeafe;
-            border-color: #93c5fd;
-            transform: translateY(-1px);
-        }
-        .signin-btn i { font-size: 1.1rem; }
-
-        .nav-dropdown {
-            position: absolute;
-            top: calc(100% + 10px);
-            right: 0;
-            background: #fff;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            box-shadow: 0 8px 28px rgba(15,23,42,0.12);
-            min-width: 168px;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(-6px) scale(0.97);
-            pointer-events: none;
-            transition: opacity 0.18s, transform 0.18s;
-            z-index: 200;
-        }
-        .nav-dropdown.open {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
-        }
-        .dropdown-header {
-            padding: 12px 16px 8px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: var(--muted);
-            border-bottom: 1px solid var(--border);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .dropdown-item {
-            display: flex; align-items: center; gap: 9px;
-            padding: 10px 16px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: var(--text);
-            text-decoration: none;
-            cursor: pointer;
-            transition: background 0.15s;
-            background: none; border: none; width: 100%; text-align: left;
-            font-family: 'DM Sans', sans-serif;
-        }
-        .dropdown-item:hover { background: var(--blue-pale); color: var(--blue); }
-        .dropdown-item i { font-size: 1rem; color: var(--muted); }
-        .dropdown-item:hover i { color: var(--blue); }
-        .dropdown-item.danger { color: #dc2626; }
-        .dropdown-item.danger i { color: #dc2626; }
-        .dropdown-item.danger:hover { background: #fef2f2; color: #dc2626; }
-
         .btn-profile {
             display: flex;
             align-items: center;
@@ -372,27 +279,10 @@
         <span>Job AI Platform</span>
     </a>
 
-    {% if user %}
-    {% set initials = (user.name.split()[0][0] + (user.name.split()[1][0] if user.name.split()|length > 1 else ''))|upper %}
-    <div class="nav-auth">
-        <button class="avatar-btn" id="avatarBtn" title="{{ user.name }}">{{ initials }}</button>
-        <div class="nav-dropdown" id="navDropdown">
-            <div class="dropdown-header">{{ user.name }}</div>
-            <a href="/profile" class="dropdown-item"><i class="bi bi-person-circle"></i> Profile</a>
-            <a href="/logout" class="dropdown-item danger"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
-        </div>
-    </div>
-    {% else %}
-    <div class="nav-auth">
-        <button class="signin-btn" id="avatarBtn" title="Sign in">
-            <i class="bi bi-person"></i>
-        </button>
-        <div class="nav-dropdown" id="navDropdown">
-            <a href="/login" class="dropdown-item"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>
-            <a href="/register" class="dropdown-item"><i class="bi bi-person-plus"></i> Create Account</a>
-        </div>
-    </div>
-    {% endif %}
+    <a href="/profile" class="btn-profile">
+        <i class="bi bi-person-circle"></i>
+        Profile
+    </a>
 </nav>
 
 <!-- ── Main card ── -->
@@ -452,23 +342,6 @@
 <script>
 function setAction(actionUrl) {
     document.getElementById("mainForm").action = actionUrl;
-}
-
-// Avatar / sign-in dropdown toggle
-const avatarBtn   = document.getElementById('avatarBtn');
-const navDropdown = document.getElementById('navDropdown');
-
-if (avatarBtn && navDropdown) {
-    avatarBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        navDropdown.classList.toggle('open');
-    });
-    document.addEventListener('click', function() {
-        navDropdown.classList.remove('open');
-    });
-    navDropdown.addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
 }
 </script>
 

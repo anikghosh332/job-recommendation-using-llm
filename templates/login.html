@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In — Job AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --b700: #1d4ed8; --b600: #2563eb; --b500: #3b82f6;
+            --b200: #bfdbfe; --b100: #dbeafe; --b50: #eff6ff;
+            --ink: #0f172a; --sub: #64748b; --border: #e2e8f0; --bg: #f0f7ff;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            background-image: radial-gradient(circle at 1px 1px, rgba(59,130,246,0.11) 1px, transparent 0);
+            background-size: 30px 30px;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 24px;
+        }
+        .card {
+            background: #fff; border: 1px solid var(--border);
+            border-radius: 20px; padding: 44px 40px;
+            width: 100%; max-width: 420px;
+            box-shadow: 0 4px 24px rgba(29,78,216,0.08);
+        }
+        .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 32px; text-decoration: none; }
+        .brand-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: linear-gradient(135deg, var(--b700), var(--b500));
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 1rem;
+        }
+        .brand-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--ink); }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--ink); margin-bottom: 6px; }
+        .sub { font-size: 0.88rem; color: var(--sub); margin-bottom: 28px; }
+        label { font-size: 0.82rem; font-weight: 600; color: var(--ink); display: block; margin-bottom: 5px; }
+        .field { margin-bottom: 16px; }
+        input[type="email"], input[type="password"], input[type="text"] {
+            width: 100%; height: 46px; padding: 0 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem;
+            border: 1.5px solid var(--border); border-radius: 10px;
+            outline: none; background: var(--bg); color: var(--ink);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        input:focus { border-color: var(--b500); box-shadow: 0 0 0 3px rgba(59,130,246,0.15); background: #fff; }
+        .btn-primary {
+            width: 100%; height: 46px; margin-top: 4px;
+            background: linear-gradient(135deg, var(--b700), var(--b500));
+            color: #fff; border: none; border-radius: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.92rem; font-weight: 600;
+            cursor: pointer; transition: opacity 0.2s, transform 0.15s;
+            box-shadow: 0 2px 12px rgba(29,78,216,0.22);
+        }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+        .error {
+            background: #fef2f2; border: 1px solid #fecaca;
+            color: #dc2626; border-radius: 10px; padding: 11px 14px;
+            font-size: 0.85rem; margin-bottom: 18px;
+        }
+        .footer-links { margin-top: 22px; text-align: center; font-size: 0.83rem; color: var(--sub); }
+        .footer-links a { color: var(--b600); text-decoration: none; font-weight: 500; }
+        .footer-links a:hover { text-decoration: underline; }
+        .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <a href="/" class="brand">
+        <div class="brand-icon"><i class="bi bi-briefcase-fill"></i></div>
+        <span class="brand-name">Job AI</span>
+    </a>
+
+    <h1>Welcome back</h1>
+    <p class="sub">Sign in to access your resumes and recommendations.</p>
+
+    {% if error %}
+    <div class="error"><i class="bi bi-exclamation-circle me-2"></i>{{ error }}</div>
+    {% endif %}
+
+    <form method="post" action="/login">
+        <div class="field">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <div class="field">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-primary">Sign In</button>
+    </form>
+
+    <hr class="divider">
+
+    <div class="footer-links">
+        <a href="/forgot-password">Forgot password?</a>
+        &nbsp;·&nbsp;
+        No account? <a href="/register">Create one</a>
+    </div>
+</div>
+</body>
+</html>
