@@ -668,3 +668,114 @@ def career_page(
         "recommendations": result["recommendations"],
         "narrative":       result["narrative"],
     })
+    
+    
+    
+
+
+
+
+
+# ─────────────────────────────────────────────
+# 🔟  PASTE JOB FIT
+# ─────────────────────────────────────────────
+
+@app.get("/fit/paste", response_class=HTMLResponse)
+def paste_fit_page(request: Request, user:    Optional[dict] = Depends(get_current_user)):
+    """
+    GET /fit/paste
+    Renders the paste-a-job-description form.
+    Redirects to /login if the user is not authenticated.
+    """
+    meta = load_meta(user["user_id"])
+
+    if not meta.get("active"):
+        # No active resume — send to profile first
+        return templates.TemplateResponse("paste_fit.html", {
+            "request": request,
+            "error":   "Please upload and select a resume on your Profile page before checking a job fit.",
+            "no_resume": True,
+        })
+
+    return templates.TemplateResponse("paste_fit.html", {
+        "request":   request,
+        "error":     None,
+        "no_resume": False,
+    })
+
+
+@app.post("/fit/paste", response_class=HTMLResponse)
+def paste_fit(
+    request:         Request,
+    job_description: str = Form(...),
+    job_title:       str = Form(""),
+    company_name:    str = Form(""),
+    user:    Optional[dict] = Depends(get_current_user),
+):
+    """
+    POST /fit/paste
+
+    Accepts a raw pasted job description (plus optional title/company
+    the user can fill in) and runs the same LLM fit explanation used
+    by the existing /fit route.
+
+    Builds a minimal job dict so explain_matching_quality receives the
+    same structure it expects from the JSON dataset — only job_description
+    is strictly required by the function.
+    """
+    resume_text = get_resume_text(user["user_id"])
+
+    if not resume_text:
+        return templates.TemplateResponse("paste_fit.html", {
+            "request":   request,
+            "error":     "Please upload and select a resume first.",
+            "no_resume": True,
+        })
+
+    # Sanitise inputs
+    job_description = job_description.strip()
+    job_title       = job_title.strip() or "Pasted Job"
+    company_name    = company_name.strip() or "Unknown Company"
+
+    if len(job_description) < 50:
+        return templates.TemplateResponse("paste_fit.html", {
+            "request":   request,
+            "error":     "Job description is too short. Please paste the full description.",
+            "no_resume": False,
+        })
+
+    # Build a minimal job dict — same shape as the JSON dataset
+    # so explain_matching_quality works without modification
+    pasted_job = {
+        "job_id":          "pasted",
+        "title":           job_title,
+        "company":         company_name,
+        "job_description": job_description,
+        # Fields the fit template may reference — safe defaults
+        "skills_required":          [],
+        "responsibilities":         [],
+        "preferred_qualifications": [],
+        "salary_range":             "Not specified",
+        "education_required":       "Not specified",
+        "location":                 "Not specified",
+        "employment_type":          "Not specified",
+        "experience_required":      "Not specified",
+    }
+
+    try:
+        explanation = explain_matching_quality(resume_text, [pasted_job], 1)
+        explanation = markdown.markdown(explanation, extensions=["tables"])
+    except Exception as e:
+        return templates.TemplateResponse("paste_fit.html", {
+            "request":   request,
+            "error":     f"Could not generate fit summary: {e}",
+            "no_resume": False,
+        })
+
+    return templates.TemplateResponse("fit.html", {
+        "request":     request,
+        "job":         pasted_job,
+        "explanation": explanation,
+    })
+    
+    

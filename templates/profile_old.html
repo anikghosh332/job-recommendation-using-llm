@@ -416,143 +416,10 @@
             margin-top: 8px;
             min-height: 18px;
         }
-
-        /* ── Sticky topbar ── */
-        .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(240,245,255,0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            padding: 0;
-        }
-        .topbar-inner {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 28px;
-            height: 58px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-        }
-        .brand {
-            display: flex; align-items: center; gap: 10px;
-            text-decoration: none;
-        }
-        .brand-icon {
-            width: 34px; height: 34px;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            border-radius: 9px;
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 0.95rem; flex-shrink: 0;
-        }
-        .brand-name {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.05rem; font-weight: 700;
-            color: var(--text);
-        }
-
-        /* Avatar / auth dropdown */
-        .nav-auth { position: relative; }
-        .avatar-btn {
-            width: 34px; height: 34px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            color: #fff;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.75rem; font-weight: 700;
-            border: none; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 2px 8px rgba(37,99,235,0.28);
-            transition: transform 0.15s, box-shadow 0.18s;
-            flex-shrink: 0;
-        }
-        .avatar-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(37,99,235,0.38); }
-        .signin-btn {
-            width: 34px; height: 34px; border-radius: 50%;
-            background: var(--surface2); border: 1.5px solid var(--border);
-            color: var(--accent); cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: background 0.18s, border-color 0.18s, transform 0.15s;
-            flex-shrink: 0;
-        }
-        .signin-btn:hover { background: #dbeafe; border-color: var(--accent); transform: translateY(-1px); }
-        .signin-btn i { font-size: 1.05rem; }
-        .nav-dropdown {
-            position: absolute; top: calc(100% + 10px); right: 0;
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 12px;
-            box-shadow: 0 8px 28px rgba(37,99,235,0.12);
-            min-width: 172px; overflow: hidden;
-            opacity: 0; transform: translateY(-6px) scale(0.97);
-            pointer-events: none;
-            transition: opacity 0.18s, transform 0.18s;
-            z-index: 200;
-        }
-        .nav-dropdown.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
-        .dropdown-header {
-            padding: 12px 16px 8px;
-            font-size: 0.78rem; font-weight: 600; color: var(--muted);
-            border-bottom: 1px solid var(--border);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        .dropdown-item {
-            display: flex; align-items: center; gap: 9px;
-            padding: 10px 16px;
-            font-size: 0.875rem; font-weight: 500;
-            color: var(--text); text-decoration: none;
-            cursor: pointer;
-            transition: background 0.15s;
-            background: none; border: none; width: 100%; text-align: left;
-            font-family: 'DM Sans', sans-serif;
-        }
-        .dropdown-item:hover { background: var(--surface2); color: var(--accent); }
-        .dropdown-item i { font-size: 1rem; color: var(--muted); }
-        .dropdown-item:hover i { color: var(--accent); }
-        .dropdown-item.active-page { background: var(--surface2); color: var(--accent); font-weight: 600; }
-        .dropdown-item.active-page i { color: var(--accent); }
-        .dropdown-item.danger { color: #dc2626; }
-        .dropdown-item.danger i { color: #dc2626; }
-        .dropdown-item.danger:hover { background: #fef2f2; color: #dc2626; }
     </style>
 </head>
 
 <body>
-
-<!-- ── Sticky topbar ── -->
-<nav class="topbar">
-    <div class="topbar-inner">
-        <a href="/" class="brand">
-            <div class="brand-icon"><i class="bi bi-briefcase-fill"></i></div>
-            <span class="brand-name">Job AI</span>
-        </a>
-
-        {% if user %}
-        {% set initials = (user.name.split()[0][0] + (user.name.split()[1][0] if user.name.split()|length > 1 else ''))|upper %}
-        <div class="nav-auth">
-            <button class="avatar-btn" id="avatarBtn" title="{{ user.name }}">{{ initials }}</button>
-            <div class="nav-dropdown" id="navDropdown">
-                <div class="dropdown-header">{{ user.name }}</div>
-                <a href="/" class="dropdown-item"><i class="bi bi-house"></i> Home</a>
-                <a href="/profile" class="dropdown-item active-page"><i class="bi bi-person-circle"></i> Profile</a>
-                <a href="/career" class="dropdown-item"><i class="bi bi-map"></i> Career Path</a>
-                <a href="/fit/paste" class="dropdown-item"><i class="bi bi-clipboard2-pulse"></i> Check External Job</a>
-                <a href="/logout" class="dropdown-item danger"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
-            </div>
-        </div>
-        {% else %}
-        <div class="nav-auth">
-            <button class="signin-btn" id="avatarBtn" title="Sign in"><i class="bi bi-person"></i></button>
-            <div class="nav-dropdown" id="navDropdown">
-                <a href="/login" class="dropdown-item"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>
-                <a href="/register" class="dropdown-item"><i class="bi bi-person-plus"></i> Create Account</a>
-            </div>
-        </div>
-        {% endif %}
-    </div>
-</nav>
 
 <div class="container py-4" style="max-width: 900px;">
 
@@ -568,6 +435,31 @@
         <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
     </div>
     {% endif %}
+
+    <!-- ── CAREER PATH CTA ── -->
+    <div style="margin-bottom: 28px;">
+        <a href="/career" style="
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 10px 22px;
+            transition: opacity 0.2s, transform 0.15s;
+            box-shadow: 0 2px 10px rgba(37,99,235,0.2);
+        " onmouseover="this.style.opacity='0.88';this.style.transform='translateY(-1px)'"
+           onmouseout="this.style.opacity='1';this.style.transform='translateY(0)'">
+            <i class="bi bi-map"></i> See Career Path
+        </a>
+        <p style="margin-top: 10px; font-size: 0.84rem; color: var(--muted); max-width: 560px; line-height: 1.6;">
+            Discover the roles you're closest to landing — see exactly what skills you're missing, how many openings exist right now, and what they pay.
+        </p>
+    </div>
 
     <!-- ── UPLOAD ── -->
     <p class="section-label">Add Resume</p>
@@ -733,18 +625,6 @@
     dropZone.addEventListener('drop', () => {
         dropZone.classList.remove('drag-over');
     });
-
-    // Navbar dropdown
-    const avatarBtn   = document.getElementById('avatarBtn');
-    const navDropdown = document.getElementById('navDropdown');
-    if (avatarBtn && navDropdown) {
-        avatarBtn.addEventListener('click', e => {
-            e.stopPropagation();
-            navDropdown.classList.toggle('open');
-        });
-        document.addEventListener('click', () => navDropdown.classList.remove('open'));
-        navDropdown.addEventListener('click', e => e.stopPropagation());
-    }
 </script>
 
 </body>
