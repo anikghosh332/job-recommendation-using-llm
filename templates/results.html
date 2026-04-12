@@ -424,24 +424,31 @@
         .card-actions {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 10px;
             margin-top: 18px;
             padding-top: 16px;
             border-top: 1px solid #f3f4f6;
         }
+        .actions-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
 
         .btn-details {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
+            gap: 5px;
+            padding: 6px 12px;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.82rem;
+            font-size: 0.76rem;
             font-weight: 600;
             color: var(--p700);
             background: var(--p50);
             border: 1px solid var(--p200);
-            border-radius: 9px;
+            border-radius: 8px;
             cursor: pointer;
             transition: background 0.15s, border-color 0.15s, transform 0.12s;
         }
@@ -459,15 +466,15 @@
         .btn-fit {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 8px 18px;
+            gap: 5px;
+            padding: 6px 14px;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.82rem;
+            font-size: 0.76rem;
             font-weight: 600;
             color: white;
             background: linear-gradient(135deg, var(--p700), var(--p500));
             border: none;
-            border-radius: 9px;
+            border-radius: 8px;
             cursor: pointer;
             box-shadow: 0 2px 10px rgba(109,40,217,0.22);
             transition: transform 0.15s, box-shadow 0.15s;
@@ -478,6 +485,94 @@
             color: white;
         }
         .btn-fit:active { transform: translateY(0); }
+
+        /* Apply Now — primary CTA, right-aligned */
+        .btn-apply-now {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 20px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, #059669, #10b981);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 12px rgba(5,150,105,0.28);
+            transition: transform 0.15s, box-shadow 0.15s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .btn-apply-now:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 20px rgba(5,150,105,0.38);
+        }
+        .btn-apply-now:active { transform: translateY(0); }
+
+        .btn-bookmark {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: var(--p700);
+            background: var(--p50);
+            border: 1px solid var(--p200);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, transform 0.12s;
+        }
+        .btn-bookmark:hover {
+            background: var(--p100);
+            border-color: var(--p400);
+            transform: translateY(-1px);
+        }
+        .btn-bookmark:active { transform: translateY(0); }
+        .btn-bookmark.bookmarked {
+            color: #f59e0b;
+            background: #fffbeb;
+            border-color: #fde68a;
+        }
+        .btn-bookmark.bookmarked:hover {
+            background: #fef3c7;
+            border-color: #fcd34d;
+        }
+
+        /* ── Toast notification ── */
+        .toast-wrap {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+        .toast-msg {
+            background: var(--ink);
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 12px 18px;
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(30,27,75,0.22);
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            animation: toastIn 0.3s ease both;
+            pointer-events: auto;
+        }
+        .toast-msg i { color: #86efac; }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
 
         /* ── Expand panel ── */
         .expand-panel {
@@ -626,6 +721,9 @@
             .card-top { flex-direction: column; }
             .score-badge { flex-direction: row; gap: 8px; min-width: unset; align-self: flex-start; }
             .edu-sal-row { flex-direction: column; }
+            .card-actions { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .actions-left { flex-wrap: wrap; }
+            .btn-apply-now { align-self: stretch; justify-content: center; }
         }
 
         /* ── Search bar (results page) ── */
@@ -749,6 +847,7 @@
             <div class="nav-dropdown" id="navDropdown">
                 <div class="dropdown-header">{{ user.name }}</div>
                 <a href="/profile" class="dropdown-item"><i class="bi bi-person-circle"></i> Profile</a>
+                <a href="/bookmarks" class="dropdown-item"><i class="bi bi-bookmark-heart"></i> Saved Jobs</a>
                 <a href="/career" class="dropdown-item"><i class="bi bi-map"></i> Career Path</a>
                 <a href="/fit/paste" class="dropdown-item"><i class="bi bi-clipboard2-pulse"></i> Check External Job</a>
                 <a href="/logout" class="dropdown-item danger"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
@@ -872,22 +971,48 @@
 
             <!-- Actions -->
             <div class="card-actions">
-                <button
-                    class="btn-details"
-                    onclick="toggleDetails(this, 'details{{ loop.index }}')"
-                >
-                    <i class="bi bi-eye"></i>
-                    View Details
-                    <i class="bi bi-chevron-down chevron"></i>
+
+                <!-- Left group: secondary actions -->
+                <div class="actions-left">
+                    <button
+                        class="btn-details"
+                        onclick="toggleDetails(this, 'details{{ loop.index }}')"
+                    >
+                        <i class="bi bi-eye"></i>
+                        View Details
+                        <i class="bi bi-chevron-down chevron"></i>
+                    </button>
+
+                    {% if user %}
+                    <form action="/bookmarks/add" method="post" style="margin:0"
+                          onsubmit="handleBookmark(event, '{{ job.job_id }}', this)">
+                        <input type="hidden" name="job_id" value="{{ job.job_id }}">
+                        <button
+                            class="btn-bookmark {% if job.job_id|string in bookmarked_ids %}bookmarked{% endif %}"
+                            type="submit"
+                            id="bm-{{ job.job_id }}"
+                        >
+                            <i class="bi {% if job.job_id|string in bookmarked_ids %}bi-bookmark-fill{% else %}bi-bookmark{% endif %}"></i>
+                            {% if job.job_id|string in bookmarked_ids %}Bookmarked{% else %}Bookmark{% endif %}
+                        </button>
+                    </form>
+                    {% endif %}
+
+                    <form action="/fit" method="post" style="margin:0">
+                        <input type="hidden" name="job_id" value="{{ job.job_id }}">
+                        <button class="btn-fit" type="submit">
+                            <i class="bi bi-stars"></i>
+                            Find My Fit
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Right: primary CTA -->
+                <button class="btn-apply-now" type="button" onclick="handleApplyNow()">
+                    <i class="bi bi-send"></i>
+                    Apply Now
                 </button>
 
-                <form action="/fit" method="post" style="margin:0">
-                    <input type="hidden" name="job_id" value="{{ job.job_id }}">
-                    <button class="btn-fit" type="submit">
-                        <i class="bi bi-stars"></i>
-                        Find My Fit
-                    </button>
-                </form>
             </div>
 
             <!-- Expand panel -->
@@ -944,6 +1069,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+/* ── Expand / collapse ── */
 function toggleDetails(btn, panelId) {
     const panel = document.getElementById(panelId);
     const isOpen = panel.classList.contains('open');
@@ -954,7 +1080,61 @@ function toggleDetails(btn, panelId) {
         : 'bi bi-eye-slash';
 }
 
-// Avatar / sign-in dropdown toggle
+/* ── Bookmark (optimistic UI, POST in background) ── */
+function handleBookmark(event, jobId, form) {
+    event.preventDefault();
+
+    const btn = document.getElementById('bm-' + jobId);
+    const isBookmarked = btn.classList.contains('bookmarked');
+
+    if (isBookmarked) {
+        // Already bookmarked — toggle off via remove endpoint
+        fetch('/bookmarks/remove', {
+            method: 'POST',
+            body: new URLSearchParams({ job_id: jobId }),
+        });
+        btn.classList.remove('bookmarked');
+        btn.innerHTML = '<i class="bi bi-bookmark"></i> Bookmark';
+        showToast('bi-bookmark-x', 'Removed from bookmarks');
+    } else {
+        // Bookmark it
+        fetch('/bookmarks/add', {
+            method: 'POST',
+            body: new URLSearchParams({ job_id: jobId }),
+        });
+        btn.classList.add('bookmarked');
+        btn.innerHTML = '<i class="bi bi-bookmark-fill"></i> Bookmarked';
+        showToast('bi-bookmark-heart-fill', 'Job saved to bookmarks!');
+    }
+}
+
+/* ── Apply Now placeholder ── */
+function handleApplyNow() {
+    showToast('bi-send-check', 'Apply Now feature coming soon!');
+}
+
+/* ── Toast helper ── */
+function showToast(icon, message) {
+    let wrap = document.getElementById('toastWrap');
+    if (!wrap) {
+        wrap = document.createElement('div');
+        wrap.className = 'toast-wrap';
+        wrap.id = 'toastWrap';
+        document.body.appendChild(wrap);
+    }
+    const toast = document.createElement('div');
+    toast.className = 'toast-msg';
+    toast.innerHTML = `<i class="bi ${icon}"></i> ${message}`;
+    wrap.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(12px)';
+        toast.style.transition = 'opacity 0.3s, transform 0.3s';
+        setTimeout(() => toast.remove(), 300);
+    }, 2800);
+}
+
+/* ── Avatar / sign-in dropdown toggle ── */
 const avatarBtn   = document.getElementById('avatarBtn');
 const navDropdown = document.getElementById('navDropdown');
 
@@ -971,6 +1151,9 @@ if (avatarBtn && navDropdown) {
     });
 }
 </script>
+
+<!-- Toast container (injected by JS if needed, pre-placed for safety) -->
+<div class="toast-wrap" id="toastWrap"></div>
 
 </body>
 </html>

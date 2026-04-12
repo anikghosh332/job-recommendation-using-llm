@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 import os
+import re
 import json
 import io
 import markdown
@@ -38,6 +39,81 @@ from main import (
     compute_salary_trends,
     get_career_recommendations,
 )
+
+# ─────────────────────────────────────────────
+# JOB-DESCRIPTION CONTENT VALIDATOR
+# Lightweight regex heuristic — no LLM call.
+# Mirrors the client-side check so validation
+# is enforced on both sides independently.
+# ─────────────────────────────────────────────
+
+_JD_SIGNAL_PATTERNS: list[tuple[re.Pattern, int]] = [
+    (re.compile(
+        r'\b(responsibilities|qualifications|requirements|what you(?:\'ll| will) do'
+        r'|about the role|about the job|job description|job summary|position summary'
+        r'|key duties|duties and responsibilities)\b', re.I), 3),
+    (re.compile(
+        r'\b(salary|compensation|pay range|benefits|health insurance|401k|pto'
+        r'|paid time off|remote|hybrid|on.?site|full.?time|part.?time'
+        r'|contract|permanent)\b', re.I), 2),
+    (re.compile(
+        r'\b(\d+\+?\s*years?(?: of)? experience|bachelor|master|phd|degree in'
+        r'|bsc|msc|mba|equivalent experience)\b', re.I), 3),
+    (re.compile(
+        r'\b(we are (?:looking for|hiring|seeking)|join our team|apply now'
+        r'|submit your (?:resume|cv|application)|equal opportunity employer|eoe'
+        r'|candidates will|you will be responsible)\b', re.I), 3),
+    (re.compile(
+        r'\b(proficiency in|experience with|knowledge of|familiarity with'
+        r'|strong understanding of|preferred skills|nice to have|must have'
+        r'|required skills)\b', re.I), 2),
+    (re.compile(
+        r'\b(work with (?:a |the )?(?:team|cross.functional)|collaborate'
+        r'|stakeholders|fast.?paced|start.?up|fortune 500|series [a-d]'
+        r'|growth stage|mission.?driven)\b', re.I), 1),
+]
+
+_SPAM_PATTERNS: list[re.Pattern] = [
+    re.compile(
+        r'\b(buy now|click here|limited offer|discount|promo code|subscribe'
+        r'|unsubscribe|dear (?:sir|madam)|lottery|winner'
+        r'|congratulations you(?:\'ve| have) won|nigerian'
+        r'|bitcoin|crypto investment)\b', re.I),
+    re.compile(r'<script|<iframe|javascript:|on(?:click|load|error)\s*=', re.I),
+    re.compile(r'(.)\1{10,}'),   # excessive repetition (gibberish / flooding)
+]
+
+_JD_SCORE_THRESHOLD = 4
+
+
+def _is_valid_job_description(text: str) -> tuple[bool, str]:
+    """
+    Heuristic check for whether text resembles a genuine job description.
+    Returns (True, '') on pass, (False, human-readable reason) on fail.
+    Called server-side before the LLM is invoked to prevent abuse and
+    irrelevant input from consuming API quota.
+    """
+    if len(text) < 100:
+        return False, "Job description is too short. Please paste the full posting."
+
+    for pattern in _SPAM_PATTERNS:
+        if pattern.search(text):
+            return False, (
+                "This content appears suspicious or irrelevant. "
+                "Please paste a genuine job description."
+            )
+
+    score = sum(weight for pattern, weight in _JD_SIGNAL_PATTERNS if pattern.search(text))
+
+    if score < _JD_SCORE_THRESHOLD:
+        return False, (
+            "This doesn't look like a job description. "
+            "Please paste a real job posting that includes responsibilities, "
+            "required skills, or qualifications."
+        )
+
+    return True, ""
+
 
 # ─────────────────────────────────────────────
 # APP SETUP
@@ -156,12 +232,14 @@ def search(
     user:    Optional[dict] = Depends(get_current_user),
 ):
     results = search_jobs(query, jobs)
+    bookmarked_ids = get_bookmarked_ids(user["user_id"]) if user else set()
     return templates.TemplateResponse("results.html", {
-        "request":     request,
-        "user":        user,
-        "jobs":        results,
-        "query":       query,
-        "recommended": False,
+        "request":        request,
+        "user":           user,
+        "jobs":           results,
+        "query":          query,
+        "recommended":    False,
+        "bookmarked_ids": bookmarked_ids,
     })
 
 
@@ -497,23 +575,26 @@ def recommend(
 
     if not resume_text:
         return templates.TemplateResponse("results.html", {
-            "request":     request,
-            "user":        user,
-            "jobs":        [],
-            "query":       query,
-            "recommended": True,
-            "error":       "Please upload and select a resume first.",
+            "request":        request,
+            "user":           user,
+            "jobs":           [],
+            "query":          query,
+            "recommended":    True,
+            "error":          "Please upload and select a resume first.",
+            "bookmarked_ids": get_bookmarked_ids(user["user_id"]),
         })
 
     filtered_jobs    = search_jobs(query, jobs)
     recommended_jobs = semantic_recommendation(resume_text, filtered_jobs)
 
+    bookmarked_ids = get_bookmarked_ids(user["user_id"])
     return templates.TemplateResponse("results.html", {
-        "request":     request,
-        "user":        user,
-        "jobs":        recommended_jobs,
-        "query":       query,
-        "recommended": True,
+        "request":        request,
+        "user":           user,
+        "jobs":           recommended_jobs,
+        "query":          query,
+        "recommended":    True,
+        "bookmarked_ids": bookmarked_ids,
     })
 
 
@@ -692,13 +773,15 @@ def paste_fit_page(request: Request, user:    Optional[dict] = Depends(get_curre
     if not meta.get("active"):
         # No active resume — send to profile first
         return templates.TemplateResponse("paste_fit.html", {
-            "request": request,
-            "error":   "Please upload and select a resume on your Profile page before checking a job fit.",
+            "request":   request,
+            "user":      user,
+            "error":     "Please upload and select a resume on your Profile page before checking a job fit.",
             "no_resume": True,
         })
 
     return templates.TemplateResponse("paste_fit.html", {
         "request":   request,
+        "user":      user,
         "error":     None,
         "no_resume": False,
     })
@@ -728,6 +811,7 @@ def paste_fit(
     if not resume_text:
         return templates.TemplateResponse("paste_fit.html", {
             "request":   request,
+            "user":      user,
             "error":     "Please upload and select a resume first.",
             "no_resume": True,
         })
@@ -740,7 +824,19 @@ def paste_fit(
     if len(job_description) < 50:
         return templates.TemplateResponse("paste_fit.html", {
             "request":   request,
+            "user":      user,
             "error":     "Job description is too short. Please paste the full description.",
+            "no_resume": False,
+        })
+
+    # Server-side content validation — guards against irrelevant or malicious
+    # input before an LLM call is made. Mirrors the client-side heuristic.
+    is_valid, rejection_reason = _is_valid_job_description(job_description)
+    if not is_valid:
+        return templates.TemplateResponse("paste_fit.html", {
+            "request":   request,
+            "user":      user,
+            "error":     rejection_reason,
             "no_resume": False,
         })
 
@@ -768,6 +864,7 @@ def paste_fit(
     except Exception as e:
         return templates.TemplateResponse("paste_fit.html", {
             "request":   request,
+            "user":      user,
             "error":     f"Could not generate fit summary: {e}",
             "no_resume": False,
         })
@@ -777,5 +874,113 @@ def paste_fit(
         "job":         pasted_job,
         "explanation": explanation,
     })
+
+
+# ─────────────────────────────────────────────
+# 11  BOOKMARKS
+# ─────────────────────────────────────────────
+
+def load_bookmarks(user_id: str) -> list:
+    """
+    Return the bookmark list for user_id.
+    Each entry: {"job_id": str, "saved_at": str}
+    """
+    path = os.path.join(BASE_UPLOAD_DIR, user_id, "bookmarks.json")
+    if not os.path.exists(path):
+        return []
+    with open(path, "r") as f:
+        return json.load(f)
+
+
+def save_bookmarks(user_id: str, bookmarks: list) -> None:
+    """Persist the bookmark list for user_id."""
+    dir_path = os.path.join(BASE_UPLOAD_DIR, user_id)
+    os.makedirs(dir_path, exist_ok=True)
+    path = os.path.join(dir_path, "bookmarks.json")
+    with open(path, "w") as f:
+        json.dump(bookmarks, f, indent=2)
+
+
+def get_bookmarked_ids(user_id: str) -> set:
+    """Return a set of bookmarked job_id strings for fast membership tests."""
+    return {str(b["job_id"]) for b in load_bookmarks(user_id)}
+
+
+@app.get("/bookmarks", response_class=HTMLResponse)
+def view_bookmarks(
+    request: Request,
+    user: Optional[dict] = Depends(get_current_user),
+):
+    """Show all bookmarked jobs for the logged-in user."""
+    redirect = _redirect_if_unauthenticated(user)
+    if redirect:
+        return redirect
+
+    raw_bookmarks = load_bookmarks(user["user_id"])
+
+    # Hydrate each bookmark with its full job dict from the dataset
+    job_index = {str(j["job_id"]): j for j in jobs}
+    bookmarks = []
+    for entry in raw_bookmarks:
+        job = job_index.get(str(entry["job_id"]))
+        if job:
+            bookmarks.append({
+                "job":      job,
+                "saved_at": entry["saved_at"],
+            })
+
+    return templates.TemplateResponse("bookmarks.html", {
+        "request":   request,
+        "user":      user,
+        "bookmarks": bookmarks,
+    })
+
+
+@app.post("/bookmarks/add", response_class=HTMLResponse)
+def add_bookmark(
+    request: Request,
+    job_id:  str = Form(...),
+    user:    Optional[dict] = Depends(get_current_user),
+):
+    """
+    Bookmark a job for the logged-in user.
+    Idempotent — bookmarking an already-saved job is a no-op.
+    Returns a 204-equivalent redirect so JS fetch() gets a clean response.
+    """
+    redirect = _redirect_if_unauthenticated(user)
+    if redirect:
+        return redirect
+
+    bookmarks = load_bookmarks(user["user_id"])
+    existing_ids = {str(b["job_id"]) for b in bookmarks}
+
+    if str(job_id) not in existing_ids:
+        bookmarks.append({
+            "job_id":   str(job_id),
+            "saved_at": datetime.now().strftime("%d %b %Y"),
+        })
+        save_bookmarks(user["user_id"], bookmarks)
+
+    # The JS fetch() call ignores the response body; redirect is a safe fallback
+    # for users who submit without JS enabled.
+    return RedirectResponse(url="/bookmarks", status_code=303)
+
+
+@app.post("/bookmarks/remove", response_class=HTMLResponse)
+def remove_bookmark(
+    request: Request,
+    job_id:  str = Form(...),
+    user:    Optional[dict] = Depends(get_current_user),
+):
+    """Remove a job from the user's bookmarks. Idempotent."""
+    redirect = _redirect_if_unauthenticated(user)
+    if redirect:
+        return redirect
+
+    bookmarks = load_bookmarks(user["user_id"])
+    bookmarks = [b for b in bookmarks if str(b["job_id"]) != str(job_id)]
+    save_bookmarks(user["user_id"], bookmarks)
+
+    return RedirectResponse(url="/bookmarks", status_code=303)
     
     

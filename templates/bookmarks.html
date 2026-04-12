@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Job Results</title>
+    <title>Bookmarked Jobs</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -97,29 +97,6 @@
             font-size: 1.15rem;
             color: var(--ink);
         }
-
-        .btn-ai {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: linear-gradient(135deg, var(--p700) 0%, var(--p500) 100%);
-            color: white;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.875rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            box-shadow: 0 2px 14px rgba(109,40,217,0.28);
-            transition: transform 0.15s, box-shadow 0.15s;
-        }
-        .btn-ai:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 22px rgba(109,40,217,0.36);
-            color: white;
-        }
-        .btn-ai:active { transform: translateY(0); }
 
         /* ── Avatar / Auth dropdown ── */
         .nav-auth { position: relative; }
@@ -247,44 +224,33 @@
             font-style: italic;
             color: var(--p700);
         }
-        .hero-meta {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .ai-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--p100);
-            color: var(--p700);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 100px;
-            border: 1px solid var(--p200);
-        }
-        .ai-badge .dot {
-            width: 6px; height: 6px;
-            border-radius: 50%;
-            background: var(--p500);
-            animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%,100% { opacity:1; transform:scale(1); }
-            50% { opacity:0.4; transform:scale(0.7); }
-        }
 
-        /* ── Error ── */
-        .err-box {
-            background: #fff1f2;
-            border: 1px solid #fecdd3;
-            color: #be123c;
-            border-radius: 12px;
-            padding: 14px 18px;
-            margin-bottom: 20px;
-            font-size: 0.875rem;
+        /* ── Empty state ── */
+        .empty-state {
+            text-align: center;
+            padding: 64px 24px;
+            animation: fadeUp 0.5s ease both;
+        }
+        .empty-icon {
+            width: 72px; height: 72px;
+            background: var(--p50);
+            border: 1px solid var(--p200);
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: var(--p400);
+        }
+        .empty-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+        .empty-sub {
+            font-size: 0.9rem;
+            color: var(--sub);
+            margin-bottom: 24px;
         }
 
         /* ── Job Cards ── */
@@ -300,7 +266,6 @@
             transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
             animation: fadeUp 0.5s ease both;
         }
-        /* stagger */
         .job-card:nth-child(1)  { animation-delay: 0.05s; }
         .job-card:nth-child(2)  { animation-delay: 0.10s; }
         .job-card:nth-child(3)  { animation-delay: 0.15s; }
@@ -310,7 +275,6 @@
         .job-card:nth-child(7)  { animation-delay: 0.30s; }
         .job-card:nth-child(8)  { animation-delay: 0.32s; }
 
-        /* left accent bar */
         .job-card::before {
             content: '';
             position: absolute;
@@ -332,6 +296,13 @@
             transform: scaleY(1);
         }
 
+        /* Bookmark saved indicator */
+        .job-card.removing {
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
         .card-top {
             display: flex;
             align-items: flex-start;
@@ -339,7 +310,6 @@
             gap: 16px;
         }
 
-        /* Company logo placeholder */
         .co-avatar {
             width: 46px; height: 46px;
             border-radius: 12px;
@@ -393,32 +363,21 @@
             border-color: #e5e7eb;
         }
 
-        /* Score badge */
-        .score-badge {
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
+        /* Bookmarked-at badge */
+        .bookmarked-at {
+            display: inline-flex;
             align-items: center;
-            background: var(--p50);
-            border: 1px solid var(--p200);
-            border-radius: 12px;
-            padding: 8px 14px;
-            min-width: 64px;
+            gap: 5px;
+            font-size: 0.72rem;
+            color: var(--sub);
+            background: #f9fafb;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 3px 10px;
+            flex-shrink: 0;
+            white-space: nowrap;
         }
-        .score-num {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.15rem;
-            color: var(--p700);
-            line-height: 1;
-        }
-        .score-lbl {
-            font-size: 0.63rem;
-            color: var(--p400);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-top: 2px;
-        }
+        .bookmarked-at i { color: #f59e0b; }
 
         /* Card actions */
         .card-actions {
@@ -428,6 +387,7 @@
             margin-top: 18px;
             padding-top: 16px;
             border-top: 1px solid #f3f4f6;
+            flex-wrap: wrap;
         }
 
         .btn-details {
@@ -456,7 +416,7 @@
         }
         .btn-details.open .chevron { transform: rotate(180deg); }
 
-        .btn-fit {
+        .btn-apply {
             display: inline-flex;
             align-items: center;
             gap: 6px;
@@ -471,13 +431,36 @@
             cursor: pointer;
             box-shadow: 0 2px 10px rgba(109,40,217,0.22);
             transition: transform 0.15s, box-shadow 0.15s;
+            text-decoration: none;
         }
-        .btn-fit:hover {
+        .btn-apply:hover {
             transform: translateY(-1px);
             box-shadow: 0 5px 18px rgba(109,40,217,0.32);
             color: white;
         }
-        .btn-fit:active { transform: translateY(0); }
+        .btn-apply:active { transform: translateY(0); }
+
+        .btn-remove {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #dc2626;
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            border-radius: 9px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, transform 0.12s;
+        }
+        .btn-remove:hover {
+            background: #fee2e2;
+            border-color: #fca5a5;
+            transform: translateY(-1px);
+        }
+        .btn-remove:active { transform: translateY(0); }
 
         /* ── Expand panel ── */
         .expand-panel {
@@ -613,6 +596,38 @@
             color: var(--p700);
         }
 
+        /* ── Toast notification ── */
+        .toast-wrap {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+        .toast-msg {
+            background: var(--ink);
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 12px 18px;
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(30,27,75,0.22);
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            animation: toastIn 0.3s ease both;
+            pointer-events: auto;
+        }
+        .toast-msg i { color: #86efac; }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
         /* ── Animations ── */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(16px); }
@@ -623,105 +638,9 @@
         @media (max-width: 600px) {
             .topbar-inner { padding: 0 16px; }
             .content-wrap { padding: 0 16px; }
-            .card-top { flex-direction: column; }
-            .score-badge { flex-direction: row; gap: 8px; min-width: unset; align-self: flex-start; }
+            .card-top { flex-wrap: wrap; }
+            .bookmarked-at { align-self: flex-start; }
             .edu-sal-row { flex-direction: column; }
-        }
-
-        /* ── Search bar (results page) ── */
-        .search-bar-wrap {
-            margin-bottom: 32px;
-            animation: fadeUp 0.45s ease both;
-        }
-        .search-shell {
-            display: flex;
-            gap: 8px;
-            background: var(--white);
-            border: 1.5px solid var(--p200);
-            border-radius: 14px;
-            padding: 6px 6px 6px 16px;
-            align-items: center;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 12px rgba(109,40,217,0.06);
-        }
-        .search-shell:focus-within {
-            border-color: var(--p500);
-            box-shadow: 0 0 0 3px rgba(139,92,246,0.15);
-        }
-        .search-shell i {
-            color: var(--p400);
-            font-size: 1rem;
-            flex-shrink: 0;
-        }
-        .search-shell input {
-            flex: 1;
-            border: none;
-            outline: none;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.95rem;
-            color: var(--ink);
-            background: transparent;
-            padding: 6px 4px;
-        }
-        .search-shell input::placeholder { color: #a8a8c0; }
-
-        .btn-search-go {
-            flex-shrink: 0;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 9px 18px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: white;
-            background: linear-gradient(135deg, var(--p700), var(--p500));
-            border: none;
-            border-radius: 9px;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(109,40,217,0.22);
-            transition: transform 0.15s, box-shadow 0.15s;
-        }
-        .btn-search-go:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 5px 18px rgba(109,40,217,0.32);
-        }
-        .btn-search-go:active { transform: translateY(0); }
-
-        .btn-analyse-inline {
-            flex-shrink: 0;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 9px 16px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--p700);
-            background: var(--p50);
-            border: 1.5px solid var(--p200);
-            border-radius: 9px;
-            cursor: pointer;
-            transition: background 0.15s, border-color 0.15s, transform 0.12s;
-            white-space: nowrap;
-        }
-        .btn-analyse-inline:hover {
-            background: var(--p100);
-            border-color: var(--p400);
-            transform: translateY(-1px);
-        }
-        .btn-analyse-inline:active { transform: translateY(0); }
-
-        .search-btn-row {
-            display: flex;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-
-        @media (max-width: 600px) {
-            .search-shell { flex-wrap: wrap; padding: 10px 14px; gap: 10px; }
-            .search-btn-row { width: 100%; }
-            .btn-search-go, .btn-analyse-inline { flex: 1; justify-content: center; }
         }
     </style>
 </head>
@@ -749,6 +668,9 @@
             <div class="nav-dropdown" id="navDropdown">
                 <div class="dropdown-header">{{ user.name }}</div>
                 <a href="/profile" class="dropdown-item"><i class="bi bi-person-circle"></i> Profile</a>
+                <a href="/bookmarks" class="dropdown-item"><i class="bi bi-bookmark-heart"></i> Saved Jobs</a>
+                <a href="/career" class="dropdown-item"><i class="bi bi-map"></i> Career Path</a>
+                <a href="/fit/paste" class="dropdown-item"><i class="bi bi-clipboard2-pulse"></i> Check External Job</a>
                 <a href="/logout" class="dropdown-item danger"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
             </div>
         </div>
@@ -769,75 +691,17 @@
 <!-- Main content -->
 <div class="content-wrap">
 
-    <!-- Hero + Search bar -->
+    <!-- Hero -->
     <div class="hero-strip">
-        <div class="query-eyebrow">Search Results</div>
-        <h1 class="hero-title">Results for <em>"{{ query }}"</em></h1>
-        <div class="hero-meta">
-            {% if recommended %}
-            <span class="ai-badge">
-                <span class="dot"></span>
-                AI Recommended Ranking
-            </span>
-            {% endif %}
-        </div>
-
-        <form action="/recommend" method="post" style="margin-top: 18px;">
-            <input type="hidden" name="query" value="{{ query }}">
-            <button id="ai-btn" class="btn-ai" type="submit">
-                <i class="bi bi-cpu-fill"></i>
-                AI Recommendations
-            </button>
-        </form>
+        <div class="query-eyebrow">Your Collection</div>
+        <h1 class="hero-title"><em>Bookmarked</em> Jobs</h1>
     </div>
 
-    <!-- Refine search bar -->
-    <div class="search-bar-wrap">
-        <form id="refineForm" method="post">
-            <div class="search-shell">
-                <i class="bi bi-search"></i>
-                <input
-                    type="text"
-                    name="query"
-                    id="refineInput"
-                    value="{{ query }}"
-                    placeholder="Refine your search…"
-                    autocomplete="off"
-                    required
-                >
-                <div class="search-btn-row">
-                    <button
-                        type="submit"
-                        class="btn-search-go"
-                        onclick="document.getElementById('refineForm').action='/search'"
-                    >
-                        <i class="bi bi-search"></i>
-                        Search
-                    </button>
-                    <button
-                        type="submit"
-                        class="btn-analyse-inline"
-                        onclick="document.getElementById('refineForm').action='/title_summary'"
-                    >
-                        <i class="bi bi-bar-chart"></i>
-                        Analyse
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <!-- Error -->
-    {% if error %}
-    <div class="err-box">
-        <i class="bi bi-exclamation-circle me-2"></i>{{ error }}
-    </div>
-    {% endif %}
-
-    <!-- Job cards -->
-    <div class="jobs-list">
-        {% for job in jobs %}
-        <div class="job-card">
+    {% if bookmarks %}
+    <div class="jobs-list" id="bookmarksList">
+        {% for item in bookmarks %}
+        {% set job = item.job %}
+        <div class="job-card" id="card-{{ job.job_id }}">
 
             <div class="card-top">
 
@@ -858,13 +722,11 @@
                     </div>
                 </div>
 
-                <!-- Score -->
-                {% if job.similarity %}
-                <div class="score-badge">
-                    <div class="score-num">{{ "%.2f"|format(job.similarity) }}</div>
-                    <div class="score-lbl">Match</div>
+                <!-- Bookmarked-at timestamp -->
+                <div class="bookmarked-at">
+                    <i class="bi bi-bookmark-fill"></i>
+                    {{ item.saved_at }}
                 </div>
-                {% endif %}
 
             </div>
 
@@ -872,48 +734,59 @@
             <div class="card-actions">
                 <button
                     class="btn-details"
-                    onclick="toggleDetails(this, 'details{{ loop.index }}')"
+                    onclick="toggleDetails(this, 'details-{{ job.job_id }}')"
                 >
                     <i class="bi bi-eye"></i>
-                    View Details
+                    Expand
                     <i class="bi bi-chevron-down chevron"></i>
                 </button>
 
-                <form action="/fit" method="post" style="margin:0">
+                <button class="btn-apply" onclick="showApplyToast()">
+                    <i class="bi bi-send"></i>
+                    Apply Now
+                </button>
+
+                <form action="/bookmarks/remove" method="post" style="margin:0" onsubmit="handleRemove(event, '{{ job.job_id }}')">
                     <input type="hidden" name="job_id" value="{{ job.job_id }}">
-                    <button class="btn-fit" type="submit">
-                        <i class="bi bi-stars"></i>
-                        Find My Fit
+                    <button class="btn-remove" type="submit">
+                        <i class="bi bi-bookmark-x"></i>
+                        Remove
                     </button>
                 </form>
             </div>
 
             <!-- Expand panel -->
-            <div class="expand-panel" id="details{{ loop.index }}">
+            <div class="expand-panel" id="details-{{ job.job_id }}">
 
                 <div class="sec-label">Description</div>
                 <p class="desc-text">{{ job.job_description }}</p>
 
+                {% if job.skills_required %}
                 <div class="sec-label">Skills Required</div>
                 <div>
                     {% for skill in job.skills_required %}
                         <span class="skill-pill">{{ skill }}</span>
                     {% endfor %}
                 </div>
+                {% endif %}
 
+                {% if job.responsibilities %}
                 <div class="sec-label">Responsibilities</div>
                 <ul class="resp-list">
                     {% for r in job.responsibilities %}
                         <li>{{ r }}</li>
                     {% endfor %}
                 </ul>
+                {% endif %}
 
+                {% if job.preferred_qualifications %}
                 <div class="sec-label">Preferred Qualifications</div>
                 <ul class="resp-list">
                     {% for q in job.preferred_qualifications %}
                         <li>{{ q }}</li>
                     {% endfor %}
                 </ul>
+                {% endif %}
 
                 <div class="sec-label">Details</div>
                 <div class="edu-sal-row">
@@ -933,15 +806,34 @@
         {% endfor %}
     </div>
 
-    <!-- Back -->
+    {% else %}
+    <!-- Empty state -->
+    <div class="empty-state">
+        <div class="empty-icon">
+            <i class="bi bi-bookmark"></i>
+        </div>
+        <div class="empty-title">No saved jobs yet</div>
+        <div class="empty-sub">When you bookmark a job from search results, it'll appear here.</div>
+        <a href="/" class="btn-back" style="margin-top:0">
+            <i class="bi bi-search"></i> Browse Jobs
+        </a>
+    </div>
+    {% endif %}
+
+    {% if bookmarks %}
     <a href="/" class="btn-back">
         <i class="bi bi-arrow-left"></i> Back to Search
     </a>
+    {% endif %}
 
 </div>
 
+<!-- Toast container -->
+<div class="toast-wrap" id="toastWrap"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+/* ── Expand / collapse ── */
 function toggleDetails(btn, panelId) {
     const panel = document.getElementById(panelId);
     const isOpen = panel.classList.contains('open');
@@ -952,7 +844,54 @@ function toggleDetails(btn, panelId) {
         : 'bi bi-eye-slash';
 }
 
-// Avatar / sign-in dropdown toggle
+/* ── Remove bookmark (optimistic UI) ── */
+function handleRemove(event, jobId) {
+    event.preventDefault();
+
+    const card = document.getElementById('card-' + jobId);
+    if (card) {
+        card.classList.add('removing');
+        card.addEventListener('transitionend', () => {
+            card.remove();
+            // If no cards left, reload to show empty state
+            const remaining = document.querySelectorAll('.job-card');
+            if (remaining.length === 0) {
+                window.location.reload();
+            }
+        }, { once: true });
+    }
+
+    // Submit the form in the background
+    const form = event.target;
+    fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+    });
+
+    showToast('bi-bookmark-x', 'Removed from bookmarks');
+}
+
+/* ── Apply Now placeholder ── */
+function showApplyToast() {
+    showToast('bi-send-check', 'Apply Now feature coming soon!');
+}
+
+/* ── Toast helper ── */
+function showToast(icon, message) {
+    const wrap = document.getElementById('toastWrap');
+    const toast = document.createElement('div');
+    toast.className = 'toast-msg';
+    toast.innerHTML = `<i class="bi ${icon}"></i> ${message}`;
+    wrap.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(12px)';
+        toast.style.transition = 'opacity 0.3s, transform 0.3s';
+        setTimeout(() => toast.remove(), 300);
+    }, 2800);
+}
+
+/* ── Avatar dropdown ── */
 const avatarBtn   = document.getElementById('avatarBtn');
 const navDropdown = document.getElementById('navDropdown');
 
