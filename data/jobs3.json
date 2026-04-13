@@ -1086,8 +1086,478 @@
             ],
             "salary_range": "$140,000 - $175,000",
             "posting_date": "2025-04-22"
-        }
+        },
+
+        {
+            "job_id": "J301",
+            "title": "Data Engineer",
+            "company": "StreamFlow Analytics",
+            "location": "Amsterdam, Netherlands",
+            "employment_type": "Full-time",
+            "experience_required": "2-4 years",
+            "education_required": "Bachelor's in Computer Science, Data Engineering, or related field",
+            "skills_required": [
+              "Python",
+              "Apache Spark",
+              "Apache Kafka",
+              "SQL",
+              "Airflow",
+              "AWS",
+              "dbt",
+              "PostgreSQL"
+            ],
+            "job_description": "StreamFlow Analytics is looking for a Data Engineer to design, build, and maintain the data infrastructure that powers our analytics and machine learning platforms. In this role, you will be responsible for developing robust data pipelines that ingest, transform, and deliver high-quality data to downstream consumers including data scientists, analysts, and product teams. You will work with large-scale streaming and batch data systems, leveraging tools such as Apache Kafka and Apache Spark to process millions of events daily. The role also involves designing and maintaining data warehouse schemas, building transformation layers using dbt, and orchestrating complex workflows with Apache Airflow. You will collaborate closely with cross-functional teams to understand data requirements and ensure data is accurate, accessible, and well-documented. The ideal candidate is passionate about data reliability, has strong SQL skills, and is comfortable working in cloud-based AWS environments.",
+            "responsibilities": [
+              "Design and build scalable data pipelines for batch and real-time data ingestion using Apache Spark and Kafka",
+              "Develop and maintain transformation logic using dbt to produce clean, reliable analytical datasets",
+              "Orchestrate complex data workflows using Apache Airflow, ensuring reliability and observability",
+              "Design and optimize data warehouse schemas in PostgreSQL and AWS Redshift for analytical workloads",
+              "Collaborate with data scientists and analysts to understand data requirements and deliver fit-for-purpose datasets",
+              "Implement data quality monitoring and alerting to ensure accuracy and completeness across pipelines",
+              "Maintain documentation for data models, pipeline architecture, and data lineage",
+              "Continuously optimize pipeline performance and resource efficiency across cloud infrastructure"
+            ],
+            "preferred_qualifications": [
+              "Experience with AWS Glue or AWS EMR",
+              "Familiarity with data lakehouse architectures such as Delta Lake or Apache Iceberg"
+            ],
+            "salary_range": "€60,000 - €80,000",
+            "posting_date": "2024-03-11"
+          },
+          {
+            "job_id": "J302",
+            "title": "Senior Data Engineer",
+            "company": "DataBridge Systems",
+            "location": "London, UK",
+            "employment_type": "Full-time",
+            "experience_required": "4-7 years",
+            "education_required": "Bachelor's or Master's in Computer Science or Data Engineering",
+            "skills_required": [
+              "Python",
+              "Apache Spark",
+              "Kafka",
+              "Snowflake",
+              "dbt",
+              "Airflow",
+              "Terraform",
+              "GCP"
+            ],
+            "job_description": "DataBridge Systems is seeking a Senior Data Engineer to lead the design and implementation of our enterprise-scale data platform. You will be responsible for architecting end-to-end data pipelines that support both real-time and batch analytical workloads, working with petabyte-scale datasets across our cloud infrastructure. In this role, you will take ownership of data platform reliability, scalability, and performance, and you will mentor junior data engineers to raise engineering standards across the team. You will work extensively with Snowflake as a data warehouse, dbt for transformations, and GCP for cloud infrastructure, while leveraging Terraform for infrastructure-as-code automation. The ideal candidate has deep expertise in distributed data systems, a strong understanding of data modelling principles, and experience delivering data platforms that serve both technical and business users.",
+            "responsibilities": [
+              "Architect and implement large-scale data pipelines on GCP using Apache Spark and Kafka",
+              "Design and manage Snowflake data warehouse, including schema design, performance tuning, and cost optimization",
+              "Lead the development of transformation pipelines using dbt, establishing best practices for testing and documentation",
+              "Automate infrastructure provisioning and pipeline deployment using Terraform and CI/CD pipelines",
+              "Define and enforce data quality standards, implementing monitoring and observability frameworks",
+              "Mentor junior data engineers through code reviews, technical guidance, and knowledge sharing",
+              "Collaborate with data scientists, analysts, and product managers to deliver high-quality data products",
+              "Evaluate and adopt new data engineering tools and frameworks to improve platform capabilities"
+            ],
+            "preferred_qualifications": [
+              "Experience with Apache Flink for real-time stream processing",
+              "Familiarity with data mesh or data product architectures"
+            ],
+            "salary_range": "£80,000 - £105,000",
+            "posting_date": "2024-06-17"
+          },
+          {
+            "job_id": "J303",
+            "title": "Data Engineering Lead",
+            "company": "Vantage Data Platforms",
+            "location": "New York, USA",
+            "employment_type": "Full-time",
+            "experience_required": "6-9 years",
+            "education_required": "Bachelor's or Master's in Computer Science or related field",
+            "skills_required": [
+              "Python",
+              "Apache Spark",
+              "Kafka",
+              "Databricks",
+              "dbt",
+              "Airflow",
+              "AWS",
+              "Data Modelling"
+            ],
+            "job_description": "Vantage Data Platforms is hiring a Data Engineering Lead to oversee the strategy, development, and operation of our enterprise data platform serving hundreds of internal and external stakeholders. In this leadership role, you will drive the technical roadmap for data infrastructure, define architecture standards, and lead a team of engineers in building reliable and scalable data systems. You will work with Databricks and Apache Spark for large-scale data processing, Kafka for real-time event streaming, and dbt for data transformation workflows, all orchestrated across AWS infrastructure. Beyond technical execution, you will act as a key partner to data science, analytics, and product teams, ensuring that high-quality data is available to power business-critical applications. The ideal candidate combines deep engineering expertise with strong communication skills and the ability to influence across the organization.",
+            "responsibilities": [
+              "Lead a team of data engineers, managing technical delivery, career development, and engineering standards",
+              "Define the technical roadmap for the enterprise data platform, including architecture decisions and tooling strategy",
+              "Oversee design and delivery of large-scale data pipelines using Apache Spark and Databricks",
+              "Drive adoption of dbt for modular, tested, and well-documented transformation pipelines",
+              "Ensure platform reliability through observability, monitoring, and incident management processes",
+              "Partner with data science, analytics, and product teams to understand requirements and deliver data products",
+              "Establish data governance practices including lineage tracking, cataloguing, and access controls",
+              "Evaluate emerging technologies and lead proof-of-concept initiatives to advance platform capabilities"
+            ],
+            "preferred_qualifications": [
+              "Experience implementing data mesh or domain-oriented data architectures",
+              "Familiarity with data cataloguing tools such as Apache Atlas or Collibra"
+            ],
+            "salary_range": "$140,000 - $175,000",
+            "posting_date": "2024-09-02"
+          },
+          {
+            "job_id": "J401",
+            "title": "Generative AI Product Engineer",
+            "company": "Lumina AI",
+            "location": "London, UK",
+            "employment_type": "Full-time",
+            "experience_required": "2-5 years",
+            "education_required": "Bachelor's or Master's in Computer Science or AI",
+            "skills_required": [
+              "Python",
+              "LLMs",
+              "LangChain",
+              "RAG",
+              "Vector Databases",
+              "FastAPI",
+              "Prompt Engineering",
+              "OpenAI API"
+            ],
+            "job_description": "Lumina AI is seeking a Generative AI Product Engineer to build intelligent AI-powered features that transform how our users interact with information. In this role, you will design and implement production-grade generative AI systems including conversational assistants, document understanding tools, and context-aware recommendation engines. You will work extensively with large language models through the OpenAI API and similar providers, building RAG pipelines that ground model outputs in enterprise knowledge bases. The role involves integrating vector databases for semantic retrieval, developing APIs using FastAPI to expose AI capabilities to the broader platform, and collaborating with product and design teams to deliver polished AI-driven experiences. You will also be responsible for crafting and iterating on prompt engineering strategies to improve output quality and reduce hallucinations. The ideal candidate combines a strong engineering foundation with genuine excitement for the possibilities of generative AI.",
+            "responsibilities": [
+              "Design and implement generative AI features including conversational agents, summarization tools, and document intelligence systems",
+              "Build retrieval-augmented generation pipelines integrating vector databases with large language models",
+              "Develop and expose AI capabilities through scalable FastAPI microservices",
+              "Engineer and iterate on prompts to optimise model output quality, accuracy, and safety",
+              "Integrate generative AI features into existing product workflows in collaboration with frontend and backend engineers",
+              "Implement evaluation frameworks to measure and benchmark AI system performance",
+              "Monitor production AI systems and proactively address issues related to reliability and quality",
+              "Stay current with advances in generative AI and assess their applicability to product use cases"
+            ],
+            "preferred_qualifications": [
+              "Experience with fine-tuning LLMs using LoRA or similar parameter-efficient methods",
+              "Familiarity with Pinecone, Weaviate, or Chroma vector databases"
+            ],
+            "salary_range": "£70,000 - £95,000",
+            "posting_date": "2024-07-14"
+          },
+          {
+            "job_id": "J402",
+            "title": "AI Agent Engineer",
+            "company": "SynapticAI",
+            "location": "San Francisco, USA",
+            "employment_type": "Full-time",
+            "experience_required": "3-5 years",
+            "education_required": "Master's in Computer Science or Artificial Intelligence",
+            "skills_required": [
+              "Python",
+              "LLMs",
+              "Agentic AI",
+              "LangChain",
+              "LangGraph",
+              "RAG",
+              "Vector Databases",
+              "FastAPI"
+            ],
+            "job_description": "SynapticAI is hiring an AI Agent Engineer to build the next generation of autonomous AI systems that can plan, reason, and execute complex multi-step tasks. In this role, you will design and implement agentic AI workflows using frameworks such as LangChain and LangGraph, enabling language models to use tools, call APIs, and coordinate across multiple reasoning steps to achieve user goals. You will build systems that go beyond simple question-answering, developing agents capable of performing web research, executing code, querying databases, and interacting with external services on behalf of users. The role requires a deep understanding of how large language models reason and fail, and the ability to design robust feedback loops, evaluation pipelines, and safety guardrails to ensure agents behave reliably in production. You will work closely with product and research teams to define agent capabilities and push the boundaries of what autonomous AI systems can achieve.",
+            "responsibilities": [
+              "Design and implement autonomous AI agents capable of multi-step reasoning and tool use using LangChain and LangGraph",
+              "Build agentic workflows that integrate LLMs with external APIs, databases, code interpreters, and search tools",
+              "Develop evaluation frameworks to assess agent reliability, accuracy, and failure modes at scale",
+              "Implement safety guardrails and monitoring systems to ensure predictable agent behaviour in production",
+              "Design and maintain retrieval pipelines that provide agents with relevant context from knowledge sources",
+              "Collaborate with research teams to incorporate advances in reasoning and planning into agent architectures",
+              "Build APIs and interfaces that expose agent capabilities to product surfaces",
+              "Document agent architectures, prompt strategies, and evaluation methodologies"
+            ],
+            "preferred_qualifications": [
+              "Experience building multi-agent systems using frameworks such as AutoGen or CrewAI",
+              "Familiarity with reinforcement learning from human feedback (RLHF) techniques"
+            ],
+            "salary_range": "$130,000 - $165,000",
+            "posting_date": "2024-10-21"
+          },
+          {
+            "job_id": "J403",
+            "title": "Generative AI Platform Engineer",
+            "company": "NovaMind Technologies",
+            "location": "Berlin, Germany",
+            "employment_type": "Full-time",
+            "experience_required": "3-6 years",
+            "education_required": "Bachelor's or Master's in Computer Science",
+            "skills_required": [
+              "Python",
+              "LLMs",
+              "RAG",
+              "Vector Databases",
+              "LangChain",
+              "Docker",
+              "Kubernetes",
+              "MLOps"
+            ],
+            "job_description": "NovaMind Technologies is seeking a Generative AI Platform Engineer to build the foundational infrastructure that powers our suite of AI-driven products. In this role, you will design and operate the platform layer that enables teams across the company to build, deploy, and scale generative AI applications reliably and efficiently. You will architect the serving infrastructure for large language models, build shared RAG pipeline components that development teams can reuse, and implement MLOps practices tailored to generative AI workloads. The role involves deploying and managing containerized AI services using Docker and Kubernetes, implementing monitoring and observability tooling specific to LLM systems such as token usage tracking and latency profiling, and developing the tooling that enables rapid experimentation with different model providers and configurations. The ideal candidate combines deep experience in platform and infrastructure engineering with a strong understanding of generative AI architectures.",
+            "responsibilities": [
+              "Design and build the platform infrastructure for deploying and scaling generative AI applications using Kubernetes",
+              "Develop shared RAG pipeline components including embedding generation, vector storage, and retrieval modules",
+              "Implement LLM serving infrastructure supporting multiple model providers with routing, caching, and fallback mechanisms",
+              "Build observability tooling for LLM systems, including latency monitoring, token usage tracking, and failure alerting",
+              "Establish MLOps practices for generative AI including model versioning, prompt versioning, and evaluation pipelines",
+              "Collaborate with product engineering teams to support them in building reliable AI-powered features",
+              "Implement cost management systems to track and optimise LLM API usage across teams",
+              "Evaluate and integrate new generative AI frameworks, vector databases, and infrastructure tooling"
+            ],
+            "preferred_qualifications": [
+              "Experience with self-hosted LLM deployment using vLLM or similar inference servers",
+              "Familiarity with LLM evaluation frameworks such as RAGAS or TruLens"
+            ],
+            "salary_range": "€85,000 - €110,000",
+            "posting_date": "2024-11-05"
+          },
+          {
+            "job_id": "J404",
+            "title": "LLM Fine-Tuning Engineer",
+            "company": "FoundationAI Research",
+            "location": "Toronto, Canada",
+            "employment_type": "Full-time",
+            "experience_required": "3-5 years",
+            "education_required": "Master's or PhD in Computer Science, AI, or Machine Learning",
+            "skills_required": [
+              "Python",
+              "PyTorch",
+              "Transformers",
+              "LLMs",
+              "PEFT",
+              "LoRA",
+              "RLHF",
+              "Hugging Face"
+            ],
+            "job_description": "FoundationAI Research is looking for an LLM Fine-Tuning Engineer to advance our capabilities in adapting large language models for domain-specific applications. In this role, you will be responsible for designing and executing fine-tuning experiments using parameter-efficient techniques such as LoRA and QLoRA, as well as implementing alignment techniques including RLHF and DPO to improve model behaviour according to human preferences. You will work with the Hugging Face ecosystem extensively, leveraging Transformers and PEFT libraries to train and evaluate domain-adapted models. The role involves designing rigorous evaluation pipelines, managing the compute resources required for large-scale training runs, and collaborating with product teams to ensure fine-tuned models meet quality and safety requirements. The ideal candidate has hands-on experience training transformer-based models at scale and a deep understanding of how pretraining and fine-tuning interact to shape model behaviour.",
+            "responsibilities": [
+              "Design and execute fine-tuning experiments on large language models using LoRA, QLoRA, and other PEFT techniques",
+              "Implement RLHF and DPO alignment pipelines to train models that better reflect human preferences and safety requirements",
+              "Develop rigorous evaluation frameworks to assess fine-tuned model quality, safety, and domain performance",
+              "Manage training infrastructure and optimize distributed training runs across GPU clusters",
+              "Curate and preprocess high-quality instruction datasets and preference data for training",
+              "Collaborate with product and research teams to define target model behaviours and quality criteria",
+              "Benchmark fine-tuned models against base models and commercial alternatives",
+              "Document experimental findings and contribute to internal knowledge sharing on model development best practices"
+            ],
+            "preferred_qualifications": [
+              "Experience with synthetic data generation for instruction tuning",
+              "Familiarity with constitutional AI or similar safety alignment techniques"
+            ],
+            "salary_range": "$125,000 - $155,000",
+            "posting_date": "2025-01-20"
+          },
+          {
+            "job_id": "J501",
+            "title": "Full Stack Developer",
+            "company": "Verdant Digital",
+            "location": "Dublin, Ireland",
+            "employment_type": "Full-time",
+            "experience_required": "2-4 years",
+            "education_required": "Bachelor's in Computer Science or equivalent experience",
+            "skills_required": [
+              "React",
+              "Node.js",
+              "TypeScript",
+              "PostgreSQL",
+              "REST APIs",
+              "Git",
+              "HTML",
+              "CSS"
+            ],
+            "job_description": "Verdant Digital is hiring a Full Stack Developer to build and maintain digital products used by clients across the financial services and retail sectors. In this role, you will work across the full software stack, developing responsive frontend interfaces using React and TypeScript while implementing backend services and APIs using Node.js. You will design and manage relational data using PostgreSQL, contribute to architecture decisions, and work collaboratively in an agile team environment. The role involves close collaboration with designers, product managers, and QA engineers to deliver features that meet both business requirements and high standards of usability and performance. The ideal candidate is a self-motivated developer who takes pride in writing clean, maintainable code and enjoys working across all layers of the application.",
+            "responsibilities": [
+              "Develop responsive and accessible frontend interfaces using React and TypeScript",
+              "Build and maintain RESTful backend APIs using Node.js",
+              "Design and optimize PostgreSQL database schemas and queries",
+              "Collaborate with designers to implement pixel-accurate UI components",
+              "Write comprehensive unit and integration tests to ensure code quality",
+              "Participate in agile ceremonies including sprint planning, reviews, and retrospectives",
+              "Review code from peers and provide constructive technical feedback",
+              "Troubleshoot and resolve production issues efficiently and reliably"
+            ],
+            "preferred_qualifications": [
+              "Experience with containerization using Docker",
+              "Familiarity with CI/CD pipelines"
+            ],
+            "salary_range": "€55,000 - €72,000",
+            "posting_date": "2024-02-28"
+          },
+          {
+            "job_id": "J502",
+            "title": "Full Stack Engineer",
+            "company": "Axion Software",
+            "location": "Remote",
+            "employment_type": "Full-time",
+            "experience_required": "3-5 years",
+            "education_required": "Bachelor's in Computer Science or related field",
+            "skills_required": [
+              "React",
+              "Next.js",
+              "Node.js",
+              "TypeScript",
+              "GraphQL",
+              "MongoDB",
+              "AWS",
+              "Docker"
+            ],
+            "job_description": "Axion Software is seeking a Full Stack Engineer to join a fully remote engineering team building a modern SaaS platform serving thousands of business customers. In this role, you will develop both frontend and backend components of a high-traffic web application, using Next.js and TypeScript on the frontend and Node.js with GraphQL on the backend. You will design and maintain MongoDB databases, deploy services on AWS, and containerize applications using Docker. The role requires strong communication skills given the remote-first nature of the team, as well as the ability to work autonomously and manage your own delivery commitments. You will collaborate closely with product managers and designers via async tools and contribute to a culture of high engineering quality through code reviews, documentation, and testing.",
+            "responsibilities": [
+              "Develop full stack features across a Next.js frontend and Node.js GraphQL backend",
+              "Design and implement MongoDB data models to support application requirements",
+              "Build and optimize GraphQL schemas, resolvers, and subscriptions",
+              "Deploy and manage services on AWS, leveraging services such as EC2, S3, and Lambda",
+              "Containerize applications using Docker and contribute to CI/CD pipeline maintenance",
+              "Write automated tests at unit, integration, and end-to-end levels",
+              "Collaborate asynchronously with product, design, and QA teams to deliver features on time",
+              "Contribute to architectural discussions and propose technical improvements"
+            ],
+            "preferred_qualifications": [
+              "Experience with Vercel or similar serverless deployment platforms",
+              "Familiarity with Redis for caching"
+            ],
+            "salary_range": "$95,000 - $120,000",
+            "posting_date": "2024-05-08"
+          },
+          {
+            "job_id": "J503",
+            "title": "Junior Full Stack Developer",
+            "company": "Mosaic Labs",
+            "location": "Manchester, UK",
+            "employment_type": "Full-time",
+            "experience_required": "0-2 years",
+            "education_required": "Bachelor's in Computer Science or equivalent bootcamp experience",
+            "skills_required": [
+              "JavaScript",
+              "React",
+              "Node.js",
+              "SQL",
+              "HTML",
+              "CSS",
+              "Git",
+              "REST APIs"
+            ],
+            "job_description": "Mosaic Labs is looking for a Junior Full Stack Developer to join a supportive and fast-growing product team working on a B2B web platform. This is an excellent opportunity for an early-career developer to gain hands-on experience across the full web stack in a structured and mentorship-rich environment. You will work on real product features from day one, developing frontend components using React and contributing to backend API development using Node.js. You will receive guidance from senior engineers through pair programming, code reviews, and regular one-to-one sessions. The ideal candidate is eager to learn, takes feedback constructively, and is enthusiastic about building software that solves real business problems. A portfolio of personal or academic projects demonstrating practical JavaScript and React experience is highly valued.",
+            "responsibilities": [
+              "Develop frontend features using React and modern JavaScript practices",
+              "Contribute to backend API development using Node.js and Express",
+              "Write SQL queries to retrieve and manipulate data from relational databases",
+              "Work with designers to implement responsive and accessible UI designs",
+              "Write unit tests to ensure code correctness and support continuous integration",
+              "Participate in code reviews and apply feedback from senior engineers",
+              "Investigate and fix bugs reported by QA or production monitoring",
+              "Maintain clear and concise documentation for components and APIs"
+            ],
+            "preferred_qualifications": [
+              "Portfolio of personal or open-source JavaScript projects",
+              "Basic understanding of cloud deployment concepts"
+            ],
+            "salary_range": "£28,000 - £38,000",
+            "posting_date": "2024-01-15"
+          },
+          {
+            "job_id": "J504",
+            "title": "Full Stack Python Developer",
+            "company": "Helix Software Group",
+            "location": "Singapore",
+            "employment_type": "Full-time",
+            "experience_required": "3-6 years",
+            "education_required": "Bachelor's in Computer Science or Software Engineering",
+            "skills_required": [
+              "Python",
+              "Django",
+              "React",
+              "PostgreSQL",
+              "REST APIs",
+              "Docker",
+              "AWS",
+              "Git"
+            ],
+            "job_description": "Helix Software Group is seeking a Full Stack Python Developer to build and maintain a suite of enterprise web applications used by clients across Southeast Asia. In this role, you will develop backend systems and APIs using Python and Django, build frontend interfaces using React, and manage relational data using PostgreSQL. You will containerize applications using Docker and deploy to AWS, working within an agile team that values engineering quality and continuous improvement. The role requires strong problem-solving skills and the ability to work across both the frontend and backend while maintaining consistent code quality and documentation standards. You will collaborate with a talented team of developers and product managers to deliver software that is reliable, secure, and scalable.",
+            "responsibilities": [
+              "Develop scalable backend applications and REST APIs using Python and Django",
+              "Build interactive frontend interfaces using React",
+              "Design and maintain PostgreSQL database schemas, indexes, and migrations",
+              "Containerize applications using Docker and deploy to AWS environments",
+              "Write comprehensive tests including unit, integration, and API tests",
+              "Participate in technical design discussions and contribute to system architecture decisions",
+              "Collaborate with QA engineers to ensure high standards of software quality",
+              "Monitor application performance and address issues related to reliability and scalability"
+            ],
+            "preferred_qualifications": [
+              "Experience with Celery for background task processing",
+              "Familiarity with AWS RDS and S3 for data storage"
+            ],
+            "salary_range": "$80,000 - $105,000",
+            "posting_date": "2024-04-03"
+          },
+          {
+            "job_id": "J505",
+            "title": "Full Stack Developer — React & Spring Boot",
+            "company": "EnterpriseEdge Solutions",
+            "location": "Munich, Germany",
+            "employment_type": "Full-time",
+            "experience_required": "4-7 years",
+            "education_required": "Bachelor's in Computer Science or related field",
+            "skills_required": [
+              "Java",
+              "Spring Boot",
+              "React",
+              "TypeScript",
+              "PostgreSQL",
+              "Docker",
+              "Kubernetes",
+              "REST APIs"
+            ],
+            "job_description": "EnterpriseEdge Solutions is hiring a Full Stack Developer with expertise in Java and React to contribute to the development of a large-scale enterprise resource planning platform used by manufacturing and logistics clients. In this role, you will build robust backend services using Java and Spring Boot, develop modern frontend interfaces using React and TypeScript, and manage complex relational data models in PostgreSQL. You will deploy services using Docker and Kubernetes in a cloud-native infrastructure and collaborate with architects, QA teams, and product owners in a structured enterprise environment. The ideal candidate has experience working on large, multi-team software projects and is comfortable navigating complex codebases with strict quality and compliance requirements.",
+            "responsibilities": [
+              "Design and develop backend services and REST APIs using Java and Spring Boot",
+              "Build scalable and maintainable frontend components using React and TypeScript",
+              "Design and manage complex PostgreSQL schemas optimized for enterprise workloads",
+              "Containerize and deploy services using Docker and Kubernetes in cloud environments",
+              "Work within a large multi-team engineering organization following established architectural guidelines",
+              "Write unit and integration tests and maintain high code coverage standards",
+              "Participate in design reviews and contribute to cross-team technical discussions",
+              "Support production systems by investigating and resolving incidents in a timely manner"
+            ],
+            "preferred_qualifications": [
+              "Experience with Spring Security and OAuth 2.0",
+              "Familiarity with event-driven architectures using Kafka"
+            ],
+            "salary_range": "€80,000 - €100,000",
+            "posting_date": "2024-08-19"
+          },
+          {
+            "job_id": "J506",
+            "title": "Full Stack Developer — AI-Integrated Applications",
+            "company": "Prism Digital Labs",
+            "location": "London, UK",
+            "employment_type": "Full-time",
+            "experience_required": "3-6 years",
+            "education_required": "Bachelor's in Computer Science or related field",
+            "skills_required": [
+              "React",
+              "Node.js",
+              "TypeScript",
+              "Python",
+              "REST APIs",
+              "PostgreSQL",
+              "OpenAI API",
+              "AWS"
+            ],
+            "job_description": "Prism Digital Labs is looking for a Full Stack Developer who is excited about building web applications that incorporate generative AI capabilities. In this role, you will develop the full product stack for an AI-powered productivity platform, working on the React frontend, Node.js backend, and the Python services that integrate large language models into user-facing features. You will build API layers that expose AI features to frontend surfaces, design the data models that support AI-enriched content, and implement the user interfaces through which customers interact with intelligent functionality. This role sits at the intersection of traditional full stack development and applied AI engineering, making it ideal for a developer who has strong web development foundations and is genuinely curious about how to build reliable, useful products on top of generative AI. You will work closely with product, design, and AI engineering teams in a fast-moving startup environment.",
+            "responsibilities": [
+              "Develop frontend interfaces in React and TypeScript that surface AI-powered features to end users",
+              "Build backend APIs in Node.js that orchestrate AI services and serve data to the frontend",
+              "Develop Python microservices that integrate with the OpenAI API and similar LLM providers",
+              "Design PostgreSQL schemas to store AI-generated content and user interaction data",
+              "Implement streaming API responses to deliver real-time AI output to the frontend",
+              "Deploy and manage application services on AWS, including Lambda, EC2, and RDS",
+              "Work with the AI engineering team to integrate prompt pipelines and RAG systems into product features",
+              "Monitor production systems and respond to reliability and performance issues"
+            ],
+            "preferred_qualifications": [
+              "Experience building streaming UI components with Server-Sent Events or WebSockets",
+              "Familiarity with LangChain or similar LLM orchestration frameworks"
+            ],
+            "salary_range": "£75,000 - £98,000",
+            "posting_date": "2025-02-10"
+          }
     
 
 
 ]
+

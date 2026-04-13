@@ -183,55 +183,8 @@ def analyze_job_title(user_query, jobs):
 from collections import defaultdict, Counter
 from datetime import datetime
 
-# def get_skill_trends(jobs, job_title, top_n=5):
-#     year_skill_map = defaultdict(list)
 
-#     # Filter relevant jobs
-#     for job in jobs:
-#         if job.get("title", "").lower() == job_title.lower():
-#             date_str = job.get("posting_date")
 
-#             if not date_str:
-#                 continue
-
-#             try:
-#                 year = datetime.strptime(date_str, "%Y-%m-%d").year
-#             except:
-#                 continue
-
-#             skills = job.get("skills_required", [])
-#             year_skill_map[year].extend(skills)
-
-#     # Count + normalize
-#     trend_data = {}
-#     all_skills_counter = Counter()
-
-    # # First pass: count total occurrences
-    # for year, skills in year_skill_map.items():
-    #     counter = Counter(skills)
-    #     trend_data[year] = counter
-    #     all_skills_counter.update(counter)
-
-    # # Get global top N skills
-    # top_skills = [skill for skill, _ in all_skills_counter.most_common(top_n)]
-
-    # # Build final structured output
-    # final_trend = {}
-
-    # for year in sorted(trend_data.keys()):
-    #     year_counts = trend_data[year]
-    #     total_jobs = sum(year_counts.values()) or 1
-
-    #     final_trend[year] = {
-    #         skill: round((year_counts.get(skill, 0) / total_jobs) * 100, 2)
-    #         for skill in top_skills
-    #     }
-
-    # return {
-    #     "years": sorted(final_trend.keys()),
-    #     "skills": top_skills,
-    #     "data": final_trend
-    # }
     
     
 def get_skill_trends(jobs, job_title, top_n=5):
