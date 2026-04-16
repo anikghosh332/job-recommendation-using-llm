@@ -16,8 +16,9 @@ from datetime import datetime
 from typing import Optional
 
 from functions.parse_resume import ResumeParser, build_resume_text
-from functions.model import search_jobs
-from functions.llm_recommendations import explain_matching_quality
+# from functions.model import search_jobs
+from functions.parse_jobs import search_jobs
+from functions.llm_recommendations import explain_matching_quality, get_career_recommendations
 from functions.auth import (
     authenticate_user,
     create_user,
@@ -35,10 +36,9 @@ from functions.auth import (
 from main import (
     semantic_recommendation,
     analyze_job_title,
-    compute_skill_trends,
-    compute_salary_trends,
-    get_career_recommendations,
 )
+
+from functions.trends import compute_skill_trends, compute_salary_trends
 
 # ─────────────────────────────────────────────
 # JOB-DESCRIPTION CONTENT VALIDATOR
