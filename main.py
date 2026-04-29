@@ -3,6 +3,7 @@ from functions.parse_jobs import build_job_text, compute_title_embeddings, find_
 
 import json
 from sklearn.metrics.pairwise import cosine_similarity
+
 from functions.llm import llm_call
 from functions.llm_recommendations import identify_skill_gaps, explain_matching_quality
 from functions.career import (
