@@ -805,37 +805,8 @@
 <body>
 
 <!-- Sticky navbar -->
-<nav class="navbar">
-    <a href="/" class="navbar-brand">
-        <div class="brand-icon"><i class="bi bi-briefcase-fill"></i></div>
-        <span>Job AI Platform</span>
-    </a>
 
-    {% if user %}
-    {% set initials = (user.name.split()[0][0] + (user.name.split()[1][0] if user.name.split()|length > 1 else ''))|upper %}
-    <div class="nav-auth">
-        <button class="avatar-btn" id="avatarBtn" title="{{ user.name }}">{{ initials }}</button>
-        <div class="nav-dropdown" id="navDropdown">
-            <div class="dropdown-header">{{ user.name }}</div>
-            <a href="/profile" class="dropdown-item"><i class="bi bi-person-circle"></i> Profile</a>
-            <a href="/bookmarks" class="dropdown-item"><i class="bi bi-bookmark-heart"></i> Saved Jobs</a>
-            <a href="/career" class="dropdown-item"><i class="bi bi-map"></i> Career Path</a>
-            <a href="/fit/paste" class="dropdown-item"><i class="bi bi-clipboard2-pulse"></i> Check External Job</a>
-            <a href="/logout" class="dropdown-item danger"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
-        </div>
-    </div>
-    {% else %}
-    <div class="nav-auth">
-        <button class="signin-btn" id="avatarBtn" title="Sign in">
-            <i class="bi bi-person"></i>
-        </button>
-        <div class="nav-dropdown" id="navDropdown">
-            <a href="/login" class="dropdown-item"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>
-            <a href="/register" class="dropdown-item"><i class="bi bi-person-plus"></i> Create Account</a>
-        </div>
-    </div>
-    {% endif %}
-</nav>
+{% include "components/navbar.html" %}
 
 <!-- Main content -->
 <div class="content-wrap">
