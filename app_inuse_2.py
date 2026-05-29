@@ -64,12 +64,8 @@ os.makedirs(BASE_UPLOAD_DIR, exist_ok=True)
 os.makedirs("data", exist_ok=True)
 
 # Static jobs loaded once at startup (always available as fallback)
-try:
-    with open("data/jobs3.json") as f:
-        _static_jobs: list[dict] = json.load(f)
-except (FileNotFoundError, json.JSONDecodeError) as e:
-    print(f"[startup] Warning: could not load data/jobs3.json — {e}. Starting with empty static jobs.")
-    _static_jobs = []
+with open("data/jobs3.json") as f:
+    _static_jobs: list[dict] = json.load(f)
 
 
 def _get_all_jobs() -> list[dict]:

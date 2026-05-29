@@ -4,6 +4,9 @@
 
 from __future__ import annotations
 
+from dotenv import load_dotenv
+load_dotenv()
+
 import base64
 import io
 import json
@@ -38,7 +41,7 @@ from functions.auth import (
 )
 from functions.live_jobs import get_live_jobs, load_cached_jobs
 from functions.llm_recommendations import explain_matching_quality, get_career_recommendations
-from functions.parse_jobs import search_jobs, filter_by_location
+from functions.parse_jobs import search_jobs
 from functions.parse_resume import ResumeParser, build_resume_text
 from functions.scheduler import start_scheduler
 from functions.trends import compute_salary_trends, compute_skill_trends
@@ -64,12 +67,8 @@ os.makedirs(BASE_UPLOAD_DIR, exist_ok=True)
 os.makedirs("data", exist_ok=True)
 
 # Static jobs loaded once at startup (always available as fallback)
-try:
-    with open("data/jobs3.json") as f:
-        _static_jobs: list[dict] = json.load(f)
-except (FileNotFoundError, json.JSONDecodeError) as e:
-    print(f"[startup] Warning: could not load data/jobs3.json — {e}. Starting with empty static jobs.")
-    _static_jobs = []
+with open("data/jobs3.json") as f:
+    _static_jobs: list[dict] = json.load(f)
 
 
 def _get_all_jobs() -> list[dict]:
@@ -255,32 +254,17 @@ def home(request: Request, user: Optional[dict] = Depends(get_current_user)):
 
 @app.post("/search", response_class=HTMLResponse)
 def search(
-    request:  Request,
-    query:    str = Form(...),
-    location: str = Form(""),
-    user:     Optional[dict] = Depends(get_current_user),
+    request: Request,
+    query:   str = Form(...),
+    user:    Optional[dict] = Depends(get_current_user),
 ):
-    all_jobs = _get_all_jobs()
-
-    # If user typed a location, also fetch fresh live results for that
-    # specific query+location combo and merge them in at the top
-    if location.strip():
-        live_targeted = get_live_jobs(query, num_pages=3, location=location.strip())
-        live_ids      = {str(j["job_id"]) for j in live_targeted}
-        all_jobs      = live_targeted + [j for j in all_jobs if str(j["job_id"]) not in live_ids]
-
-    # Step 1: keyword search across title, company, skills, description
-    results = search_jobs(query, all_jobs)
-
-    # Step 2: apply location filter strictly on the location field only
-    # This runs AFTER keyword search so relevance scoring is not affected
-    results = filter_by_location(results, location)
-
+    # Merge live + static jobs, then run keyword search across all of them
+    all_jobs       = _get_all_jobs()
+    results        = search_jobs(query, all_jobs)
     bookmarked_ids = get_bookmarked_ids(user["user_id"]) if user else set()
     return _render(
         "results.html", request,
         user=user, jobs=results, query=query,
-        location=location,
         recommended=False, bookmarked_ids=bookmarked_ids,
     )
 
