@@ -7,5 +7,5 @@ data/users.json
 static/resumes/
 static/uploads/
 landing.html
-data/
+data/*
 
