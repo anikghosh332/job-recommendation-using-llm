@@ -19,6 +19,7 @@ import os
 import re
 from datetime import datetime
 from typing import Optional
+from filelock import FileLock
 
 from passlib.context import CryptContext
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
@@ -66,17 +67,33 @@ def is_strong_password(password: str) -> tuple[bool, str]:
 # Schema: { email: { "user_id": str, "name": str, "email": str,
 #                    "password_hash": str, "created_at": str } }
 
+# def _load_users(users_path: str) -> dict:
+#     if not os.path.exists(users_path):
+#         return {}
+#     with open(users_path, "r") as f:
+#         return json.load(f)
+
+# to this:
 def _load_users(users_path: str) -> dict:
     if not os.path.exists(users_path):
         return {}
-    with open(users_path, "r") as f:
-        return json.load(f)
+    lock = FileLock(users_path + ".lock")
+    with lock:
+        with open(users_path, "r") as f:
+            return json.load(f)
 
+
+# def _save_users(users: dict, users_path: str) -> None:
+#     os.makedirs(os.path.dirname(users_path), exist_ok=True)
+#     with open(users_path, "w") as f:
+#         json.dump(users, f, indent=2)
 
 def _save_users(users: dict, users_path: str) -> None:
     os.makedirs(os.path.dirname(users_path), exist_ok=True)
-    with open(users_path, "w") as f:
-        json.dump(users, f, indent=2)
+    lock = FileLock(users_path + ".lock")
+    with lock:
+        with open(users_path, "w") as f:
+            json.dump(users, f, indent=2)
 
 
 def get_user_by_email(email: str, users_path: str) -> Optional[dict]:
@@ -101,10 +118,14 @@ def create_user(name: str, email: str, password: str, users_path: str) -> dict:
     Returns the new user dict (without password_hash).
     """
     email = email.lower().strip()
-    name  = name.strip()
+    name  = name.strip()[:100]   # hard cap at 100 chars
 
     if not name:
         raise ValueError("Name cannot be empty.")
+    if len(name) < 2:
+        raise ValueError("Name must be at least 2 characters.")
+    if not re.match(r"^[A-Za-z0-9 '\-\.]+$", name):
+        raise ValueError("Name contains invalid characters. Use only letters, numbers, spaces, hyphens, or apostrophes.")
     if not is_valid_email(email):
         raise ValueError("Invalid email address.")
     ok, reason = is_strong_password(password)
@@ -145,7 +166,8 @@ def update_password(email: str, new_password: str, users_path: str) -> None:
     if email not in users:
         raise ValueError("User not found.")
 
-    users[email]["password_hash"] = hash_password(new_password)
+    users[email]["password_hash"]      = hash_password(new_password)
+    users[email]["password_changed_at"] = datetime.utcnow().isoformat()
     _save_users(users, users_path)
 
 
@@ -173,17 +195,36 @@ def make_reset_token(email: str, secret_key: str, max_age: int = 3600) -> str:
     return s.dumps(email.lower().strip())
 
 
-def verify_reset_token(token: str, secret_key: str, max_age: int = 3600) -> Optional[str]:
+# to this:
+def verify_reset_token(
+    token: str,
+    secret_key: str,
+    users_path: str,
+    max_age: int = 3600,
+) -> Optional[str]:
     """
     Verify and decode a reset token.
-    Returns the email on success, None if expired or invalid.
+    Also checks the token wasn't issued before the last password change,
+    so each reset link can only be used once.
+    Returns the email on success, None if expired, invalid, or already used.
     """
     s = URLSafeTimedSerializer(secret_key, salt="password-reset")
     try:
-        email = s.loads(token, max_age=max_age)
-        return email
+        email, token_ts = s.loads(token, max_age=max_age, return_timestamp=True)
     except (SignatureExpired, BadSignature):
         return None
+
+    # Invalidate if password was already changed after this token was issued
+    user = get_user_by_email(email, users_path)
+    if user:
+        changed_at = user.get("password_changed_at")
+        if changed_at:
+            from datetime import timezone
+            changed_dt = datetime.fromisoformat(changed_at).replace(tzinfo=timezone.utc)
+            if changed_dt > token_ts.replace(tzinfo=timezone.utc):
+                return None  # token already used
+
+    return email
 
 
 # ── Session helpers ───────────────────────────────────────────────────────────

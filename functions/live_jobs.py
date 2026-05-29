@@ -111,15 +111,48 @@ def refresh_cache(
     logger.info(f"[live_jobs] cache refreshed — {len(all_jobs)} unique jobs written.")
 
 
+# def load_cached_jobs() -> list[dict]:
+#     """Load previously cached live jobs, or return [] if cache doesn't exist."""
+#     if not CACHE_PATH.exists():
+#         return []
+#     try:
+#         with open(CACHE_PATH) as f:
+#             return json.load(f)
+#     except Exception as e:
+#         logger.error(f"[live_jobs] failed to load cache: {e}")
+#         return []
+
+_REQUIRED_CACHE_KEYS = {"job_id", "title", "company", "job_description"}
+
 def load_cached_jobs() -> list[dict]:
-    """Load previously cached live jobs, or return [] if cache doesn't exist."""
+    """
+    Load previously cached live jobs with basic integrity validation.
+    Discards the cache and returns [] if it fails any check.
+    """
     if not CACHE_PATH.exists():
         return []
     try:
         with open(CACHE_PATH) as f:
-            return json.load(f)
+            data = json.load(f)
+
+        if not isinstance(data, list):
+            raise ValueError("Cache root is not a list.")
+
+        # Filter out any entries missing required fields or wrong type
+        valid = [
+            j for j in data
+            if isinstance(j, dict) and _REQUIRED_CACHE_KEYS.issubset(j.keys())
+        ]
+
+        if len(valid) < len(data):
+            logger.warning(
+                f"[live_jobs] dropped {len(data) - len(valid)} invalid entries from cache."
+            )
+
+        return valid
+
     except Exception as e:
-        logger.error(f"[live_jobs] failed to load cache: {e}")
+        logger.error(f"[live_jobs] cache invalid, discarding: {e}")
         return []
 
 

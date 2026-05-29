@@ -22,6 +22,8 @@ from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 from wordcloud import WordCloud
 
+import bleach
+
 from functions.auth import (
     authenticate_user,
     create_user,
@@ -49,16 +51,42 @@ from main import analyze_job_title, semantic_recommendation
 # App setup
 # =============================================================================
 
-SESSION_SECRET = os.environ.get("SESSION_SECRET", "dev-secret-change-in-production")
+# SESSION_SECRET = os.environ.get("SESSION_SECRET", "dev-secret-change-in-production")
+
+SESSION_SECRET = os.environ.get("SESSION_SECRET")
+if not SESSION_SECRET:
+    raise RuntimeError("SESSION_SECRET environment variable is not set...")
 
 app = FastAPI()
-app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET, max_age=86400)
+# app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET, max_age=86400)
+
+IS_PRODUCTION = os.environ.get("ENV", "development").lower() == "production"
+
+app.add_middleware(
+    SessionMiddleware,
+    secret_key  = SESSION_SECRET,
+    max_age     = 86400,
+    https_only  = IS_PRODUCTION,  # True in prod → cookie only sent over HTTPS
+    same_site   = "lax",          # blocks cross-site POST requests (CSRF mitigation)
+)
+
+IS_PRODUCTION = os.environ.get("ENV", "development").lower() == "production"
 
 templates = Jinja2Templates(directory="templates")
 parser    = ResumeParser(static_folder="static")
 
 BASE_UPLOAD_DIR = "static/uploads"
 USERS_PATH      = "data/users.json"
+ALLOWED_EXTENSIONS = {".pdf", ".doc", ".docx", ".txt"}
+
+MAX_JD_LENGTH    = 15_000   # ~10 pages of text, more than enough
+MAX_FIELD_LENGTH = 200
+
+ALLOWED_TAGS = [
+    "p", "strong", "em", "ul", "ol", "li", "h2", "h3",
+    "table", "thead", "tbody", "tr", "th", "td", "hr", "br"
+]
+ALLOWED_ATTRS = {}  # no attributes needed
 
 os.makedirs(BASE_UPLOAD_DIR, exist_ok=True)
 os.makedirs("data", exist_ok=True)
@@ -393,7 +421,7 @@ def forgot_password(request: Request, email: str = Form(...)):
 
 @app.get("/reset-password", response_class=HTMLResponse)
 def reset_password_page(request: Request, token: str):
-    email = verify_reset_token(token, SESSION_SECRET)
+    email = verify_reset_token(token, SESSION_SECRET, USERS_PATH)
     if email is None:
         return _render(
             "reset_password.html", request,
@@ -410,7 +438,7 @@ def reset_password(
     password:         str = Form(...),
     confirm_password: str = Form(...),
 ):
-    email = verify_reset_token(token, SESSION_SECRET)
+    email = verify_reset_token(token, SESSION_SECRET, USERS_PATH)
     if email is None:
         return _render(
             "reset_password.html", request,
@@ -460,6 +488,58 @@ def profile_page(
     )
 
 
+# @app.post("/profile", response_class=HTMLResponse)
+# async def upload_resume(
+#     request: Request,
+#     file:    UploadFile = File(...),
+#     user:    Optional[dict] = Depends(get_current_user),
+# ):
+#     redirect = _redirect_if_unauthenticated(user)
+#     if redirect:
+#         return redirect
+
+#     user_id    = user["user_id"]
+#     upload_dir = user_upload_dir(BASE_UPLOAD_DIR, user_id)
+#     meta       = load_meta(user_id)
+    
+
+#     try:
+#         timestamp   = datetime.now().strftime("%Y%m%d_%H%M%S")
+#         unique_name = f"{timestamp}_{file.filename.replace(' ', '_')}"
+#         full_path   = os.path.join(upload_dir, unique_name)
+
+#         content = await file.read()
+#         with open(full_path, "wb") as f:
+#             f.write(content)
+
+#         parsed_data = parser.parse_resume(os.path.join("uploads", user_id, unique_name))
+#         if not parsed_data:
+#             raise ValueError("Parsing failed — check file format.")
+
+#         meta["resumes"].append({
+#             "filename":     unique_name,
+#             "display_name": file.filename,
+#             "uploaded_at":  datetime.now().strftime("%Y-%m-%d %H:%M"),
+#         })
+#         if meta["active"] is None:
+#             meta["active"] = unique_name
+#         save_meta(meta, user_id)
+
+#     except Exception as e:
+#         return _render(
+#             "profile.html", request,
+#             user=user, resumes=meta["resumes"],
+#             active=meta["active"], parsed=None, error=str(e),
+#         )
+
+#     meta = load_meta(user_id)
+#     return _render(
+#         "profile.html", request,
+#         user=user, resumes=meta["resumes"],
+#         active=meta["active"], parsed=parsed_data, error=None,
+#     )
+
+
 @app.post("/profile", response_class=HTMLResponse)
 async def upload_resume(
     request: Request,
@@ -475,11 +555,28 @@ async def upload_resume(
     meta       = load_meta(user_id)
 
     try:
+        # ── 1. Extension whitelist ────────────────────────────────────────────
+        import pathlib
+        ALLOWED_EXTENSIONS = {".pdf", ".doc", ".docx", ".txt"}
+        original_ext = pathlib.Path(file.filename).suffix.lower()
+        if original_ext not in ALLOWED_EXTENSIONS:
+            raise ValueError(
+                f"File type '{original_ext}' is not allowed. "
+                "Please upload a PDF, DOC, DOCX, or TXT file."
+            )
+
+        # ── 2. Size limit (5 MB) ─────────────────────────────────────────────
+        MAX_UPLOAD_BYTES = 5 * 1024 * 1024
+        content = await file.read(MAX_UPLOAD_BYTES + 1)
+        if len(content) > MAX_UPLOAD_BYTES:
+            raise ValueError("File is too large. Maximum upload size is 5 MB.")
+
+        # ── 3. Sanitise filename ─────────────────────────────────────────────
+        safe_stem   = re.sub(r"[^\w\-.]", "_", pathlib.Path(file.filename).name)
         timestamp   = datetime.now().strftime("%Y%m%d_%H%M%S")
-        unique_name = f"{timestamp}_{file.filename.replace(' ', '_')}"
+        unique_name = f"{timestamp}_{safe_stem}"
         full_path   = os.path.join(upload_dir, unique_name)
 
-        content = await file.read()
         with open(full_path, "wb") as f:
             f.write(content)
 
@@ -509,6 +606,7 @@ async def upload_resume(
         user=user, resumes=meta["resumes"],
         active=meta["active"], parsed=parsed_data, error=None,
     )
+
 
 
 @app.post("/profile/select", response_class=HTMLResponse)
@@ -612,6 +710,7 @@ def find_fit(
 
     explanation = explain_matching_quality(resume_text, [selected_job], 1)
     explanation = markdown.markdown(explanation, extensions=["tables"])
+    explanation = bleach.clean(explanation, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRS)
     return _render("fit.html", request, user=user, job=selected_job, explanation=explanation)
 
 
@@ -697,8 +796,12 @@ def paste_fit(
                        error="Please upload and select a resume first.")
 
     job_description = job_description.strip()
-    job_title       = job_title.strip()    or "Pasted Job"
-    company_name    = company_name.strip() or "Unknown Company"
+    job_title       = job_title.strip()[:MAX_FIELD_LENGTH]    or "Pasted Job"
+    company_name    = company_name.strip()[:MAX_FIELD_LENGTH] or "Unknown Company"
+    
+    if len(job_description) > MAX_JD_LENGTH:
+        return _render("paste_fit.html", ...,
+                   error=f"Job description is too long. Maximum is {MAX_JD_LENGTH:,} characters.")
 
     if len(job_description) < 50:
         return _render("paste_fit.html", request, user=user, no_resume=False,
