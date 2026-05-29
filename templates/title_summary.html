@@ -2,36 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Job Title Analysis</title>
+    <title>Title Analysis — Workit</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --brand:       #6367FF;
-            --brand-dark:  #4B4FD9;
-            --brand-light: #F0F0FF;
-            --brand-ring:  rgba(99,103,255,0.18);
-            --bg:          #FFFBF1;
-            --surface:     #FFFFFF;
-            --text:        #1A1433;
-            --muted:       #7C7A9C;
-            --border:      #EAE8F5;
-            --border-soft: #F2F0FA;
-            --sub:         #6B6894;
+            --primary:       #3D7A7E;
+            --primary-dark:  #2e5f63;
+            --primary-light: #6fa4a8;
+            --primary-pale:  #e4f0f1;
+            --primary-ring:  rgba(61,122,126,0.18);
+            --bg:            #F2F3F5;
+            --surface:       #FFFFFF;
+            --dark:          #1C2128;
+            --text:          #1C2128;
+            --text-muted:    #6b7280;
+            --border:        #E5E7EB;
+            --border-light:  #F3F4F6;
         }
 
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'DM Sans', sans-serif;
-            background-color: var(--bg);
-            background-image: radial-gradient(circle at 1px 1px, rgba(99,103,255,0.07) 1px, transparent 0);
-            background-size: 28px 28px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
             color: var(--text);
             min-height: 100vh;
             padding-bottom: 80px;
@@ -39,403 +38,235 @@
 
         /* ── NAVBAR ── */
         .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            position: sticky; top: 0; z-index: 100;
             height: 60px;
-            background: rgba(255,251,241,0.90);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
             padding: 0 32px;
         }
         .navbar-brand {
-            font-family: 'Syne', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text);
-            letter-spacing: -0.02em;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 1rem; font-weight: 700; color: var(--dark);
+            letter-spacing: -0.02em; text-decoration: none;
+            display: flex; align-items: center; gap: 10px;
         }
-        .navbar-brand:hover { color: var(--text); }
+        .navbar-brand:hover { color: var(--dark); opacity: 0.85; }
         .brand-icon {
-            width: 32px; height: 32px;
-            border-radius: 9px;
-            background: var(--brand);
+            width: 34px; height: 34px; border-radius: 9px; background: var(--primary);
             display: flex; align-items: center; justify-content: center;
-            color: #fff;
-            font-size: 0.9rem;
-            flex-shrink: 0;
+            color: #fff; font-size: 0.9rem; flex-shrink: 0;
         }
         .nav-auth { position: relative; }
         .avatar-btn {
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            background: var(--brand);
-            color: #fff;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.03em;
-            border: none;
-            cursor: pointer;
+            width: 36px; height: 36px; border-radius: 50%; background: var(--primary);
+            color: #fff; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.03em;
+            border: none; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 2px 8px rgba(99,103,255,0.32);
-            transition: transform 0.15s, box-shadow 0.18s;
-            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(61,122,126,0.3);
+            transition: transform 0.15s, box-shadow 0.18s; flex-shrink: 0;
         }
-        .avatar-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(99,103,255,0.40); }
-        .avatar-btn:active { transform: translateY(0); }
+        .avatar-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(61,122,126,0.4); }
         .signin-btn {
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            background: var(--brand-light);
-            border: 1.5px solid var(--border);
-            color: var(--brand);
-            cursor: pointer;
+            width: 36px; height: 36px; border-radius: 50%; background: var(--surface);
+            border: 1.5px solid var(--border); color: var(--primary); cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            transition: background 0.18s, border-color 0.18s, transform 0.15s;
-            flex-shrink: 0;
+            transition: all 0.18s; flex-shrink: 0;
         }
-        .signin-btn:hover { background: #e4e4ff; border-color: var(--brand); transform: translateY(-1px); }
+        .signin-btn:hover { background: var(--primary); border-color: var(--primary); color: #fff; transform: translateY(-1px); }
         .signin-btn i { font-size: 1.1rem; }
         .nav-dropdown {
-            position: absolute;
-            top: calc(100% + 10px);
-            right: 0;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            box-shadow: 0 8px 32px rgba(26,20,51,0.10);
-            min-width: 172px;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(-6px) scale(0.97);
-            pointer-events: none;
-            transition: opacity 0.18s, transform 0.18s;
-            z-index: 200;
+            position: absolute; top: calc(100% + 10px); right: 0;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+            min-width: 200px; overflow: hidden;
+            opacity: 0; transform: translateY(-6px) scale(0.97); pointer-events: none;
+            transition: opacity 0.18s, transform 0.18s; z-index: 200;
         }
         .nav-dropdown.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
         .dropdown-header {
-            padding: 12px 16px 8px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--muted);
-            border-bottom: 1px solid var(--border-soft);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            padding: 12px 16px 8px; font-size: 0.75rem; font-weight: 600; color: var(--text-muted);
+            border-bottom: 1px solid var(--border-light); white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis;
         }
         .dropdown-item {
-            display: flex; align-items: center; gap: 9px;
-            padding: 10px 16px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text);
-            text-decoration: none;
-            cursor: pointer;
-            transition: background 0.15s;
+            display: flex; align-items: center; gap: 10px; padding: 10px 16px;
+            font-size: 0.875rem; font-weight: 500; color: var(--text); text-decoration: none;
+            cursor: pointer; transition: background 0.15s;
             background: none; border: none; width: 100%; text-align: left;
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
-        .dropdown-item:hover { background: var(--brand-light); color: var(--brand); }
-        .dropdown-item i { font-size: 0.95rem; color: var(--muted); }
-        .dropdown-item:hover i { color: var(--brand); }
+        .dropdown-item:hover { background: var(--primary-pale); color: var(--primary-dark); }
+        .dropdown-item i { font-size: 0.95rem; color: var(--text-muted); }
+        .dropdown-item:hover i { color: var(--primary); }
         .dropdown-item.danger { color: #dc2626; }
         .dropdown-item.danger i { color: #dc2626; }
-        .dropdown-item.danger:hover { background: #fef2f2; color: #dc2626; }
-        /* ── END NAVBAR ── */
+        .dropdown-item.danger:hover { background: #fef2f2; }
 
-        /* ── Content ── */
-        .content-wrap {
-            position: relative;
-            z-index: 1;
-            max-width: 1060px;
-            margin: 0 auto;
-            padding: 44px 28px 0;
-        }
+        /* ── Layout ── */
+        .content-wrap { max-width: 1060px; margin: 0 auto; padding: 44px 28px 0; }
 
         /* ── Hero ── */
-        .hero-strip {
-            margin-bottom: 32px;
-            animation: fadeUp 0.5s ease both;
-        }
+        .hero-strip { margin-bottom: 32px; animation: fadeUp 0.5s ease both; }
         .hero-eyebrow {
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.09em;
-            text-transform: uppercase;
-            color: var(--brand);
-            margin-bottom: 8px;
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+            text-transform: uppercase; color: var(--primary); margin-bottom: 8px;
         }
         .hero-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(1.7rem, 3.5vw, 2.5rem);
-            font-weight: 800;
-            color: var(--text);
-            line-height: 1.18;
-            letter-spacing: -0.03em;
-            margin-bottom: 10px;
+            font-size: clamp(1.6rem, 3vw, 2.3rem); font-weight: 700;
+            color: var(--dark); line-height: 1.2; letter-spacing: -0.03em; margin-bottom: 16px;
         }
-        .hero-title em {
-            font-style: italic;
-            color: var(--brand);
-        }
+        .hero-title em { font-style: normal; color: var(--primary); }
 
         /* ── Back button ── */
         .btn-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 9px 18px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--brand);
-            background: var(--surface);
-            border: 1.5px solid var(--border);
-            border-radius: 10px;
-            text-decoration: none;
-            transition: background 0.15s, border-color 0.15s, transform 0.12s;
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 11px 20px; font-family: 'Inter', sans-serif;
+            font-size: 0.875rem; font-weight: 600; color: var(--primary);
+            background: var(--surface); border: 1.5px solid var(--border);
+            border-radius: 10px; text-decoration: none; transition: all 0.18s;
         }
         .btn-back:hover {
-            background: var(--brand-light);
-            border-color: var(--brand);
-            transform: translateY(-1px);
-            color: var(--brand);
+            background: var(--primary); border-color: var(--primary);
+            color: #fff; transform: translateY(-1px);
         }
 
         /* ── Section card ── */
         .section-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 26px 28px;
-            margin-bottom: 18px;
-            box-shadow: 0 2px 8px rgba(26,20,51,0.04), 0 4px 20px rgba(99,103,255,0.04);
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px; padding: 24px 26px; margin-bottom: 16px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
             animation: fadeUp 0.5s ease both;
         }
-        .section-card:nth-child(1) { animation-delay: 0.05s; }
-        .section-card:nth-child(2) { animation-delay: 0.10s; }
-        .section-card:nth-child(3) { animation-delay: 0.15s; }
-        .section-card:nth-child(4) { animation-delay: 0.20s; }
+        .section-card:nth-child(1) { animation-delay: 0.04s; }
+        .section-card:nth-child(2) { animation-delay: 0.08s; }
+        .section-card:nth-child(3) { animation-delay: 0.12s; }
+        .section-card:nth-child(4) { animation-delay: 0.16s; }
+        .section-card:nth-child(5) { animation-delay: 0.20s; }
 
         .sec-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-soft);
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 20px; padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-light);
         }
         .sec-icon {
-            width: 36px; height: 36px;
-            border-radius: 9px;
-            background: var(--brand-light);
+            width: 36px; height: 36px; border-radius: 9px;
+            background: var(--primary-pale); border: 1px solid rgba(61,122,126,0.2);
             display: flex; align-items: center; justify-content: center;
-            color: var(--brand);
-            font-size: 1rem;
-            border: 1px solid var(--border);
+            color: var(--primary); font-size: 1rem;
         }
         .sec-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text);
-            letter-spacing: -0.01em;
+            font-size: 1rem; font-weight: 700; color: var(--dark); letter-spacing: -0.01em;
         }
 
-        /* ── Wordcloud ── */
+        /* ── Word cloud ── */
         .wordcloud-wrap {
-            background: var(--border-soft);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 18px;
-            text-align: center;
+            background: var(--border-light); border: 1px solid var(--border);
+            border-radius: 12px; padding: 16px; text-align: center;
         }
         .wordcloud-wrap img {
-            max-height: 400px;
-            width: 100%;
-            object-fit: contain;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
+            max-height: 400px; width: 100%; object-fit: contain;
+            border-radius: 10px; transition: transform 0.3s ease;
         }
         .wordcloud-wrap img:hover { transform: scale(1.02); }
 
         /* ── Skill pills ── */
-        .skills-wrap {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
+        .skills-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
         .skill-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            background: var(--brand-light);
-            color: var(--brand);
-            border: 1px solid var(--border);
-            padding: 6px 14px;
-            border-radius: 999px;
-            font-size: 0.8rem;
-            font-weight: 500;
+            display: inline-flex; align-items: center; gap: 7px;
+            background: var(--primary-pale); color: var(--primary-dark);
+            border: 1px solid rgba(61,122,126,0.2);
+            padding: 6px 13px; border-radius: 999px;
+            font-size: 0.8rem; font-weight: 500;
             transition: background 0.15s, transform 0.12s;
         }
-        .skill-pill:hover {
-            background: #e4e4ff;
-            transform: translateY(-2px);
-        }
+        .skill-pill:hover { background: var(--primary); color: #fff; transform: translateY(-1px); }
+        .skill-pill:hover .count { background: rgba(255,255,255,0.25); color: #fff; }
         .skill-pill .count {
-            background: rgba(99,103,255,0.18);
-            color: var(--brand-dark);
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 1px 7px;
-            border-radius: 999px;
+            background: rgba(61,122,126,0.15); color: var(--primary-dark);
+            font-size: 0.7rem; font-weight: 700; padding: 1px 7px; border-radius: 999px;
         }
 
-        /* ── Current salary stat block ── */
+        /* ── Salary stat ── */
         .salary-stat {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: var(--brand-light);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 12px 20px;
-            margin-bottom: 20px;
+            display: inline-flex; align-items: center; gap: 12px;
+            background: var(--primary-pale); border: 1px solid rgba(61,122,126,0.2);
+            border-radius: 12px; padding: 12px 20px; margin-bottom: 20px;
         }
         .salary-stat-icon {
-            width: 36px; height: 36px;
-            background: var(--brand);
-            border-radius: 9px;
+            width: 36px; height: 36px; background: var(--primary); border-radius: 9px;
             display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 1rem; flex-shrink: 0;
+            color: #fff; font-size: 1rem; flex-shrink: 0;
         }
         .salary-stat-label {
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--brand);
-            margin-bottom: 2px;
+            font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+            text-transform: uppercase; color: var(--primary); margin-bottom: 2px;
         }
         .salary-stat-value {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.45rem;
-            font-weight: 700;
-            color: var(--text);
-            line-height: 1;
+            font-size: 1.45rem; font-weight: 700; color: var(--dark); line-height: 1;
         }
 
-        /* ── Chart ── */
+        /* ── Chart wrap ── */
         .chart-wrap {
-            position: relative;
-            width: 100%;
-            background: var(--border-soft);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px 16px 12px;
+            background: var(--border-light); border: 1px solid var(--border);
+            border-radius: 12px; padding: 20px 16px 12px;
         }
 
-        /* ── Job cards (related opportunities) ── */
+        /* ── Related job cards ── */
         .job-card {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            background: var(--border-soft);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px 18px;
-            margin-bottom: 10px;
+            display: flex; align-items: center; gap: 14px;
+            background: var(--border-light); border: 1px solid var(--border);
+            border-radius: 12px; padding: 13px 16px; margin-bottom: 10px;
             transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
         }
         .job-card::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 12px; bottom: 12px;
-            width: 3px;
-            background: var(--brand);
-            border-radius: 0 2px 2px 0;
-            opacity: 0;
-            transform: scaleY(0.4);
-            transition: opacity 0.2s, transform 0.2s;
+            content: ''; position: absolute; left: 0; top: 12px; bottom: 12px;
+            width: 3px; background: var(--primary); border-radius: 0 2px 2px 0;
+            opacity: 0; transform: scaleY(0.4); transition: opacity 0.2s, transform 0.2s;
         }
         .job-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99,103,255,0.09);
-            border-color: rgba(99,103,255,0.35);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(61,122,126,0.10);
+            border-color: rgba(61,122,126,0.3);
         }
-        .job-card:hover::before {
-            opacity: 1;
-            transform: scaleY(1);
-        }
+        .job-card:hover::before { opacity: 1; transform: scaleY(1); }
         .job-avatar {
-            width: 40px; height: 40px;
-            border-radius: 10px;
-            background: var(--brand-light);
+            width: 40px; height: 40px; border-radius: 10px; background: var(--primary);
             display: flex; align-items: center; justify-content: center;
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--brand);
-            flex-shrink: 0;
-            border: 1px solid var(--border);
+            font-weight: 700; font-size: 1rem; color: #fff; flex-shrink: 0;
         }
         .job-info { flex: 1; min-width: 0; }
         .job-name {
-            font-size: 0.92rem;
-            font-weight: 600;
-            color: var(--text);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 0.9rem; font-weight: 600; color: var(--dark);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
-        .job-company {
-            font-size: 0.8rem;
-            color: var(--sub);
-            margin-top: 2px;
-        }
+        .job-company { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
         .score-pill {
-            flex-shrink: 0;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 999px;
-            padding: 4px 12px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--brand);
+            flex-shrink: 0; background: var(--surface); border: 1px solid var(--border);
+            border-radius: 999px; padding: 4px 12px;
+            font-size: 0.75rem; font-weight: 700; color: var(--primary);
         }
 
-        /* ── Animations ── */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(14px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
 
         @media (max-width: 600px) {
             .navbar { padding: 0 16px; }
             .navbar-brand span { display: none; }
             .content-wrap { padding-left: 16px; padding-right: 16px; }
-            .section-card { padding: 20px 18px; }
+            .section-card { padding: 18px 16px; }
         }
     </style>
 </head>
 
 <body>
 
-<!-- Navbar -->
+<!-- ── Navbar ── -->
 <nav class="navbar">
     <a href="/" class="navbar-brand">
         <div class="brand-icon"><i class="bi bi-briefcase-fill"></i></div>
-        <span>Job AI Platform</span>
+        <span>Workit</span>
     </a>
 
     {% if user %}
@@ -444,7 +275,6 @@
         <button class="avatar-btn" id="avatarBtn" title="{{ user.name }}">{{ initials }}</button>
         <div class="nav-dropdown" id="navDropdown">
             <div class="dropdown-header">{{ user.name }}</div>
-            <a href="/" class="dropdown-item"><i class="bi bi-house"></i> Home</a>
             <a href="/profile" class="dropdown-item"><i class="bi bi-person-circle"></i> Profile</a>
             <a href="/bookmarks" class="dropdown-item"><i class="bi bi-bookmark-heart"></i> Saved Jobs</a>
             <a href="/career" class="dropdown-item"><i class="bi bi-map"></i> Career Path</a>
@@ -454,9 +284,7 @@
     </div>
     {% else %}
     <div class="nav-auth">
-        <button class="signin-btn" id="avatarBtn" title="Sign in">
-            <i class="bi bi-person"></i>
-        </button>
+        <button class="signin-btn" id="avatarBtn" title="Sign in"><i class="bi bi-person"></i></button>
         <div class="nav-dropdown" id="navDropdown">
             <a href="/login" class="dropdown-item"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>
             <a href="/register" class="dropdown-item"><i class="bi bi-person-plus"></i> Create Account</a>
@@ -465,14 +293,14 @@
     {% endif %}
 </nav>
 
-<!-- Content -->
+<!-- ── Content ── -->
 <div class="content-wrap">
 
     <!-- Hero -->
     <div class="hero-strip">
         <div class="hero-eyebrow">Title Analysis</div>
         <h1 class="hero-title">Analysis for <em>"{{ query }}"</em></h1>
-        <a href="/" class="btn-back" style="margin-top: 16px;">
+        <a href="/" class="btn-back">
             <i class="bi bi-arrow-left"></i> Back to Search
         </a>
     </div>
@@ -484,11 +312,7 @@
             <div class="sec-title">Skill Demand Overview</div>
         </div>
         <div class="wordcloud-wrap">
-            <img
-                src="data:image/png;base64,{{ wordcloud }}"
-                class="img-fluid"
-                alt="Skill Word Cloud"
-            >
+            <img src="data:image/png;base64,{{ wordcloud }}" class="img-fluid" alt="Skill Word Cloud">
         </div>
     </div>
 
@@ -500,15 +324,15 @@
         </div>
         <div class="skills-wrap">
             {% for skill, count in top_skills %}
-                <span class="skill-pill">
-                    {{ skill }}
-                    <span class="count">{{ count }}</span>
-                </span>
+            <span class="skill-pill">
+                {{ skill }}
+                <span class="count">{{ count }}</span>
+            </span>
             {% endfor %}
         </div>
     </div>
 
-    <!-- Trend Chart -->
+    <!-- Skill Trend Chart -->
     <div class="section-card">
         <div class="sec-header">
             <div class="sec-icon"><i class="bi bi-graph-up"></i></div>
@@ -527,12 +351,9 @@
             <div class="sec-title">Salary Trends Over Time</div>
         </div>
 
-        <!-- Current salary stat -->
         {% if current_salary %}
         <div class="salary-stat">
-            <div class="salary-stat-icon">
-                <i class="bi bi-graph-up-arrow"></i>
-            </div>
+            <div class="salary-stat-icon"><i class="bi bi-graph-up-arrow"></i></div>
             <div>
                 <div class="salary-stat-label">Current Average Salary</div>
                 <div class="salary-stat-value">${{ "{:,}".format(current_salary) }}</div>
@@ -540,7 +361,6 @@
         </div>
         {% endif %}
 
-        <!-- Salary line chart -->
         <div class="chart-wrap">
             <canvas id="salaryChart"></canvas>
         </div>
@@ -554,14 +374,14 @@
             <div class="sec-title">Related Opportunities</div>
         </div>
         {% for job in matched_jobs %}
-            <div class="job-card">
-                <div class="job-avatar">{{ job.company[0] | upper }}</div>
-                <div class="job-info">
-                    <div class="job-name">{{ job.title }}</div>
-                    <div class="job-company">{{ job.company }}</div>
-                </div>
-                <div class="score-pill">{{ "%.2f"|format(job.title_similarity) }}</div>
+        <div class="job-card">
+            <div class="job-avatar">{{ job.company[0] | upper }}</div>
+            <div class="job-info">
+                <div class="job-name">{{ job.title }}</div>
+                <div class="job-company">{{ job.company }}</div>
             </div>
+            <div class="score-pill">{{ "%.2f"|format(job.title_similarity) }}</div>
+        </div>
         {% endfor %}
     </div>
 
@@ -569,14 +389,15 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    /* ── Skill trend chart ── */
     const years     = {{ trend_years  | tojson }};
     const skills    = {{ trend_skills | tojson }};
     const trendData = {{ trend_data   | tojson }};
 
     const palette = [
-        '#6367FF','#9B9EFF','#4B4FD9','#B8BAFF',
-        '#7C7FFF','#3B3ED4','#ABABFF','#5254E8',
-        '#8082FF','#3033BF'
+        '#3D7A7E','#6fa4a8','#2e5f63','#a8c9cb',
+        '#4e8d91','#1e4a4d','#7fbbbe','#5a9598',
+        '#2d6b6f','#84b8bc'
     ];
 
     const datasets = skills.map((skill, idx) => ({
@@ -592,9 +413,7 @@
         fill: false
     }));
 
-    const ctx = document.getElementById('trendChart').getContext('2d');
-
-    new Chart(ctx, {
+    new Chart(document.getElementById('trendChart').getContext('2d'), {
         type: 'line',
         data: { labels: years, datasets },
         options: {
@@ -604,48 +423,35 @@
                 legend: {
                     position: 'bottom',
                     labels: {
-                        font: { family: 'DM Sans', size: 11 },
-                        color: '#6B6894',
-                        padding: 16,
-                        usePointStyle: true,
-                        pointStyleWidth: 8
+                        font: { family: 'Inter', size: 11 },
+                        color: '#6b7280', padding: 16,
+                        usePointStyle: true, pointStyleWidth: 8
                     }
                 },
                 tooltip: {
-                    backgroundColor: '#ffffff',
-                    titleColor: '#1A1433',
-                    bodyColor: '#6B6894',
-                    borderColor: '#EAE8F5',
-                    borderWidth: 1,
+                    backgroundColor: '#ffffff', titleColor: '#1C2128',
+                    bodyColor: '#6b7280', borderColor: '#E5E7EB', borderWidth: 1,
                     padding: 12,
-                    titleFont: { family: 'DM Sans', weight: '600', size: 12 },
-                    bodyFont: { family: 'DM Sans', size: 11 },
-                    callbacks: {
-                        label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}%`
-                    }
+                    titleFont: { family: 'Inter', weight: '600', size: 12 },
+                    bodyFont: { family: 'Inter', size: 11 },
+                    callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}%` }
                 }
             },
             scales: {
                 x: {
-                    grid: { color: 'rgba(99,103,255,0.08)' },
-                    ticks: {
-                        font: { family: 'DM Sans', size: 11 },
-                        color: '#7C7A9C'
-                    }
+                    grid: { color: 'rgba(61,122,126,0.08)' },
+                    ticks: { font: { family: 'Inter', size: 11 }, color: '#6b7280' }
                 },
                 y: {
                     beginAtZero: true,
-                    grid: { color: 'rgba(99,103,255,0.08)' },
+                    grid: { color: 'rgba(61,122,126,0.08)' },
                     ticks: {
-                        font: { family: 'DM Sans', size: 11 },
-                        color: '#7C7A9C',
+                        font: { family: 'Inter', size: 11 }, color: '#6b7280',
                         callback: v => v + '%'
                     },
                     title: {
-                        display: true,
-                        text: 'Demand (%)',
-                        font: { family: 'DM Sans', size: 11 },
-                        color: '#7C7A9C'
+                        display: true, text: 'Demand (%)',
+                        font: { family: 'Inter', size: 11 }, color: '#6b7280'
                     }
                 }
             }
@@ -654,26 +460,24 @@
 </script>
 
 <script>
-    // ── Salary trend chart ──────────────────────────────────────────
+    /* ── Salary trend chart ── */
     const salaryYears  = {{ salary_years  | tojson }};
     const salaryByYear = {{ salary_by_year | tojson }};
 
     if (salaryYears.length > 0) {
-        const salaryCtx = document.getElementById('salaryChart').getContext('2d');
-
-        new Chart(salaryCtx, {
+        new Chart(document.getElementById('salaryChart').getContext('2d'), {
             type: 'line',
             data: {
                 labels: salaryYears,
                 datasets: [{
                     label: 'Avg Salary (USD)',
                     data: salaryYears.map(y => salaryByYear[y] || 0),
-                    borderColor: '#6367FF',
-                    backgroundColor: 'rgba(99,103,255,0.07)',
+                    borderColor: '#3D7A7E',
+                    backgroundColor: 'rgba(61,122,126,0.07)',
                     borderWidth: 2.5,
                     pointRadius: 5,
                     pointHoverRadius: 7,
-                    pointBackgroundColor: '#6367FF',
+                    pointBackgroundColor: '#3D7A7E',
                     tension: 0.35,
                     fill: true
                 }]
@@ -685,48 +489,35 @@
                     legend: {
                         position: 'bottom',
                         labels: {
-                            font: { family: 'DM Sans', size: 11 },
-                            color: '#6B6894',
-                            padding: 16,
-                            usePointStyle: true,
-                            pointStyleWidth: 8
+                            font: { family: 'Inter', size: 11 },
+                            color: '#6b7280', padding: 16,
+                            usePointStyle: true, pointStyleWidth: 8
                         }
                     },
                     tooltip: {
-                        backgroundColor: '#ffffff',
-                        titleColor: '#1A1433',
-                        bodyColor: '#6B6894',
-                        borderColor: '#EAE8F5',
-                        borderWidth: 1,
+                        backgroundColor: '#ffffff', titleColor: '#1C2128',
+                        bodyColor: '#6b7280', borderColor: '#E5E7EB', borderWidth: 1,
                         padding: 12,
-                        titleFont: { family: 'DM Sans', weight: '600', size: 12 },
-                        bodyFont: { family: 'DM Sans', size: 11 },
-                        callbacks: {
-                            label: ctx => ` Avg Salary: $${ctx.parsed.y.toLocaleString()}`
-                        }
+                        titleFont: { family: 'Inter', weight: '600', size: 12 },
+                        bodyFont: { family: 'Inter', size: 11 },
+                        callbacks: { label: ctx => ` Avg Salary: $${ctx.parsed.y.toLocaleString()}` }
                     }
                 },
                 scales: {
                     x: {
-                        grid: { color: 'rgba(99,103,255,0.08)' },
-                        ticks: {
-                            font: { family: 'DM Sans', size: 11 },
-                            color: '#7C7A9C'
-                        }
+                        grid: { color: 'rgba(61,122,126,0.08)' },
+                        ticks: { font: { family: 'Inter', size: 11 }, color: '#6b7280' }
                     },
                     y: {
                         beginAtZero: false,
-                        grid: { color: 'rgba(99,103,255,0.08)' },
+                        grid: { color: 'rgba(61,122,126,0.08)' },
                         ticks: {
-                            font: { family: 'DM Sans', size: 11 },
-                            color: '#7C7A9C',
+                            font: { family: 'Inter', size: 11 }, color: '#6b7280',
                             callback: v => '$' + v.toLocaleString()
                         },
                         title: {
-                            display: true,
-                            text: 'Average Salary (USD)',
-                            font: { family: 'DM Sans', size: 11 },
-                            color: '#7C7A9C'
+                            display: true, text: 'Average Salary (USD)',
+                            font: { family: 'Inter', size: 11 }, color: '#6b7280'
                         }
                     }
                 }
@@ -734,23 +525,16 @@
         });
     }
 </script>
-<script>
-// Avatar / sign-in dropdown toggle
-const avatarBtn   = document.getElementById('avatarBtn');
-const navDropdown = document.getElementById('navDropdown');
 
-if (avatarBtn && navDropdown) {
-    avatarBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        navDropdown.classList.toggle('open');
-    });
-    document.addEventListener('click', function() {
-        navDropdown.classList.remove('open');
-    });
-    navDropdown.addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
-}
+<script>
+    /* ── Navbar dropdown ── */
+    const avatarBtn   = document.getElementById('avatarBtn');
+    const navDropdown = document.getElementById('navDropdown');
+    if (avatarBtn && navDropdown) {
+        avatarBtn.addEventListener('click', e => { e.stopPropagation(); navDropdown.classList.toggle('open'); });
+        document.addEventListener('click', () => navDropdown.classList.remove('open'));
+        navDropdown.addEventListener('click', e => e.stopPropagation());
+    }
 </script>
 
 </body>

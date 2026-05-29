@@ -6,4 +6,5 @@ __pycache__/
 data/users.json
 static/resumes/
 static/uploads/
+landing.html
 

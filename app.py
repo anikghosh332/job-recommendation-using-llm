@@ -1,86 +1,137 @@
-from fastapi import FastAPI, Request, UploadFile, File, Form, Depends
-from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi.templating import Jinja2Templates
-from starlette.middleware.sessions import SessionMiddleware
+# =============================================================================
+# app.py — Workit FastAPI Application
+# =============================================================================
+# Route map:
+#   GET  /                     → home (public)
+#   POST /search               → search results (public)
+#   GET  /register             → register page
+#   POST /register             → create account
+#   GET  /login                → login page
+#   POST /login                → authenticate
+#   GET  /logout               → clear session
+#   GET  /forgot-password      → forgot password page
+#   POST /forgot-password      → generate reset token
+#   GET  /reset-password       → reset password page
+#   POST /reset-password       → apply new password
+#   GET  /profile              → resume manager (protected)
+#   POST /profile              → upload resume (protected)
+#   POST /profile/select       → set active resume (protected)
+#   POST /profile/delete       → delete resume (protected)
+#   POST /recommend            → AI recommendations (protected)
+#   POST /fit                  → job fit explanation (protected)
+#   POST /title_summary        → title analysis + charts (public)
+#   GET  /career               → career trajectory (protected)
+#   GET  /fit/paste            → paste-JD fit form (protected)
+#   POST /fit/paste            → analyse pasted JD (protected)
+#   GET  /bookmarks            → saved jobs (protected)
+#   POST /bookmarks/add        → bookmark a job (protected)
+#   POST /bookmarks/remove     → remove a bookmark (protected)
+# =============================================================================
+
+from __future__ import annotations
+
+import base64
+import io
+import json
 import os
 import re
-import json
-import io
-import markdown
-from wordcloud import WordCloud
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import base64
 from datetime import datetime
 from typing import Optional
 
-from functions.parse_resume import ResumeParser, build_resume_text
-# from functions.model import search_jobs
-from functions.parse_jobs import search_jobs
-from functions.llm_recommendations import explain_matching_quality, get_career_recommendations
+import markdown
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from fastapi import Depends, FastAPI, File, Form, Request, UploadFile
+from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.templating import Jinja2Templates
+from starlette.middleware.sessions import SessionMiddleware
+from wordcloud import WordCloud
+
 from functions.auth import (
     authenticate_user,
     create_user,
-    get_user_by_id,
     get_user_by_email,
+    get_user_by_id,
     make_reset_token,
-    verify_reset_token,
-    update_password,
-    session_set_user,
-    session_get_user_id,
     session_clear,
-    user_upload_dir,
+    session_get_user_id,
+    session_set_user,
+    update_password,
     user_meta_path,
+    user_upload_dir,
+    verify_reset_token,
 )
-from main import (
-    semantic_recommendation,
-    analyze_job_title,
-)
+from functions.llm_recommendations import explain_matching_quality, get_career_recommendations
+from functions.parse_jobs import search_jobs
+from functions.parse_resume import ResumeParser, build_resume_text
+from functions.trends import compute_salary_trends, compute_skill_trends
+from main import analyze_job_title, semantic_recommendation
 
-from functions.trends import compute_skill_trends, compute_salary_trends
 
-# ─────────────────────────────────────────────
-# JOB-DESCRIPTION CONTENT VALIDATOR
+# =============================================================================
+# App setup & configuration
+# =============================================================================
+
+SESSION_SECRET = os.environ.get("SESSION_SECRET", "dev-secret-change-in-production")
+
+app = FastAPI()
+app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET, max_age=86400)
+
+templates = Jinja2Templates(directory="templates")
+parser    = ResumeParser(static_folder="static")
+
+BASE_UPLOAD_DIR = "static/uploads"
+USERS_PATH      = "data/users.json"
+
+os.makedirs(BASE_UPLOAD_DIR, exist_ok=True)
+os.makedirs("data", exist_ok=True)
+
+# Loaded once at startup — read-only throughout the process lifetime.
+with open("data/jobs3.json") as f:
+    jobs: list[dict] = json.load(f)
+
+
+# =============================================================================
+# Job-description validator
 # Lightweight regex heuristic — no LLM call.
-# Mirrors the client-side check so validation
-# is enforced on both sides independently.
-# ─────────────────────────────────────────────
+# Mirrors the client-side check so validation is enforced on both sides.
+# =============================================================================
 
 _JD_SIGNAL_PATTERNS: list[tuple[re.Pattern, int]] = [
     (re.compile(
-        r'\b(responsibilities|qualifications|requirements|what you(?:\'ll| will) do'
-        r'|about the role|about the job|job description|job summary|position summary'
-        r'|key duties|duties and responsibilities)\b', re.I), 3),
+        r"\b(responsibilities|qualifications|requirements|what you(?:\'ll| will) do"
+        r"|about the role|about the job|job description|job summary|position summary"
+        r"|key duties|duties and responsibilities)\b", re.I), 3),
     (re.compile(
-        r'\b(salary|compensation|pay range|benefits|health insurance|401k|pto'
-        r'|paid time off|remote|hybrid|on.?site|full.?time|part.?time'
-        r'|contract|permanent)\b', re.I), 2),
+        r"\b(salary|compensation|pay range|benefits|health insurance|401k|pto"
+        r"|paid time off|remote|hybrid|on.?site|full.?time|part.?time"
+        r"|contract|permanent)\b", re.I), 2),
     (re.compile(
-        r'\b(\d+\+?\s*years?(?: of)? experience|bachelor|master|phd|degree in'
-        r'|bsc|msc|mba|equivalent experience)\b', re.I), 3),
+        r"\b(\d+\+?\s*years?(?: of)? experience|bachelor|master|phd|degree in"
+        r"|bsc|msc|mba|equivalent experience)\b", re.I), 3),
     (re.compile(
-        r'\b(we are (?:looking for|hiring|seeking)|join our team|apply now'
-        r'|submit your (?:resume|cv|application)|equal opportunity employer|eoe'
-        r'|candidates will|you will be responsible)\b', re.I), 3),
+        r"\b(we are (?:looking for|hiring|seeking)|join our team|apply now"
+        r"|submit your (?:resume|cv|application)|equal opportunity employer|eoe"
+        r"|candidates will|you will be responsible)\b", re.I), 3),
     (re.compile(
-        r'\b(proficiency in|experience with|knowledge of|familiarity with'
-        r'|strong understanding of|preferred skills|nice to have|must have'
-        r'|required skills)\b', re.I), 2),
+        r"\b(proficiency in|experience with|knowledge of|familiarity with"
+        r"|strong understanding of|preferred skills|nice to have|must have"
+        r"|required skills)\b", re.I), 2),
     (re.compile(
-        r'\b(work with (?:a |the )?(?:team|cross.functional)|collaborate'
-        r'|stakeholders|fast.?paced|start.?up|fortune 500|series [a-d]'
-        r'|growth stage|mission.?driven)\b', re.I), 1),
+        r"\b(work with (?:a |the )?(?:team|cross.functional)|collaborate"
+        r"|stakeholders|fast.?paced|start.?up|fortune 500|series [a-d]"
+        r"|growth stage|mission.?driven)\b", re.I), 1),
 ]
 
 _SPAM_PATTERNS: list[re.Pattern] = [
     re.compile(
-        r'\b(buy now|click here|limited offer|discount|promo code|subscribe'
-        r'|unsubscribe|dear (?:sir|madam)|lottery|winner'
-        r'|congratulations you(?:\'ve| have) won|nigerian'
-        r'|bitcoin|crypto investment)\b', re.I),
-    re.compile(r'<script|<iframe|javascript:|on(?:click|load|error)\s*=', re.I),
-    re.compile(r'(.)\1{10,}'),   # excessive repetition (gibberish / flooding)
+        r"\b(buy now|click here|limited offer|discount|promo code|subscribe"
+        r"|unsubscribe|dear (?:sir|madam)|lottery|winner"
+        r"|congratulations you(?:\'ve| have) won|nigerian"
+        r"|bitcoin|crypto investment)\b", re.I),
+    re.compile(r"<script|<iframe|javascript:|on(?:click|load|error)\s*=", re.I),
+    re.compile(r"(.)\1{10,}"),  # excessive repetition
 ]
 
 _JD_SCORE_THRESHOLD = 4
@@ -88,10 +139,8 @@ _JD_SCORE_THRESHOLD = 4
 
 def _is_valid_job_description(text: str) -> tuple[bool, str]:
     """
-    Heuristic check for whether text resembles a genuine job description.
-    Returns (True, '') on pass, (False, human-readable reason) on fail.
-    Called server-side before the LLM is invoked to prevent abuse and
-    irrelevant input from consuming API quota.
+    Returns (True, '') when text looks like a genuine job description.
+    Returns (False, reason) otherwise — called before any LLM is invoked.
     """
     if len(text) < 100:
         return False, "Job description is too short. Please paste the full posting."
@@ -103,8 +152,7 @@ def _is_valid_job_description(text: str) -> tuple[bool, str]:
                 "Please paste a genuine job description."
             )
 
-    score = sum(weight for pattern, weight in _JD_SIGNAL_PATTERNS if pattern.search(text))
-
+    score = sum(w for p, w in _JD_SIGNAL_PATTERNS if p.search(text))
     if score < _JD_SCORE_THRESHOLD:
         return False, (
             "This doesn't look like a job description. "
@@ -115,40 +163,12 @@ def _is_valid_job_description(text: str) -> tuple[bool, str]:
     return True, ""
 
 
-# ─────────────────────────────────────────────
-# APP SETUP
-# ─────────────────────────────────────────────
-
-app = FastAPI()
-
-# SESSION_SECRET must be set in your environment before running.
-# e.g. add to .env:  SESSION_SECRET=change-me-to-something-long-and-random
-SESSION_SECRET = os.environ.get("SESSION_SECRET", "dev-secret-change-in-production")
-app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET, max_age=86400)
-
-templates = Jinja2Templates(directory="templates")
-parser    = ResumeParser(static_folder="static")
-
-# ── Constants ────────────────────────────────
-BASE_UPLOAD_DIR = "static/uploads"
-USERS_PATH      = "data/users.json"
-os.makedirs(BASE_UPLOAD_DIR, exist_ok=True)
-os.makedirs("data", exist_ok=True)
-
-# Load jobs once at startup
-with open("data/jobs3.json") as f:
-    jobs = json.load(f)
-
-
-# ─────────────────────────────────────────────
-# AUTH DEPENDENCY HELPERS
-# ─────────────────────────────────────────────
+# =============================================================================
+# Auth helpers
+# =============================================================================
 
 def get_current_user(request: Request) -> Optional[dict]:
-    """
-    Returns the logged-in user dict or None.
-    Injected via Depends() into every route.
-    """
+    """FastAPI dependency — returns the logged-in user dict or None."""
     user_id = session_get_user_id(request.session)
     if not user_id:
         return None
@@ -156,26 +176,22 @@ def get_current_user(request: Request) -> Optional[dict]:
 
 
 def _redirect_if_unauthenticated(user: Optional[dict]) -> Optional[RedirectResponse]:
-    """
-    Call at the top of every protected route.
-    Returns a RedirectResponse to /login if user is None, else None.
-    """
+    """Returns a redirect to /login when user is None, otherwise None."""
     if user is None:
         return RedirectResponse(url="/login", status_code=303)
     return None
 
 
-# ─────────────────────────────────────────────
-# PER-USER RESUME HELPERS
-# All three functions now accept user_id so storage is fully isolated.
-# ─────────────────────────────────────────────
+# =============================================================================
+# Resume helpers  (per-user, storage-isolated)
+# =============================================================================
 
 def load_meta(user_id: str) -> dict:
     """Load resume metadata for a specific user."""
     path = user_meta_path(BASE_UPLOAD_DIR, user_id)
     if not os.path.exists(path):
         return {"resumes": [], "active": None}
-    with open(path, "r") as f:
+    with open(path) as f:
         return json.load(f)
 
 
@@ -187,43 +203,78 @@ def save_meta(meta: dict, user_id: str) -> None:
 
 
 def get_resume_text(user_id: str) -> Optional[str]:
-    """Return parsed text of the active resume for user_id, or None."""
+    """Return the parsed semantic text of the user's active resume, or None."""
     meta   = load_meta(user_id)
     active = meta.get("active")
     if not active:
         return None
 
-    upload_dir = user_upload_dir(BASE_UPLOAD_DIR, user_id)
-    full_path  = os.path.join(upload_dir, active)
+    full_path = os.path.join(user_upload_dir(BASE_UPLOAD_DIR, user_id), active)
     if not os.path.exists(full_path):
         return None
 
     try:
-        relative_path = os.path.join("uploads", user_id, active)
-        parsed_data   = parser.parse_resume(relative_path)
-        if not parsed_data:
-            return None
-        return build_resume_text(parsed_data)
+        parsed = parser.parse_resume(os.path.join("uploads", user_id, active))
+        return build_resume_text(parsed) if parsed else None
     except Exception as e:
-        print(f"[get_resume_text] Error for user {user_id}: {e}")
+        print(f"[get_resume_text] user={user_id} error={e}")
         return None
 
 
-# ─────────────────────────────────────────────
-# 1  HOME PAGE  (public)
-# ─────────────────────────────────────────────
+# =============================================================================
+# Bookmark helpers
+# =============================================================================
+
+def load_bookmarks(user_id: str) -> list:
+    """Return bookmark list for user_id. Each entry: {job_id, saved_at}."""
+    path = os.path.join(BASE_UPLOAD_DIR, user_id, "bookmarks.json")
+    if not os.path.exists(path):
+        return []
+    with open(path) as f:
+        return json.load(f)
+
+
+def save_bookmarks(user_id: str, bookmarks: list) -> None:
+    """Persist the bookmark list for user_id."""
+    dir_path = os.path.join(BASE_UPLOAD_DIR, user_id)
+    os.makedirs(dir_path, exist_ok=True)
+    with open(os.path.join(dir_path, "bookmarks.json"), "w") as f:
+        json.dump(bookmarks, f, indent=2)
+
+
+def get_bookmarked_ids(user_id: str) -> set:
+    """Return a set of bookmarked job_id strings for fast membership tests."""
+    return {str(b["job_id"]) for b in load_bookmarks(user_id)}
+
+
+# =============================================================================
+# Template helpers
+# =============================================================================
+
+def _render(template: str, request: Request, **ctx) -> HTMLResponse:
+    """Thin wrapper so route handlers stay concise."""
+    return templates.TemplateResponse(template, {"request": request, **ctx})
+
+
+def _no_resume_error(request: Request, user: dict, template: str) -> HTMLResponse:
+    """Shared 'no active resume' error response for protected routes."""
+    return _render(
+        template, request,
+        user=user,
+        jobs=[], query="", recommended=True,
+        error="Please upload and select a resume first.",
+        bookmarked_ids=set(),
+    )
+
+
+# =============================================================================
+# Routes — Public
+# =============================================================================
 
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request, user: Optional[dict] = Depends(get_current_user)):
-    return templates.TemplateResponse("index_new.html", {
-        "request": request,
-        "user":    user,
-    })
+    return _render("index_new.html", request, user=user)
 
-
-# ─────────────────────────────────────────────
-# 2  SEARCH RESULTS  (public)
-# ─────────────────────────────────────────────
 
 @app.post("/search", response_class=HTMLResponse)
 def search(
@@ -231,28 +282,56 @@ def search(
     query:   str = Form(...),
     user:    Optional[dict] = Depends(get_current_user),
 ):
-    results = search_jobs(query, jobs)
+    results        = search_jobs(query, jobs)
     bookmarked_ids = get_bookmarked_ids(user["user_id"]) if user else set()
-    return templates.TemplateResponse("results.html", {
-        "request":        request,
-        "user":           user,
-        "jobs":           results,
-        "query":          query,
-        "recommended":    False,
-        "bookmarked_ids": bookmarked_ids,
-    })
+    return _render(
+        "results.html", request,
+        user=user, jobs=results, query=query,
+        recommended=False, bookmarked_ids=bookmarked_ids,
+    )
 
 
-# ─────────────────────────────────────────────
-# AUTH ROUTES
-# ─────────────────────────────────────────────
+@app.post("/title_summary", response_class=HTMLResponse)
+def title_summary(
+    request: Request,
+    query:   str = Form(...),
+    user:    Optional[dict] = Depends(get_current_user),
+):
+    matched_jobs, top_skills = analyze_job_title(query, jobs)
+
+    # Build word-cloud image
+    wc         = WordCloud(width=800, height=400, background_color="white")
+    wc         = wc.generate_from_frequencies({skill: count for skill, count in top_skills})
+    buf        = io.BytesIO()
+    plt.figure()
+    plt.imshow(wc)
+    plt.axis("off")
+    plt.savefig(buf, format="png")
+    plt.close()
+    buf.seek(0)
+    img_base64 = base64.b64encode(buf.getvalue()).decode()
+
+    years, trend_skills, trend_data              = compute_skill_trends(jobs, query, top_n=6)
+    salary_years, salary_by_year, current_salary = compute_salary_trends(matched_jobs)
+
+    return _render(
+        "title_summary.html", request,
+        user=user, query=query,
+        matched_jobs=matched_jobs, top_skills=top_skills,
+        wordcloud=img_base64,
+        trend_years=years, trend_skills=trend_skills, trend_data=trend_data,
+        salary_years=salary_years, salary_by_year=salary_by_year,
+        current_salary=current_salary,
+    )
+
+
+# =============================================================================
+# Routes — Auth
+# =============================================================================
 
 @app.get("/register", response_class=HTMLResponse)
 def register_page(request: Request):
-    return templates.TemplateResponse("register.html", {
-        "request": request,
-        "error":   None,
-    })
+    return _render("register.html", request, error=None)
 
 
 @app.post("/register", response_class=HTMLResponse)
@@ -264,17 +343,12 @@ def register(
     confirm_password: str = Form(...),
 ):
     if password != confirm_password:
-        return templates.TemplateResponse("register.html", {
-            "request": request,
-            "error":   "Passwords do not match.",
-        })
+        return _render("register.html", request, error="Passwords do not match.")
+
     try:
         user = create_user(name, email, password, USERS_PATH)
     except ValueError as e:
-        return templates.TemplateResponse("register.html", {
-            "request": request,
-            "error":   str(e),
-        })
+        return _render("register.html", request, error=str(e))
 
     session_set_user(request.session, user["user_id"])
     return RedirectResponse(url="/profile", status_code=303)
@@ -284,10 +358,7 @@ def register(
 def login_page(request: Request):
     if session_get_user_id(request.session):
         return RedirectResponse(url="/", status_code=303)
-    return templates.TemplateResponse("login.html", {
-        "request": request,
-        "error":   None,
-    })
+    return _render("login.html", request, error=None)
 
 
 @app.post("/login", response_class=HTMLResponse)
@@ -298,10 +369,7 @@ def login(
 ):
     user = authenticate_user(email, password, USERS_PATH)
     if user is None:
-        return templates.TemplateResponse("login.html", {
-            "request": request,
-            "error":   "Incorrect email or password.",
-        })
+        return _render("login.html", request, error="Incorrect email or password.")
     session_set_user(request.session, user["user_id"])
     return RedirectResponse(url="/", status_code=303)
 
@@ -314,52 +382,39 @@ def logout(request: Request):
 
 @app.get("/forgot-password", response_class=HTMLResponse)
 def forgot_password_page(request: Request):
-    return templates.TemplateResponse("forgot_password.html", {
-        "request":   request,
-        "message":   None,
-        "reset_url": None,
-        "error":     None,
-    })
+    return _render("forgot_password.html", request, message=None, reset_url=None, error=None)
 
 
 @app.post("/forgot-password", response_class=HTMLResponse)
 def forgot_password(request: Request, email: str = Form(...)):
     """
-    Generate a signed reset token and display the reset link on-screen.
-    In production replace this with an email send using your mail provider.
+    Generate a signed reset token and display the link on-screen.
+    In production, send this via email instead.
+    Same response message whether or not the account exists (prevents enumeration).
     """
-    user      = get_user_by_email(email, USERS_PATH)
     reset_url = None
-
+    user      = get_user_by_email(email, USERS_PATH)
     if user:
         token     = make_reset_token(email, SESSION_SECRET)
         reset_url = f"/reset-password?token={token}"
 
-    # Same message regardless of whether account exists — prevents enumeration.
-    return templates.TemplateResponse("forgot_password.html", {
-        "request":   request,
-        "message":   "If an account exists for that email a reset link has been generated below.",
-        "reset_url": reset_url,
-        "error":     None,
-    })
+    return _render(
+        "forgot_password.html", request,
+        message="If an account exists for that email a reset link has been generated below.",
+        reset_url=reset_url, error=None,
+    )
 
 
 @app.get("/reset-password", response_class=HTMLResponse)
 def reset_password_page(request: Request, token: str):
     email = verify_reset_token(token, SESSION_SECRET)
     if email is None:
-        return templates.TemplateResponse("reset_password.html", {
-            "request": request,
-            "token":   token,
-            "error":   "This reset link has expired or is invalid. Please request a new one.",
-            "success": False,
-        })
-    return templates.TemplateResponse("reset_password.html", {
-        "request": request,
-        "token":   token,
-        "error":   None,
-        "success": False,
-    })
+        return _render(
+            "reset_password.html", request,
+            token=token, success=False,
+            error="This reset link has expired or is invalid. Please request a new one.",
+        )
+    return _render("reset_password.html", request, token=token, error=None, success=False)
 
 
 @app.post("/reset-password", response_class=HTMLResponse)
@@ -371,42 +426,32 @@ def reset_password(
 ):
     email = verify_reset_token(token, SESSION_SECRET)
     if email is None:
-        return templates.TemplateResponse("reset_password.html", {
-            "request": request,
-            "token":   token,
-            "error":   "This reset link has expired or is invalid.",
-            "success": False,
-        })
+        return _render(
+            "reset_password.html", request,
+            token=token, success=False,
+            error="This reset link has expired or is invalid.",
+        )
 
     if password != confirm_password:
-        return templates.TemplateResponse("reset_password.html", {
-            "request": request,
-            "token":   token,
-            "error":   "Passwords do not match.",
-            "success": False,
-        })
+        return _render(
+            "reset_password.html", request,
+            token=token, success=False, error="Passwords do not match.",
+        )
 
     try:
         update_password(email, password, USERS_PATH)
     except ValueError as e:
-        return templates.TemplateResponse("reset_password.html", {
-            "request": request,
-            "token":   token,
-            "error":   str(e),
-            "success": False,
-        })
+        return _render(
+            "reset_password.html", request,
+            token=token, success=False, error=str(e),
+        )
 
-    return templates.TemplateResponse("reset_password.html", {
-        "request": request,
-        "token":   "",
-        "error":   None,
-        "success": True,
-    })
+    return _render("reset_password.html", request, token="", error=None, success=True)
 
 
-# ─────────────────────────────────────────────
-# 3  PROFILE  (protected)
-# ─────────────────────────────────────────────
+# =============================================================================
+# Routes — Profile / Resume management  (protected)
+# =============================================================================
 
 @app.get("/profile", response_class=HTMLResponse)
 def profile_page(
@@ -425,16 +470,13 @@ def profile_page(
             relative_path = os.path.join("uploads", user["user_id"], meta["active"])
             parsed        = parser.parse_resume(relative_path)
         except Exception as e:
-            print(f"[profile_page] Parse error: {e}")
+            print(f"[profile_page] parse error: {e}")
 
-    return templates.TemplateResponse("profile.html", {
-        "request": request,
-        "user":    user,
-        "resumes": meta["resumes"],
-        "active":  meta["active"],
-        "parsed":  parsed,
-        "error":   None,
-    })
+    return _render(
+        "profile.html", request,
+        user=user, resumes=meta["resumes"],
+        active=meta["active"], parsed=parsed, error=None,
+    )
 
 
 @app.post("/profile", response_class=HTMLResponse)
@@ -452,58 +494,42 @@ async def upload_resume(
     meta       = load_meta(user_id)
 
     try:
-        original_name = file.filename
-        timestamp     = datetime.now().strftime("%Y%m%d_%H%M%S")
-        safe_name     = original_name.replace(" ", "_")
-        unique_name   = f"{timestamp}_{safe_name}"
+        timestamp   = datetime.now().strftime("%Y%m%d_%H%M%S")
+        safe_name   = file.filename.replace(" ", "_")
+        unique_name = f"{timestamp}_{safe_name}"
+        full_path   = os.path.join(upload_dir, unique_name)
 
-        full_path = os.path.join(upload_dir, unique_name)
-        content   = await file.read()
+        content = await file.read()
         with open(full_path, "wb") as f:
             f.write(content)
 
-        relative_path = os.path.join("uploads", user_id, unique_name)
-        parsed_data   = parser.parse_resume(relative_path)
-
+        parsed_data = parser.parse_resume(os.path.join("uploads", user_id, unique_name))
         if not parsed_data:
             raise ValueError("Parsing failed — check file format.")
 
-        entry = {
+        meta["resumes"].append({
             "filename":     unique_name,
-            "display_name": original_name,
+            "display_name": file.filename,
             "uploaded_at":  datetime.now().strftime("%Y-%m-%d %H:%M"),
-        }
-        meta["resumes"].append(entry)
-
+        })
         if meta["active"] is None:
             meta["active"] = unique_name
-
         save_meta(meta, user_id)
 
     except Exception as e:
-        return templates.TemplateResponse("profile.html", {
-            "request": request,
-            "user":    user,
-            "resumes": meta["resumes"],
-            "active":  meta["active"],
-            "error":   str(e),
-            "parsed":  None,
-        })
+        return _render(
+            "profile.html", request,
+            user=user, resumes=meta["resumes"],
+            active=meta["active"], parsed=None, error=str(e),
+        )
 
     meta = load_meta(user_id)
-    return templates.TemplateResponse("profile.html", {
-        "request": request,
-        "user":    user,
-        "resumes": meta["resumes"],
-        "active":  meta["active"],
-        "parsed":  parsed_data,
-        "error":   None,
-    })
+    return _render(
+        "profile.html", request,
+        user=user, resumes=meta["resumes"],
+        active=meta["active"], parsed=parsed_data, error=None,
+    )
 
-
-# ─────────────────────────────────────────────
-# 4  SELECT ACTIVE RESUME  (protected)
-# ─────────────────────────────────────────────
 
 @app.post("/profile/select", response_class=HTMLResponse)
 def select_resume(
@@ -517,18 +543,12 @@ def select_resume(
 
     user_id = user["user_id"]
     meta    = load_meta(user_id)
-    known   = [r["filename"] for r in meta["resumes"]]
-
-    if filename in known:
+    if filename in [r["filename"] for r in meta["resumes"]]:
         meta["active"] = filename
         save_meta(meta, user_id)
 
     return RedirectResponse(url="/profile", status_code=303)
 
-
-# ─────────────────────────────────────────────
-# 5  DELETE A RESUME  (protected)
-# ─────────────────────────────────────────────
 
 @app.post("/profile/delete", response_class=HTMLResponse)
 def delete_resume(
@@ -545,7 +565,6 @@ def delete_resume(
     meta       = load_meta(user_id)
 
     meta["resumes"] = [r for r in meta["resumes"] if r["filename"] != filename]
-
     if meta["active"] == filename:
         meta["active"] = meta["resumes"][0]["filename"] if meta["resumes"] else None
 
@@ -557,9 +576,9 @@ def delete_resume(
     return RedirectResponse(url="/profile", status_code=303)
 
 
-# ─────────────────────────────────────────────
-# 6  RECOMMEND  (protected)
-# ─────────────────────────────────────────────
+# =============================================================================
+# Routes — AI features  (protected)
+# =============================================================================
 
 @app.post("/recommend", response_class=HTMLResponse)
 def recommend(
@@ -572,35 +591,21 @@ def recommend(
         return redirect
 
     resume_text = get_resume_text(user["user_id"])
-
     if not resume_text:
-        return templates.TemplateResponse("results.html", {
-            "request":        request,
-            "user":           user,
-            "jobs":           [],
-            "query":          query,
-            "recommended":    True,
-            "error":          "Please upload and select a resume first.",
-            "bookmarked_ids": get_bookmarked_ids(user["user_id"]),
-        })
+        return _render(
+            "results.html", request,
+            user=user, jobs=[], query=query, recommended=True,
+            error="Please upload and select a resume first.",
+            bookmarked_ids=get_bookmarked_ids(user["user_id"]),
+        )
 
-    filtered_jobs    = search_jobs(query, jobs)
-    recommended_jobs = semantic_recommendation(resume_text, filtered_jobs)
+    recommended_jobs = semantic_recommendation(resume_text, search_jobs(query, jobs))
+    return _render(
+        "results.html", request,
+        user=user, jobs=recommended_jobs, query=query,
+        recommended=True, bookmarked_ids=get_bookmarked_ids(user["user_id"]),
+    )
 
-    bookmarked_ids = get_bookmarked_ids(user["user_id"])
-    return templates.TemplateResponse("results.html", {
-        "request":        request,
-        "user":           user,
-        "jobs":           recommended_jobs,
-        "query":          query,
-        "recommended":    True,
-        "bookmarked_ids": bookmarked_ids,
-    })
-
-
-# ─────────────────────────────────────────────
-# 7  JOB FIT EXPLANATION  (protected)
-# ─────────────────────────────────────────────
 
 @app.post("/fit", response_class=HTMLResponse)
 def find_fit(
@@ -613,91 +618,21 @@ def find_fit(
         return redirect
 
     resume_text = get_resume_text(user["user_id"])
-
     if not resume_text:
-        return templates.TemplateResponse("results.html", {
-            "request":     request,
-            "user":        user,
-            "jobs":        [],
-            "query":       "",
-            "recommended": True,
-            "error":       "Please upload and select a resume first.",
-        })
+        return _no_resume_error(request, user, "results.html")
 
-    selected_job = next(
-        (j for j in jobs if str(j.get("job_id")) == str(job_id)),
-        None,
-    )
-
+    selected_job = next((j for j in jobs if str(j.get("job_id")) == str(job_id)), None)
     if not selected_job:
-        return templates.TemplateResponse("results.html", {
-            "request":     request,
-            "user":        user,
-            "jobs":        [],
-            "query":       "",
-            "recommended": True,
-            "error":       "Job not found.",
-        })
+        return _render(
+            "results.html", request,
+            user=user, jobs=[], query="", recommended=True, error="Job not found.",
+            bookmarked_ids=set(),
+        )
 
     explanation = explain_matching_quality(resume_text, [selected_job], 1)
     explanation = markdown.markdown(explanation, extensions=["tables"])
+    return _render("fit.html", request, user=user, job=selected_job, explanation=explanation)
 
-    return templates.TemplateResponse("fit.html", {
-        "request":     request,
-        "user":        user,
-        "job":         selected_job,
-        "explanation": explanation,
-    })
-
-
-# ─────────────────────────────────────────────
-# 8  TITLE SUMMARY + SKILL + SALARY TRENDS  (public)
-# ─────────────────────────────────────────────
-
-@app.post("/title_summary", response_class=HTMLResponse)
-def title_summary(
-    request: Request,
-    query:   str = Form(...),
-    user:    Optional[dict] = Depends(get_current_user),
-):
-    matched_jobs, top_skills = analyze_job_title(query, jobs)
-
-    skill_freq = {skill: count for skill, count in top_skills}
-    wordcloud  = WordCloud(
-        width=800, height=400, background_color="white"
-    ).generate_from_frequencies(skill_freq)
-
-    img_buffer = io.BytesIO()
-    plt.figure()
-    plt.imshow(wordcloud)
-    plt.axis("off")
-    plt.savefig(img_buffer, format="png")
-    plt.close()
-    img_buffer.seek(0)
-    img_base64 = base64.b64encode(img_buffer.getvalue()).decode()
-
-    years, trend_skills, trend_data               = compute_skill_trends(jobs, query, top_n=6)
-    salary_years, salary_by_year, current_salary  = compute_salary_trends(matched_jobs)
-
-    return templates.TemplateResponse("title_summary.html", {
-        "request":        request,
-        "user":           user,
-        "query":          query,
-        "matched_jobs":   matched_jobs,
-        "top_skills":     top_skills,
-        "wordcloud":      img_base64,
-        "trend_years":    years,
-        "trend_skills":   trend_skills,
-        "trend_data":     trend_data,
-        "salary_years":   salary_years,
-        "salary_by_year": salary_by_year,
-        "current_salary": current_salary,
-    })
-
-
-# ─────────────────────────────────────────────
-# 9  CAREER TRAJECTORY  (protected)
-# ─────────────────────────────────────────────
 
 @app.get("/career", response_class=HTMLResponse)
 def career_page(
@@ -709,82 +644,60 @@ def career_page(
         return redirect
 
     meta = load_meta(user["user_id"])
-
     if not meta.get("active"):
-        return templates.TemplateResponse("career.html", {
-            "request":         request,
-            "user":            user,
-            "error":           "Please upload and select a resume on your Profile page first.",
-            "candidate":       None,
-            "recommendations": [],
-            "narrative":       None,
-        })
+        return _render(
+            "career.html", request,
+            user=user, error="Please upload and select a resume on your Profile page first.",
+            candidate=None, recommendations=[], narrative=None,
+        )
 
     try:
         relative_path = os.path.join("uploads", user["user_id"], meta["active"])
         parsed_resume = parser.parse_resume(relative_path)
         resume_text   = build_resume_text(parsed_resume)
     except Exception as e:
-        return templates.TemplateResponse("career.html", {
-            "request":         request,
-            "user":            user,
-            "error":           f"Could not read active resume: {e}",
-            "candidate":       None,
-            "recommendations": [],
-            "narrative":       None,
-        })
+        return _render(
+            "career.html", request,
+            user=user, error=f"Could not read active resume: {e}",
+            candidate=None, recommendations=[], narrative=None,
+        )
 
     result = get_career_recommendations(
-        resume_text   = resume_text,
-        parsed_resume = parsed_resume,
-        jobs          = jobs,
-        top_n         = 4,
+        resume_text=resume_text,
+        parsed_resume=parsed_resume,
+        jobs=jobs,
+        top_n=4,
+    )
+    return _render(
+        "career.html", request,
+        user=user, error=None,
+        candidate=result["candidate"],
+        recommendations=result["recommendations"],
+        narrative=result["narrative"],
     )
 
-    return templates.TemplateResponse("career.html", {
-        "request":         request,
-        "user":            user,
-        "error":           None,
-        "candidate":       result["candidate"],
-        "recommendations": result["recommendations"],
-        "narrative":       result["narrative"],
-    })
-    
-    
-    
 
-
-
-
-
-# ─────────────────────────────────────────────
-# 🔟  PASTE JOB FIT
-# ─────────────────────────────────────────────
+# =============================================================================
+# Routes — Paste-JD fit  (protected)
+# =============================================================================
 
 @app.get("/fit/paste", response_class=HTMLResponse)
-def paste_fit_page(request: Request, user:    Optional[dict] = Depends(get_current_user)):
-    """
-    GET /fit/paste
-    Renders the paste-a-job-description form.
-    Redirects to /login if the user is not authenticated.
-    """
+def paste_fit_page(
+    request: Request,
+    user:    Optional[dict] = Depends(get_current_user),
+):
+    redirect = _redirect_if_unauthenticated(user)
+    if redirect:
+        return redirect
+
     meta = load_meta(user["user_id"])
-
     if not meta.get("active"):
-        # No active resume — send to profile first
-        return templates.TemplateResponse("paste_fit.html", {
-            "request":   request,
-            "user":      user,
-            "error":     "Please upload and select a resume on your Profile page before checking a job fit.",
-            "no_resume": True,
-        })
+        return _render(
+            "paste_fit.html", request, user=user, no_resume=True,
+            error="Please upload and select a resume on your Profile page before checking a job fit.",
+        )
 
-    return templates.TemplateResponse("paste_fit.html", {
-        "request":   request,
-        "user":      user,
-        "error":     None,
-        "no_resume": False,
-    })
+    return _render("paste_fit.html", request, user=user, no_resume=False, error=None)
 
 
 @app.post("/fit/paste", response_class=HTMLResponse)
@@ -793,61 +706,36 @@ def paste_fit(
     job_description: str = Form(...),
     job_title:       str = Form(""),
     company_name:    str = Form(""),
-    user:    Optional[dict] = Depends(get_current_user),
+    user:            Optional[dict] = Depends(get_current_user),
 ):
-    """
-    POST /fit/paste
+    redirect = _redirect_if_unauthenticated(user)
+    if redirect:
+        return redirect
 
-    Accepts a raw pasted job description (plus optional title/company
-    the user can fill in) and runs the same LLM fit explanation used
-    by the existing /fit route.
-
-    Builds a minimal job dict so explain_matching_quality receives the
-    same structure it expects from the JSON dataset — only job_description
-    is strictly required by the function.
-    """
     resume_text = get_resume_text(user["user_id"])
-
     if not resume_text:
-        return templates.TemplateResponse("paste_fit.html", {
-            "request":   request,
-            "user":      user,
-            "error":     "Please upload and select a resume first.",
-            "no_resume": True,
-        })
+        return _render("paste_fit.html", request, user=user, no_resume=True,
+                       error="Please upload and select a resume first.")
 
-    # Sanitise inputs
     job_description = job_description.strip()
-    job_title       = job_title.strip() or "Pasted Job"
-    company_name    = company_name.strip() or "Unknown Company"
+    job_title       = job_title.strip()       or "Pasted Job"
+    company_name    = company_name.strip()    or "Unknown Company"
 
     if len(job_description) < 50:
-        return templates.TemplateResponse("paste_fit.html", {
-            "request":   request,
-            "user":      user,
-            "error":     "Job description is too short. Please paste the full description.",
-            "no_resume": False,
-        })
+        return _render("paste_fit.html", request, user=user, no_resume=False,
+                       error="Job description is too short. Please paste the full description.")
 
-    # Server-side content validation — guards against irrelevant or malicious
-    # input before an LLM call is made. Mirrors the client-side heuristic.
     is_valid, rejection_reason = _is_valid_job_description(job_description)
     if not is_valid:
-        return templates.TemplateResponse("paste_fit.html", {
-            "request":   request,
-            "user":      user,
-            "error":     rejection_reason,
-            "no_resume": False,
-        })
+        return _render("paste_fit.html", request, user=user, no_resume=False,
+                       error=rejection_reason)
 
-    # Build a minimal job dict — same shape as the JSON dataset
-    # so explain_matching_quality works without modification
+    # Build a minimal job dict matching the shape expected by explain_matching_quality.
     pasted_job = {
-        "job_id":          "pasted",
-        "title":           job_title,
-        "company":         company_name,
-        "job_description": job_description,
-        # Fields the fit template may reference — safe defaults
+        "job_id":                   "pasted",
+        "title":                    job_title,
+        "company":                  company_name,
+        "job_description":          job_description,
         "skills_required":          [],
         "responsibilities":         [],
         "preferred_qualifications": [],
@@ -862,78 +750,33 @@ def paste_fit(
         explanation = explain_matching_quality(resume_text, [pasted_job], 1)
         explanation = markdown.markdown(explanation, extensions=["tables"])
     except Exception as e:
-        return templates.TemplateResponse("paste_fit.html", {
-            "request":   request,
-            "user":      user,
-            "error":     f"Could not generate fit summary: {e}",
-            "no_resume": False,
-        })
+        return _render("paste_fit.html", request, user=user, no_resume=False,
+                       error=f"Could not generate fit summary: {e}")
 
-    return templates.TemplateResponse("fit.html", {
-        "request":     request,
-        "job":         pasted_job,
-        "explanation": explanation,
-    })
+    return _render("fit.html", request, user=user, job=pasted_job, explanation=explanation)
 
 
-# ─────────────────────────────────────────────
-# 11  BOOKMARKS
-# ─────────────────────────────────────────────
-
-def load_bookmarks(user_id: str) -> list:
-    """
-    Return the bookmark list for user_id.
-    Each entry: {"job_id": str, "saved_at": str}
-    """
-    path = os.path.join(BASE_UPLOAD_DIR, user_id, "bookmarks.json")
-    if not os.path.exists(path):
-        return []
-    with open(path, "r") as f:
-        return json.load(f)
-
-
-def save_bookmarks(user_id: str, bookmarks: list) -> None:
-    """Persist the bookmark list for user_id."""
-    dir_path = os.path.join(BASE_UPLOAD_DIR, user_id)
-    os.makedirs(dir_path, exist_ok=True)
-    path = os.path.join(dir_path, "bookmarks.json")
-    with open(path, "w") as f:
-        json.dump(bookmarks, f, indent=2)
-
-
-def get_bookmarked_ids(user_id: str) -> set:
-    """Return a set of bookmarked job_id strings for fast membership tests."""
-    return {str(b["job_id"]) for b in load_bookmarks(user_id)}
-
+# =============================================================================
+# Routes — Bookmarks  (protected)
+# =============================================================================
 
 @app.get("/bookmarks", response_class=HTMLResponse)
 def view_bookmarks(
     request: Request,
-    user: Optional[dict] = Depends(get_current_user),
+    user:    Optional[dict] = Depends(get_current_user),
 ):
-    """Show all bookmarked jobs for the logged-in user."""
     redirect = _redirect_if_unauthenticated(user)
     if redirect:
         return redirect
 
+    job_index     = {str(j["job_id"]): j for j in jobs}
     raw_bookmarks = load_bookmarks(user["user_id"])
-
-    # Hydrate each bookmark with its full job dict from the dataset
-    job_index = {str(j["job_id"]): j for j in jobs}
-    bookmarks = []
-    for entry in raw_bookmarks:
-        job = job_index.get(str(entry["job_id"]))
-        if job:
-            bookmarks.append({
-                "job":      job,
-                "saved_at": entry["saved_at"],
-            })
-
-    return templates.TemplateResponse("bookmarks.html", {
-        "request":   request,
-        "user":      user,
-        "bookmarks": bookmarks,
-    })
+    bookmarks     = [
+        {"job": job_index[str(b["job_id"])], "saved_at": b["saved_at"]}
+        for b in raw_bookmarks
+        if str(b["job_id"]) in job_index
+    ]
+    return _render("bookmarks.html", request, user=user, bookmarks=bookmarks)
 
 
 @app.post("/bookmarks/add", response_class=HTMLResponse)
@@ -942,27 +785,19 @@ def add_bookmark(
     job_id:  str = Form(...),
     user:    Optional[dict] = Depends(get_current_user),
 ):
-    """
-    Bookmark a job for the logged-in user.
-    Idempotent — bookmarking an already-saved job is a no-op.
-    Returns a 204-equivalent redirect so JS fetch() gets a clean response.
-    """
+    """Idempotent — bookmarking an already-saved job is a no-op."""
     redirect = _redirect_if_unauthenticated(user)
     if redirect:
         return redirect
 
     bookmarks = load_bookmarks(user["user_id"])
-    existing_ids = {str(b["job_id"]) for b in bookmarks}
-
-    if str(job_id) not in existing_ids:
+    if str(job_id) not in {str(b["job_id"]) for b in bookmarks}:
         bookmarks.append({
             "job_id":   str(job_id),
             "saved_at": datetime.now().strftime("%d %b %Y"),
         })
         save_bookmarks(user["user_id"], bookmarks)
 
-    # The JS fetch() call ignores the response body; redirect is a safe fallback
-    # for users who submit without JS enabled.
     return RedirectResponse(url="/bookmarks", status_code=303)
 
 
@@ -972,15 +807,11 @@ def remove_bookmark(
     job_id:  str = Form(...),
     user:    Optional[dict] = Depends(get_current_user),
 ):
-    """Remove a job from the user's bookmarks. Idempotent."""
+    """Idempotent — removing a non-existent bookmark is a no-op."""
     redirect = _redirect_if_unauthenticated(user)
     if redirect:
         return redirect
 
-    bookmarks = load_bookmarks(user["user_id"])
-    bookmarks = [b for b in bookmarks if str(b["job_id"]) != str(job_id)]
+    bookmarks = [b for b in load_bookmarks(user["user_id"]) if str(b["job_id"]) != str(job_id)]
     save_bookmarks(user["user_id"], bookmarks)
-
     return RedirectResponse(url="/bookmarks", status_code=303)
-    
-    

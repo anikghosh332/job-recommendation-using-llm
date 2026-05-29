@@ -14,3 +14,5 @@ markdown
 wordcloud
 passlib
 itsdangerous
+httpx>=0.27.0
+apscheduler>=3.10.0
